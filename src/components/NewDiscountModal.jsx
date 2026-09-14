@@ -89,23 +89,23 @@ export const NewDiscountModal = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 sm:p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
-      <div className="glass-card w-full max-w-4xl max-h-[92vh] sm:max-h-[88vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl p-5 md:p-8 border border-slate-700 shadow-2xl relative mt-auto sm:my-auto custom-scrollbar">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-0 sm:p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn overflow-y-auto">
+      <div className="bg-white w-full max-w-4xl max-h-[92vh] sm:max-h-[88vh] overflow-y-auto rounded-t-3xl sm:rounded-3xl p-5 md:p-8 border border-slate-200 shadow-2xl relative mt-auto sm:my-auto custom-scrollbar">
         
         {/* Mobile Pull Handle Indicator */}
-        <div className="w-12 h-1.5 bg-slate-700 rounded-full mx-auto mb-3 md:hidden"></div>
+        <div className="w-12 h-1.5 bg-slate-300 rounded-full mx-auto mb-3 md:hidden"></div>
 
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-6">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-teal-500/20 text-teal-400 border border-teal-500/30 flex items-center justify-center font-bold">
+            <div className="h-10 w-10 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold">
               <FileText className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-100">
+              <h3 className="text-xl font-bold text-slate-900">
                 {isDirectGrantMode ? 'Issue Direct Executive Discount to Patient' : 'Submit Discount Permission Request'}
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 {isDirectGrantMode 
                   ? 'Directly grants discount to patient with CFO & Chief Accountant assistance (Immediately active on Billing Desk)'
                   : 'Submitted at payment time ➔ Chief Accountant permission ➔ CFO (if High) ➔ MD/Chairman (if Too High)'}
@@ -115,7 +115,7 @@ export const NewDiscountModal = ({ onClose }) => {
 
           <button
             onClick={onClose}
-            className="h-8 w-8 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 flex items-center justify-center font-bold text-sm"
+            className="h-8 w-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-700 flex items-center justify-center font-bold text-sm"
           >
             ✕
           </button>
@@ -123,12 +123,12 @@ export const NewDiscountModal = ({ onClose }) => {
 
         {/* Executive Direct Mode Switcher if user is Executive */}
         {isExecutive && (
-          <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between mb-5">
+          <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-between mb-5">
             <div className="flex items-center gap-2.5">
-              <Sparkles className="w-5 h-5 text-amber-400 flex-shrink-0" />
+              <Sparkles className="w-5 h-5 text-amber-600 flex-shrink-0" />
               <div>
-                <span className="text-xs font-bold text-amber-200 block">Executive Board Action</span>
-                <span className="text-[11px] text-amber-300/80">Logged in as {activeUser.name} ({activeUser.role})</span>
+                <span className="text-xs font-bold text-amber-900 block">Executive Board Action</span>
+                <span className="text-[11px] text-amber-700">Logged in as {activeUser.name} ({activeUser.role})</span>
               </div>
             </div>
 
@@ -137,8 +137,8 @@ export const NewDiscountModal = ({ onClose }) => {
               onClick={() => setIsDirectGrantMode(!isDirectGrantMode)}
               className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all border ${
                 isDirectGrantMode
-                  ? 'bg-amber-400 text-slate-950 border-amber-300 shadow-md'
-                  : 'bg-slate-900 text-slate-300 border-slate-700'
+                  ? 'bg-amber-500 text-white border-amber-600 shadow-sm'
+                  : 'bg-white text-slate-700 border-slate-300'
               }`}
             >
               {isDirectGrantMode ? 'Direct Executive Grant Active' : 'Switch to Standard Billing Request'}
@@ -151,48 +151,48 @@ export const NewDiscountModal = ({ onClose }) => {
           {/* Patient Details */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Patient ID</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Patient ID</label>
               <input
                 type="text"
                 required
                 value={formData.patientId}
                 onChange={e => setFormData({ ...formData, patientId: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500 font-mono"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
               />
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Patient Full Name</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Patient Full Name</label>
               <input
                 type="text"
                 required
                 placeholder="e.g. Robert Chen"
                 value={formData.patientName}
                 onChange={e => setFormData({ ...formData, patientName: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Age</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Age</label>
               <input
                 type="number"
                 min="0"
                 max="120"
                 value={formData.patientAge}
                 onChange={e => setFormData({ ...formData, patientAge: Number(e.target.value) })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Gender</label>
               <select
                 value={formData.patientGender}
                 onChange={e => setFormData({ ...formData, patientGender: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -201,13 +201,13 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Department
               </label>
               <select
                 value={formData.department}
                 onChange={e => setFormData({ ...formData, department: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               >
                 {departments.map(d => (
                   <option key={d} value={d}>{d}</option>
@@ -216,7 +216,7 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-teal-400 mb-1">
+              <label className="block text-xs font-semibold text-blue-700 mb-1">
                 Hospital Service
               </label>
               <select
@@ -226,7 +226,7 @@ export const NewDiscountModal = ({ onClose }) => {
                   const mappedDept = getDepartmentForService ? getDepartmentForService(sName) : formData.department;
                   setFormData({ ...formData, serviceName: sName, department: mappedDept });
                 }}
-                className="w-full bg-slate-900 border border-teal-500/50 rounded-xl px-3 py-2 text-sm text-teal-300 font-semibold focus:outline-none focus:border-teal-400"
+                className="w-full bg-slate-50 border border-blue-300 rounded-xl px-3 py-2 text-sm text-blue-900 font-semibold focus:outline-none focus:border-blue-600"
               >
                 {services.map(s => (
                   <option key={s} value={s}>{s}</option>
@@ -235,11 +235,11 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Attending Doctor</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Attending Doctor</label>
               <select
                 value={formData.doctorName}
                 onChange={e => setFormData({ ...formData, doctorName: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               >
                 {(doctors || []).map(doc => (
                   <option key={doc} value={doc}>{doc}</option>
@@ -249,111 +249,111 @@ export const NewDiscountModal = ({ onClose }) => {
           </div>
 
           {/* Billing Receipt & Registration Particulars Section */}
-          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-              <FileText className="w-4 h-4" />
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-blue-700 flex items-center gap-1.5">
+              <FileText className="w-4 h-4 text-blue-600" />
               Receipt Particulars & Patient Reference Info
             </h4>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Receipt No</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Receipt No</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. RCP-2026-9042"
                   value={formData.receiptNo}
                   onChange={e => setFormData({ ...formData, receiptNo: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Bill Date / Receipt Date</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Bill Date / Receipt Date</label>
                 <input
                   type="date"
                   required
                   value={formData.billDate}
                   onChange={e => setFormData({ ...formData, billDate: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">OPD / IPD No</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">OPD / IPD No</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. OPD-88210 / IPD-4412"
                   value={formData.opdIpdNo}
                   onChange={e => setFormData({ ...formData, opdIpdNo: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
                 />
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Staff / Doctor / Reference Name</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Staff / Doctor / Reference Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Dr. Michael Chang / Nurse Sarah"
                   value={formData.referenceName}
                   onChange={e => setFormData({ ...formData, referenceName: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Patient Name / Relative Name</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Patient Name / Relative Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Robert Chen (Father: James Chen)"
                   value={formData.relativeName}
                   onChange={e => setFormData({ ...formData, relativeName: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Particulars (Billing Item Particulars)</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Particulars (Billing Item Particulars)</label>
               <input
                 type="text"
                 placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
                 value={formData.particulars}
                 onChange={e => setFormData({ ...formData, particulars: e.target.value })}
-                className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-cyan-500"
+                className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               />
             </div>
           </div>
 
           {/* Financials & Discount Calculator */}
-          <div className="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-teal-400 flex items-center gap-1.5">
-              <IndianRupee className="w-4 h-4" />
+          <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-blue-700 flex items-center gap-1.5">
+              <IndianRupee className="w-4 h-4 text-blue-600" />
               Bill Payment & Discount Waiver Calculation (INR ₹)
             </h4>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Total Bill Amount (₹)</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Total Bill Amount (₹)</label>
                 <input
                   type="number"
                   min="1"
                   required
                   value={formData.totalBillAmount}
                   onChange={e => setFormData({ ...formData, totalBillAmount: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm font-bold text-slate-100 focus:outline-none focus:border-teal-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm font-bold text-slate-900 focus:outline-none focus:border-blue-600"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Discount Mode</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Discount Mode</label>
                 <select
                   value={formData.requestedDiscountType}
                   onChange={e => setFormData({ ...formData, requestedDiscountType: e.target.value })}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
                 >
                   <option value="PERCENTAGE">Percentage (%)</option>
                   <option value="FIXED">Fixed Amount (₹)</option>
@@ -361,7 +361,7 @@ export const NewDiscountModal = ({ onClose }) => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-teal-300 mb-1">
+                <label className="block text-xs font-semibold text-blue-700 mb-1">
                   {formData.requestedDiscountType === 'PERCENTAGE' ? 'Requested Discount (%)' : 'Requested Discount (₹)'}
                 </label>
                 <input
@@ -371,14 +371,14 @@ export const NewDiscountModal = ({ onClose }) => {
                   required
                   value={formData.requestedDiscountVal}
                   onChange={e => setFormData({ ...formData, requestedDiscountVal: e.target.value })}
-                  className="w-full bg-slate-950 border border-teal-500/60 rounded-xl px-3.5 py-2 text-sm font-extrabold text-teal-300 focus:outline-none focus:border-teal-400"
+                  className="w-full bg-white border border-blue-300 rounded-xl px-3.5 py-2 text-sm font-extrabold text-blue-700 focus:outline-none focus:border-blue-600"
                 />
               </div>
             </div>
 
             {/* Quick Discount Matrix Select Buttons */}
             <div>
-              <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+              <label className="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1.5">
                 Discount Matrix Preset Tiers:
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -395,8 +395,8 @@ export const NewDiscountModal = ({ onClose }) => {
                     }}
                     className={`py-1.5 px-3 rounded-xl border text-xs font-bold transition-all flex items-center justify-center gap-1 ${
                       Number(formData.requestedDiscountVal) === pct && formData.requestedDiscountType === 'PERCENTAGE'
-                        ? 'bg-teal-500 text-slate-950 border-teal-400 shadow-lg shadow-teal-500/20 scale-[1.02]'
-                        : 'bg-slate-950 text-teal-300 border-slate-800 hover:border-teal-500/50 hover:bg-slate-900'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-md shadow-blue-600/20 scale-[1.02]'
+                        : 'bg-white text-blue-700 border-slate-300 hover:border-blue-400 hover:bg-blue-50'
                     }`}
                   >
                     <span>{pct}%</span>
@@ -409,32 +409,32 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             {/* Calculated Breakdown Display */}
-            <div className="grid grid-cols-3 gap-3 p-3 rounded-xl bg-slate-950 border border-slate-800/80 text-center">
+            <div className="grid grid-cols-3 gap-3 p-3 rounded-xl bg-white border border-slate-200 text-center">
               <div>
-                <span className="text-[10px] text-slate-400 uppercase font-bold block">Gross Patient Bill</span>
-                <span className="text-sm font-extrabold text-slate-200">₹{bill.toLocaleString('en-IN')}</span>
+                <span className="text-[10px] text-slate-500 uppercase font-bold block">Gross Patient Bill</span>
+                <span className="text-sm font-extrabold text-slate-900">₹{bill.toLocaleString('en-IN')}</span>
               </div>
               <div>
-                <span className="text-[10px] text-teal-400 uppercase font-bold block">Calculated Waiver</span>
-                <span className="text-sm font-extrabold text-teal-400">-₹{calculatedDiscount.toLocaleString('en-IN')} ({discountVal}%)</span>
+                <span className="text-[10px] text-blue-600 uppercase font-bold block">Calculated Waiver</span>
+                <span className="text-sm font-extrabold text-blue-600">-₹{calculatedDiscount.toLocaleString('en-IN')} ({discountVal}%)</span>
               </div>
               <div>
-                <span className="text-[10px] text-emerald-400 uppercase font-bold block">Final Payable at Billing</span>
-                <span className="text-sm font-extrabold text-emerald-400">₹{netPayable.toLocaleString('en-IN')}</span>
+                <span className="text-[10px] text-emerald-600 uppercase font-bold block">Final Payable at Billing</span>
+                <span className="text-sm font-extrabold text-emerald-700">₹{netPayable.toLocaleString('en-IN')}</span>
               </div>
             </div>
           </div>
 
           {/* Target Approval Authority Selector & Dynamic Visualizer */}
           {!isDirectGrantMode && (
-            <div className="p-4.5 rounded-2xl bg-slate-900/90 border border-purple-500/30 space-y-3 shadow-inner">
+            <div className="p-4.5 rounded-2xl bg-indigo-50/70 border border-indigo-200 space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <label className="text-xs font-extrabold text-purple-300 flex items-center gap-1.5 uppercase tracking-wider">
-                    <ShieldCheck className="w-4 h-4 text-purple-400" />
+                  <label className="text-xs font-extrabold text-indigo-900 flex items-center gap-1.5 uppercase tracking-wider">
+                    <ShieldCheck className="w-4 h-4 text-indigo-600" />
                     <span>Target Approval Authority</span>
                   </label>
-                  <p className="text-[11px] text-slate-400">
+                  <p className="text-[11px] text-slate-600">
                     Select required approver or let system calculate based on waiver amount
                   </p>
                 </div>
@@ -442,7 +442,7 @@ export const NewDiscountModal = ({ onClose }) => {
                 <select
                   value={formData.targetApprovalRole}
                   onChange={e => setFormData({ ...formData, targetApprovalRole: e.target.value })}
-                  className="bg-slate-950 border border-purple-500/50 text-purple-200 font-extrabold rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-purple-400"
+                  className="bg-white border border-indigo-300 text-indigo-900 font-extrabold rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-indigo-600"
                 >
                   <option value="BILLING_MANAGER">Finance Manager (Up to ₹25,000/-)</option>
                   <option value="CFO">CFO (Above ₹25,000/- to ₹2,00,000/-)</option>
@@ -451,27 +451,27 @@ export const NewDiscountModal = ({ onClose }) => {
               </div>
 
               {/* Stepper Preview */}
-              <div className="flex items-center justify-between text-[11px] pt-2 border-t border-slate-800 font-semibold text-slate-300">
-                <div className={`flex items-center gap-1.5 ${authorityTarget.role === 'BILLING_MANAGER' ? 'text-teal-300 font-bold' : 'text-slate-400'}`}>
-                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${authorityTarget.role === 'BILLING_MANAGER' ? 'bg-teal-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>1</span>
+              <div className="flex items-center justify-between text-[11px] pt-2 border-t border-indigo-200 font-semibold text-slate-700">
+                <div className={`flex items-center gap-1.5 ${authorityTarget.role === 'BILLING_MANAGER' ? 'text-blue-700 font-bold' : 'text-slate-500'}`}>
+                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${authorityTarget.role === 'BILLING_MANAGER' ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-600'}`}>1</span>
                   <span>Finance Manager</span>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
                 
-                <div className={`flex items-center gap-1.5 ${authorityTarget.role === 'CHIEF_ACCOUNTANT' ? 'text-cyan-300 font-bold' : 'text-slate-400'}`}>
-                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${authorityTarget.role === 'CHIEF_ACCOUNTANT' ? 'bg-cyan-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>2</span>
+                <div className={`flex items-center gap-1.5 ${authorityTarget.role === 'CHIEF_ACCOUNTANT' ? 'text-blue-700 font-bold' : 'text-slate-500'}`}>
+                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${authorityTarget.role === 'CHIEF_ACCOUNTANT' ? 'bg-blue-600 text-white' : 'bg-slate-200 text-slate-600'}`}>2</span>
                   <span>Chief Accountant</span>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
 
-                <div className={`flex items-center gap-1.5 ${authorityTarget.role === 'CFO' ? 'text-amber-300 font-bold' : 'text-slate-400'}`}>
-                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${authorityTarget.role === 'CFO' ? 'bg-amber-500 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>3</span>
+                <div className={`flex items-center gap-1.5 ${authorityTarget.role === 'CFO' ? 'text-amber-800 font-bold' : 'text-slate-500'}`}>
+                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${authorityTarget.role === 'CFO' ? 'bg-amber-500 text-white' : 'bg-slate-200 text-slate-600'}`}>3</span>
                   <span>CFO</span>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-slate-500" />
+                <ArrowRight className="w-3.5 h-3.5 text-slate-400" />
 
-                <div className={`flex items-center gap-1.5 ${['MD', 'DIRECTOR', 'EXECUTIVE'].includes(authorityTarget.role) ? 'text-rose-300 font-extrabold' : 'text-slate-400'}`}>
-                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${['MD', 'DIRECTOR', 'EXECUTIVE'].includes(authorityTarget.role) ? 'bg-rose-500 text-white' : 'bg-slate-800 text-slate-400'}`}>4</span>
+                <div className={`flex items-center gap-1.5 ${['MD', 'DIRECTOR', 'EXECUTIVE'].includes(authorityTarget.role) ? 'text-rose-700 font-extrabold' : 'text-slate-500'}`}>
+                  <span className={`h-5 w-5 rounded-full font-bold flex items-center justify-center text-[10px] ${['MD', 'DIRECTOR', 'EXECUTIVE'].includes(authorityTarget.role) ? 'bg-rose-600 text-white' : 'bg-slate-200 text-slate-600'}`}>4</span>
                   <span>Director / MD</span>
                 </div>
               </div>
@@ -481,11 +481,11 @@ export const NewDiscountModal = ({ onClose }) => {
           {/* Justification & Category */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Reason Category</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Reason Category</label>
               <select
                 value={formData.reasonCategory}
                 onChange={e => setFormData({ ...formData, reasonCategory: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
               >
                 <option value="Below Poverty Line / Emergency Charity">Below Poverty Line / Emergency Charity</option>
                 <option value="Staff / Relative Welfare">Staff / Relative Welfare</option>
@@ -496,14 +496,14 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Attach Proof / Order Document</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Attach Proof / Order Document</label>
               <div className="relative">
                 <input
                   type="text"
                   placeholder="e.g. BPL_Verification_Card.pdf"
                   value={formData.proofFileName}
                   onChange={e => setFormData({ ...formData, proofFileName: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
                 />
                 <UploadCloud className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
               </div>
@@ -511,7 +511,7 @@ export const NewDiscountModal = ({ onClose }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">
+            <label className="block text-xs font-semibold text-slate-700 mb-1">
               Detailed Case Justification & Notes (Mandatory)
             </label>
             <textarea
@@ -520,25 +520,25 @@ export const NewDiscountModal = ({ onClose }) => {
               placeholder="Provide detailed reasons for asking discount during patient payment time..."
               value={formData.detailedReason}
               onChange={e => setFormData({ ...formData, detailedReason: e.target.value })}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-sm text-slate-100 focus:outline-none focus:border-teal-500 resize-none"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-sm text-slate-900 focus:outline-none focus:border-blue-600 resize-none"
             />
           </div>
 
           {/* Form Actions */}
-          <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
+          <div className="pt-4 border-t border-slate-200 flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 font-semibold text-sm"
+              className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`px-6 py-2.5 rounded-xl text-slate-950 font-black text-sm shadow-xl transition-all active:scale-95 ${
+              className={`px-6 py-2.5 rounded-xl text-white font-black text-sm shadow-md transition-all active:scale-95 ${
                 isDirectGrantMode
-                  ? 'bg-gradient-to-r from-amber-300 to-emerald-300 hover:from-amber-200 hover:to-emerald-200 shadow-amber-500/25'
-                  : 'bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 shadow-teal-500/25'
+                  ? 'bg-amber-600 hover:bg-amber-700 shadow-amber-600/20'
+                  : 'bg-blue-600 hover:bg-blue-700 shadow-blue-600/20'
               }`}
             >
               {isDirectGrantMode ? 'Grant Executive Discount Directly to Patient' : 'Dispatch Permission Request'}

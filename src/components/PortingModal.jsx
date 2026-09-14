@@ -198,23 +198,23 @@ export const PortingModal = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
-      <div className="glass-card w-full max-w-4xl max-h-[92vh] flex flex-col rounded-3xl border border-slate-700 shadow-2xl overflow-hidden my-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-900/60 backdrop-blur-md animate-fadeIn overflow-y-auto">
+      <div className="glass-card w-full max-w-4xl max-h-[92vh] flex flex-col rounded-3xl bg-white border border-slate-200 shadow-2xl overflow-hidden my-auto text-slate-900">
         
         {/* Header */}
-        <div className="p-5 md:p-6 border-b border-slate-800 bg-slate-900/90 flex items-center justify-between">
+        <div className="p-5 md:p-6 border-b border-slate-200 bg-white flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-sky-500 via-teal-400 to-emerald-400 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-sky-500/20">
+            <div className="h-11 w-11 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-600/20">
               <Globe className="w-6 h-6 stroke-[2.5]" />
             </div>
             <div>
-              <h3 className="text-xl font-extrabold text-slate-100 flex items-center gap-2">
+              <h3 className="text-xl font-extrabold text-slate-900 flex items-center gap-2">
                 Software Integration & Porting API
-                <span className="text-xs px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-extrabold uppercase">
+                <span className="text-xs px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-800 border border-blue-200 font-extrabold uppercase">
                   v1.0 REST API
                 </span>
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 Port data to/from external Hospital Software (HIS, EMR, ERP, Tally, SQL, or custom apps).
               </p>
             </div>
@@ -222,15 +222,15 @@ export const PortingModal = ({ onClose }) => {
 
           <div className="flex items-center gap-3">
             {apiHealth && (
-              <span className="hidden sm:flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-xl bg-slate-950 border border-slate-800 text-teal-400">
-                <span className="h-2 w-2 rounded-full bg-teal-400 animate-pulse"></span>
+              <span className="hidden sm:flex items-center gap-1.5 text-xs font-mono px-3 py-1 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 font-semibold">
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 API Server {apiHealth.status === 'online' ? 'Online (3000)' : 'Offline'}
               </span>
             )}
 
             <button
               onClick={onClose}
-              className="h-9 w-9 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-100 flex items-center justify-center font-bold text-sm transition-all"
+              className="h-9 w-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center font-bold text-sm transition-all"
             >
               ✕
             </button>
@@ -238,16 +238,16 @@ export const PortingModal = ({ onClose }) => {
         </div>
 
         {/* Tab Navigation */}
-        <div className="bg-slate-950 px-4 pt-3 border-b border-slate-800 flex gap-2 overflow-x-auto scrollbar-none">
+        <div className="bg-slate-50 px-4 pt-3 border-b border-slate-200 flex gap-2 overflow-x-auto scrollbar-none">
           <button
             onClick={() => setActiveTab('EXPORT_IMPORT')}
             className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
               activeTab === 'EXPORT_IMPORT'
-                ? 'bg-slate-900 text-teal-300 border-t border-x border-slate-700'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-blue-700 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Database className="w-4 h-4 text-teal-400" />
+            <Database className="w-4 h-4 text-blue-600" />
             Data Package Migration
           </button>
 
@@ -255,11 +255,11 @@ export const PortingModal = ({ onClose }) => {
             onClick={() => setActiveTab('REST_API')}
             className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
               activeTab === 'REST_API'
-                ? 'bg-slate-900 text-sky-300 border-t border-x border-slate-700'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-blue-700 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Terminal className="w-4 h-4 text-sky-400" />
+            <Terminal className="w-4 h-4 text-blue-600" />
             REST API Explorer
           </button>
 
@@ -267,11 +267,11 @@ export const PortingModal = ({ onClose }) => {
             onClick={() => setActiveTab('OPENAPI')}
             className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
               activeTab === 'OPENAPI'
-                ? 'bg-slate-900 text-emerald-300 border-t border-x border-slate-700'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-blue-700 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Code className="w-4 h-4 text-emerald-400" />
+            <Code className="w-4 h-4 text-blue-600" />
             OpenAPI 3.0 Spec
           </button>
 
@@ -279,11 +279,11 @@ export const PortingModal = ({ onClose }) => {
             onClick={() => setActiveTab('WEBHOOKS')}
             className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
               activeTab === 'WEBHOOKS'
-                ? 'bg-slate-900 text-amber-300 border-t border-x border-slate-700'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-blue-700 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Radio className="w-4 h-4 text-amber-400" />
+            <Radio className="w-4 h-4 text-amber-600" />
             Webhooks & Callbacks
           </button>
 
@@ -291,32 +291,32 @@ export const PortingModal = ({ onClose }) => {
             onClick={() => setActiveTab('HIS_ADAPTER')}
             className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
               activeTab === 'HIS_ADAPTER'
-                ? 'bg-slate-900 text-cyan-300 border-t border-x border-slate-700'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-white text-blue-700 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
-            <Cpu className="w-4 h-4 text-cyan-400" />
+            <Cpu className="w-4 h-4 text-blue-600" />
             HIS / EMR Adapter
           </button>
         </div>
 
         {/* Tab Body */}
-        <div className="flex-1 overflow-y-auto p-5 md:p-6 space-y-6 custom-scrollbar bg-slate-900/60">
+        <div className="flex-1 overflow-y-auto p-5 md:p-6 space-y-6 custom-scrollbar bg-slate-50/50">
           
           {/* 1. DATA PACKAGE MIGRATION TAB */}
           {activeTab === 'EXPORT_IMPORT' && (
             <div className="space-y-6">
               
               {/* Export Box */}
-              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-extrabold text-teal-400 uppercase tracking-widest block">
+                  <span className="text-[10px] font-extrabold text-blue-700 uppercase tracking-widest block">
                     Export Complete System State
                   </span>
-                  <h4 className="text-base font-bold text-slate-100">
+                  <h4 className="text-base font-bold text-slate-900">
                     Export Complete Software Package (.JSON)
                   </h4>
-                  <p className="text-xs text-slate-400 max-w-lg leading-relaxed">
+                  <p className="text-xs text-slate-600 max-w-lg leading-relaxed font-medium">
                     Downloads a signed JSON bundle containing all {requests.length} discount requests, {users.length} hospital staff users, doctors, departments, and services.
                   </p>
                 </div>
@@ -324,7 +324,7 @@ export const PortingModal = ({ onClose }) => {
                 <button
                   type="button"
                   onClick={handleExportPackage}
-                  className="w-full md:w-auto px-6 py-3.5 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-400 hover:from-teal-300 hover:to-emerald-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all active:scale-95 flex-shrink-0"
+                  className="w-full md:w-auto px-6 py-3.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all active:scale-95 flex-shrink-0"
                 >
                   <Download className="w-4 h-4 stroke-[3]" />
                   <span>Download Export Package</span>
@@ -332,23 +332,23 @@ export const PortingModal = ({ onClose }) => {
               </div>
 
               {/* Import File Box */}
-              <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
                 <div className="space-y-1">
-                  <span className="text-[10px] font-extrabold text-sky-400 uppercase tracking-widest block">
+                  <span className="text-[10px] font-extrabold text-blue-700 uppercase tracking-widest block">
                     Import & Restore State
                   </span>
-                  <h4 className="text-base font-bold text-slate-100">
+                  <h4 className="text-base font-bold text-slate-900">
                     Upload & Port External Data Package
                   </h4>
-                  <p className="text-xs text-slate-400 leading-relaxed">
-                    Select a exported `.json` data package from another software instance or backup to merge/overwrite.
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                    Select an exported `.json` data package from another software instance or backup to merge/overwrite.
                   </p>
                 </div>
 
-                <div className="border-2 border-dashed border-slate-800 hover:border-sky-500/50 rounded-2xl p-6 text-center transition-colors bg-slate-950/60">
-                  <Upload className="w-8 h-8 text-sky-400 mx-auto mb-2 opacity-80" />
+                <div className="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-2xl p-6 text-center transition-colors bg-blue-50/40">
+                  <Upload className="w-8 h-8 text-blue-600 mx-auto mb-2 opacity-80" />
                   <label className="cursor-pointer inline-block">
-                    <span className="px-4 py-2 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-500/30 text-xs font-bold hover:bg-sky-500/30 transition-all">
+                    <span className="px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition-all shadow-sm">
                       Choose Export JSON File
                     </span>
                     <input
@@ -358,14 +358,14 @@ export const PortingModal = ({ onClose }) => {
                       className="hidden"
                     />
                   </label>
-                  <p className="text-[11px] text-slate-400 mt-2">Supports official Stavya JSON Package schema (v1.0)</p>
+                  <p className="text-[11px] text-slate-500 mt-2 font-medium">Supports official Stavya JSON Package schema (v1.0)</p>
                 </div>
               </div>
 
               {/* Paste Raw JSON */}
-              <form onSubmit={handleTextImport} className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-3">
-                <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                  <Code className="w-4 h-4 text-teal-400" />
+              <form onSubmit={handleTextImport} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+                <h4 className="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center gap-2">
+                  <Code className="w-4 h-4 text-blue-600" />
                   Or Paste Raw JSON Package Payload
                 </h4>
                 <textarea
@@ -373,12 +373,12 @@ export const PortingModal = ({ onClose }) => {
                   value={importJsonText}
                   onChange={(e) => setImportJsonText(e.target.value)}
                   placeholder="Paste JSON array or export bundle object here..."
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-slate-200 focus:outline-none focus:border-teal-500"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-mono text-slate-900 focus:outline-none focus:border-blue-600 transition-all"
                 />
                 <button
                   type="submit"
                   disabled={!importJsonText.trim()}
-                  className="px-5 py-2.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 font-bold text-xs transition-all active:scale-95 disabled:opacity-40"
+                  className="px-5 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-bold text-xs transition-all active:scale-95 disabled:opacity-40"
                 >
                   Import Pasted Payload
                 </button>
@@ -392,17 +392,17 @@ export const PortingModal = ({ onClose }) => {
             <div className="space-y-6">
               
               {/* API Bearer Token Banner */}
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between gap-4">
+              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div className="space-y-0.5">
-                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Authentication API Bearer Key</span>
-                  <p className="text-xs font-mono font-bold text-teal-300">{apiKey}</p>
+                  <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider">Authentication API Bearer Key</span>
+                  <p className="text-xs font-mono font-bold text-blue-700">{apiKey}</p>
                 </div>
                 <button
                   type="button"
                   onClick={() => handleCopy(apiKey, 'APIKEY')}
-                  className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-extrabold text-xs flex items-center gap-1.5 transition-all"
+                  className="px-3 py-1.5 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 font-extrabold text-xs flex items-center gap-1.5 transition-all"
                 >
-                  {copiedKey ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                  {copiedKey ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-blue-600" />}
                   <span>{copiedKey ? 'Copied' : 'Copy Key'}</span>
                 </button>
               </div>
@@ -411,18 +411,18 @@ export const PortingModal = ({ onClose }) => {
               <div className="space-y-4">
                 
                 {/* 1. GET /api/v1/health */}
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono">
+                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono">
                       GET /api/v1/health
                     </span>
-                    <span className="text-xs text-slate-400 font-medium">Health Check & Server Status</span>
+                    <span className="text-xs text-slate-500 font-medium">Health Check & Server Status</span>
                   </div>
-                  <div className="relative bg-slate-950 p-3 rounded-xl font-mono text-[11px] text-slate-300 overflow-x-auto">
+                  <div className="relative bg-slate-900 p-3 rounded-xl font-mono text-[11px] text-slate-100 overflow-x-auto">
                     <pre>{Curls.health}</pre>
                     <button
                       onClick={() => handleCopy(Curls.health, 'health')}
-                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200"
+                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200"
                     >
                       {copiedCurl === 'health' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
@@ -430,18 +430,18 @@ export const PortingModal = ({ onClose }) => {
                 </div>
 
                 {/* 2. POST /api/v1/requests */}
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-sky-500/20 text-sky-300 font-mono">
+                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-blue-50 text-blue-800 border border-blue-200 font-mono">
                       POST /api/v1/requests
                     </span>
-                    <span className="text-xs text-slate-400 font-medium">Create Request from HIS/EMR</span>
+                    <span className="text-xs text-slate-500 font-medium">Create Request from HIS/EMR</span>
                   </div>
-                  <div className="relative bg-slate-950 p-3 rounded-xl font-mono text-[11px] text-slate-300 overflow-x-auto">
+                  <div className="relative bg-slate-900 p-3 rounded-xl font-mono text-[11px] text-slate-100 overflow-x-auto">
                     <pre>{Curls.createRequest}</pre>
                     <button
                       onClick={() => handleCopy(Curls.createRequest, 'createRequest')}
-                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200"
+                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200"
                     >
                       {copiedCurl === 'createRequest' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
@@ -449,18 +449,18 @@ export const PortingModal = ({ onClose }) => {
                 </div>
 
                 {/* 3. GET /api/v1/export */}
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-teal-500/20 text-teal-300 font-mono">
+                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-blue-50 text-blue-800 border border-blue-200 font-mono">
                       GET /api/v1/export
                     </span>
-                    <span className="text-xs text-slate-400 font-medium">Download JSON Data Bundle</span>
+                    <span className="text-xs text-slate-500 font-medium">Download JSON Data Bundle</span>
                   </div>
-                  <div className="relative bg-slate-950 p-3 rounded-xl font-mono text-[11px] text-slate-300 overflow-x-auto">
+                  <div className="relative bg-slate-900 p-3 rounded-xl font-mono text-[11px] text-slate-100 overflow-x-auto">
                     <pre>{Curls.export}</pre>
                     <button
                       onClick={() => handleCopy(Curls.export, 'export')}
-                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200"
+                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200"
                     >
                       {copiedCurl === 'export' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
@@ -468,18 +468,18 @@ export const PortingModal = ({ onClose }) => {
                 </div>
 
                 {/* 4. GET /api/v1/requests */}
-                <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
+                <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 font-mono">
+                    <span className="text-xs font-extrabold px-2.5 py-1 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono">
                       GET /api/v1/requests
                     </span>
-                    <span className="text-xs text-slate-400 font-medium">Fetch Discount Requests</span>
+                    <span className="text-xs text-slate-500 font-medium">Fetch Discount Requests</span>
                   </div>
-                  <div className="relative bg-slate-950 p-3 rounded-xl font-mono text-[11px] text-slate-300 overflow-x-auto">
+                  <div className="relative bg-slate-900 p-3 rounded-xl font-mono text-[11px] text-slate-100 overflow-x-auto">
                     <pre>{Curls.getRequests}</pre>
                     <button
                       onClick={() => handleCopy(Curls.getRequests, 'getRequests')}
-                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-900 text-slate-400 hover:text-slate-200"
+                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-slate-200"
                     >
                       {copiedCurl === 'getRequests' ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
@@ -495,17 +495,17 @@ export const PortingModal = ({ onClose }) => {
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-bold text-slate-100">OpenAPI 3.0 Specification (Swagger Format)</h4>
-                  <p className="text-xs text-slate-400">Use this JSON spec to auto-generate Python/C#/Java/JS clients for hospital developers.</p>
+                  <h4 className="text-sm font-bold text-slate-900">OpenAPI 3.0 Specification (Swagger Format)</h4>
+                  <p className="text-xs text-slate-500">Use this JSON spec to auto-generate Python/C#/Java/JS clients for hospital developers.</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <a
                     href={`${baseUrl}/openapi.json`}
                     target="_blank"
                     rel="noreferrer"
-                    className="px-3 py-1.5 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold hover:bg-emerald-500/30 transition-all flex items-center gap-1.5"
+                    className="px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 text-xs font-bold hover:bg-blue-100 transition-all flex items-center gap-1.5"
                   >
-                    <Globe className="w-3.5 h-3.5" />
+                    <Globe className="w-3.5 h-3.5 text-blue-600" />
                     <span>Open Raw URL</span>
                   </a>
                   <button
@@ -514,15 +514,15 @@ export const PortingModal = ({ onClose }) => {
                         .then(r => r.text())
                         .then(t => handleCopy(t, 'OPENAPI'));
                     }}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-all"
+                    className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center gap-1.5 transition-all"
                   >
-                    {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copiedSpec ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5 text-slate-600" />}
                     <span>{copiedSpec ? 'Copied' : 'Copy Spec JSON'}</span>
                   </button>
                 </div>
               </div>
 
-              <div className="bg-slate-950 p-4 rounded-2xl border border-slate-800 font-mono text-[11px] text-slate-300 max-h-[380px] overflow-y-auto">
+              <div className="bg-slate-900 p-4 rounded-2xl border border-slate-800 font-mono text-[11px] text-slate-100 max-h-[380px] overflow-y-auto">
                 <pre>{JSON.stringify({
                   openapi: "3.0.3",
                   info: {
@@ -546,13 +546,13 @@ export const PortingModal = ({ onClose }) => {
           {/* 4. WEBHOOKS TAB */}
           {activeTab === 'WEBHOOKS' && (
             <div className="space-y-6">
-              <form onSubmit={handleRegisterWebhook} className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <form onSubmit={handleRegisterWebhook} className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
                 <div className="space-y-1">
-                  <h4 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                    <Radio className="w-4 h-4 text-amber-400" />
+                  <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                    <Radio className="w-4 h-4 text-amber-600" />
                     Register Integration Webhook Callback
                   </h4>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500">
                     Enter an external HIS HTTP POST endpoint to receive live payloads whenever discount requests are created or approved.
                   </p>
                 </div>
@@ -563,11 +563,11 @@ export const PortingModal = ({ onClose }) => {
                     value={webhookUrl}
                     onChange={(e) => setWebhookUrl(e.target.value)}
                     placeholder="https://your-his-server.com/api/webhooks/discount"
-                    className="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 font-mono focus:outline-none focus:border-amber-500"
+                    className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2.5 text-xs text-slate-900 font-mono focus:outline-none focus:border-blue-600 transition-all"
                   />
                   <button
                     type="submit"
-                    className="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-lg transition-all active:scale-95"
+                    className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs shadow-md transition-all active:scale-95"
                   >
                     Register Callback
                   </button>
@@ -575,17 +575,17 @@ export const PortingModal = ({ onClose }) => {
               </form>
 
               {/* Webhook Live Test Trigger */}
-              <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 flex items-center justify-between gap-4">
+              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex items-center justify-between gap-4">
                 <div>
-                  <h4 className="text-xs font-bold text-slate-200">Test Webhook Delivery</h4>
-                  <p className="text-xs text-slate-400">Send a sample discount approval payload to test listener connectivity.</p>
+                  <h4 className="text-xs font-bold text-slate-900">Test Webhook Delivery</h4>
+                  <p className="text-xs text-slate-500">Send a sample discount approval payload to test listener connectivity.</p>
                 </div>
                 <button
                   type="button"
                   onClick={handleTestWebhook}
-                  className="px-4 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 font-bold text-xs flex items-center gap-2 transition-all active:scale-95"
+                  className="px-4 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-bold text-xs flex items-center gap-2 transition-all active:scale-95"
                 >
-                  <Send className="w-3.5 h-3.5" />
+                  <Send className="w-3.5 h-3.5 text-amber-600" />
                   <span>Fire Test Event</span>
                 </button>
               </div>
@@ -593,11 +593,11 @@ export const PortingModal = ({ onClose }) => {
               {/* Registered Webhooks List */}
               {webhooksList.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-xs font-extrabold uppercase text-slate-400 tracking-wider">Active Registered Webhooks</h4>
+                  <h4 className="text-xs font-extrabold uppercase text-slate-500 tracking-wider">Active Registered Webhooks</h4>
                   {webhooksList.map(wh => (
-                    <div key={wh.id} className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between text-xs font-mono">
-                      <span className="text-teal-300">{wh.url}</span>
-                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">ACTIVE</span>
+                    <div key={wh.id} className="p-3.5 rounded-xl bg-white border border-slate-200 flex items-center justify-between text-xs font-mono">
+                      <span className="text-blue-700 font-bold">{wh.url}</span>
+                      <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold">ACTIVE</span>
                     </div>
                   ))}
                 </div>
@@ -608,12 +608,12 @@ export const PortingModal = ({ onClose }) => {
           {/* 5. HIS / EMR ADAPTER TAB */}
           {activeTab === 'HIS_ADAPTER' && (
             <div className="space-y-6">
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-2">
-                <h4 className="text-xs font-bold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-                  <Cpu className="w-4 h-4" />
+              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-2">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-blue-900 flex items-center gap-1.5">
+                  <Cpu className="w-4 h-4 text-blue-600" />
                   Third-Party HIS/EMR Payload Adapter Transformer
                 </h4>
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   Paste JSON from Epic, Cerner, Tally, or custom hospital software. The adapter automatically maps fields to Stavya Discount format.
                 </p>
               </div>
@@ -622,32 +622,32 @@ export const PortingModal = ({ onClose }) => {
                 
                 {/* Input Payload */}
                 <div className="space-y-2">
-                  <label className="text-xs font-bold text-slate-300 block">External Software JSON Payload</label>
+                  <label className="text-xs font-bold text-slate-700 block">External Software JSON Payload</label>
                   <textarea
                     rows={12}
                     value={hisJsonInput}
                     onChange={(e) => setHisJsonInput(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-cyan-300 focus:outline-none focus:border-cyan-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-mono text-blue-900 focus:outline-none focus:border-blue-600 transition-all font-medium"
                   />
                 </div>
 
                 {/* Transformed Output */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold text-teal-300 flex items-center gap-1">
+                    <label className="text-xs font-bold text-blue-700 flex items-center gap-1">
                       <ArrowRight className="w-3.5 h-3.5" />
                       Adapted Stavya System Format
                     </label>
                     {convertedHisRecord && (
                       <button
                         onClick={handleImportConvertedHisRecord}
-                        className="px-3 py-1 rounded-lg bg-teal-400 text-slate-950 font-black text-xs hover:bg-teal-300 transition-all"
+                        className="px-3 py-1 rounded-lg bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition-all shadow-sm"
                       >
                         Port & Create Request
                       </button>
                     )}
                   </div>
-                  <div className="bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs font-mono text-emerald-300 h-[260px] overflow-y-auto">
+                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs font-mono text-emerald-300 h-[260px] overflow-y-auto">
                     {convertedHisRecord ? (
                       <pre>{JSON.stringify(convertedHisRecord, null, 2)}</pre>
                     ) : (
@@ -663,10 +663,10 @@ export const PortingModal = ({ onClose }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900/90 text-right">
+        <div className="p-4 border-t border-slate-200 bg-white text-right">
           <button
             onClick={onClose}
-            className="px-5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-extrabold transition-all"
+            className="px-5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-extrabold transition-all"
           >
             Close Window
           </button>

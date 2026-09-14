@@ -22,24 +22,24 @@ export const ExcelReportModal = ({ onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
-      <div className="glass-card w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl p-6 border border-slate-700 shadow-2xl relative custom-scrollbar">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn overflow-y-auto">
+      <div className="glass-card w-full max-w-2xl max-h-[92vh] overflow-y-auto rounded-3xl p-6 bg-white border border-slate-200 shadow-2xl relative custom-scrollbar text-slate-900">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-5">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-5">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold">
-              <FileSpreadsheet className="w-5 h-5" />
+            <div className="h-10 w-10 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center justify-center font-bold">
+              <FileSpreadsheet className="w-5 h-5 text-emerald-600" />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-slate-100">Export Formatted Excel Report (.xlsx)</h3>
-              <p className="text-xs text-slate-400">Generates comprehensive spreadsheet audit report</p>
+              <h3 className="text-lg font-bold text-slate-900">Export Formatted Excel Report (.xlsx)</h3>
+              <p className="text-xs text-slate-500">Generates comprehensive spreadsheet audit report</p>
             </div>
           </div>
 
           <button
             onClick={onClose}
-            className="h-8 w-8 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 font-bold text-sm"
+            className="h-8 w-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 font-bold text-sm transition-all"
           >
             ✕
           </button>
@@ -47,22 +47,22 @@ export const ExcelReportModal = ({ onClose }) => {
 
         <div className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1">Custom Report Header Title</label>
+            <label className="block text-xs font-bold text-slate-700 mb-1">Custom Report Header Title</label>
             <input
               type="text"
               value={reportTitle}
               onChange={e => setReportTitle(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white font-medium transition-all"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Filter by Status</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Filter by Status</label>
               <select
                 value={statusFilter}
                 onChange={e => setStatusFilter(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white font-medium transition-all"
               >
                 <option value="ALL">All Statuses (Pending, Approved, Rejected)</option>
                 <option value="APPROVED">Approved Only</option>
@@ -72,11 +72,11 @@ export const ExcelReportModal = ({ onClose }) => {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1">Filter by Approver Role</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1">Filter by Approver Role</label>
               <select
                 value={authorityFilter}
                 onChange={e => setAuthorityFilter(e.target.value)}
-                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 focus:bg-white font-medium transition-all"
               >
                 <option value="ALL">All Approval Tiers</option>
                 <option value="CHAIRMAN">Chairman Tier Only</option>
@@ -86,24 +86,24 @@ export const ExcelReportModal = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs space-y-1">
-            <span className="font-bold text-emerald-400 block">Included Excel Columns:</span>
-            <p className="text-slate-400 leading-relaxed">
-              Request Code, Timestamp, Patient ID, Patient Name, Age/Gender, Department, Doctor, Total Bill ($), Discount Type, Requested %, Discount Amount ($), Net Payable ($), Reason Category, Detailed Justification, Requested By, Required Authority, Approver Name, Status, Remarks.
+          <div className="p-3.5 rounded-xl bg-blue-50/60 border border-blue-200 text-xs space-y-1">
+            <span className="font-bold text-blue-900 block">Included Excel Columns:</span>
+            <p className="text-slate-600 leading-relaxed font-medium">
+              Request Code, Timestamp, Patient ID, Patient Name, Age/Gender, Department, Doctor, Total Bill (₹), Discount Type, Requested %, Discount Amount (₹), Net Payable (₹), Reason Category, Detailed Justification, Requested By, Required Authority, Approver Name, Status, Remarks.
             </p>
           </div>
 
-          <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
+          <div className="pt-4 border-t border-slate-200 flex justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-sm font-semibold"
+              className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition-all"
             >
               Cancel
             </button>
             <button
               onClick={handleExport}
-              className="px-5 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 font-bold text-sm flex items-center gap-2 shadow-lg shadow-emerald-500/20 active:scale-95"
+              className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm flex items-center gap-2 shadow-md shadow-blue-600/20 active:scale-95 transition-all"
             >
               <Download className="w-4 h-4 stroke-[2.5]" />
               Generate & Download Excel

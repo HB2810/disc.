@@ -116,26 +116,26 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
     <div className="space-y-6">
       
       {/* Doctor Header Banner */}
-      <div className="glass-card p-6 md:p-8 rounded-3xl border border-emerald-500/40 bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40 relative overflow-hidden shadow-2xl">
+      <div className="glass-card p-6 md:p-8 rounded-3xl border border-blue-200 bg-gradient-to-r from-white via-blue-50/60 to-blue-100/40 relative overflow-hidden shadow-sm">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 flex items-center gap-1">
-                <Stethoscope className="w-3.5 h-3.5" /> Consultant Doctor Portal
+              <span className="text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 border border-blue-200 flex items-center gap-1">
+                <Stethoscope className="w-3.5 h-3.5 text-blue-600" /> Consultant Doctor Portal
               </span>
-              <span className="text-xs text-slate-400 font-mono">ID: {activeUser.username || activeUser.id}</span>
+              <span className="text-xs text-slate-500 font-mono">ID: {activeUser.username || activeUser.id}</span>
             </div>
-            <h2 className="text-2xl font-extrabold text-slate-100 mt-1 flex items-center gap-2">
+            <h2 className="text-2xl font-extrabold text-slate-900 mt-1 flex items-center gap-2">
               Welcome, {doctorName}
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-600 mt-0.5">
               Viewing own patient discount requests, amounts, and direct concession requests routed to OPD, IPD, Physiotherapy, Rehab & Support.
             </p>
           </div>
 
           <button
             onClick={() => setShowDoctorModal(true)}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-black text-xs shadow-xl shadow-emerald-500/25 hover:from-emerald-300 hover:to-teal-300 transition-all active:scale-95 whitespace-nowrap"
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs shadow-md shadow-blue-600/20 transition-all active:scale-95 whitespace-nowrap"
           >
             <PlusCircle className="w-5 h-5 stroke-[2.5]" />
             + Issue Direct Patient Concession
@@ -147,73 +147,73 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Card 1: Total Patient Count */}
-        <div className="glass-card p-5 rounded-2xl border border-emerald-500/30 flex items-center justify-between">
+        <div className="glass-card p-5 rounded-2xl border border-emerald-200 bg-white flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
               My Patient Requests Count
             </span>
-            <span className="text-2xl font-black text-slate-100 mt-1 block">
+            <span className="text-2xl font-black text-slate-900 mt-1 block">
               {totalPatientRequestsCount} Patients
             </span>
-            <span className="text-[11px] text-emerald-400 font-semibold block mt-0.5">
+            <span className="text-[11px] text-emerald-700 font-semibold block mt-0.5">
               {approvedDoctorRequests.length} Approved / {pendingDoctorRequests.length} Pending
             </span>
           </div>
-          <div className="h-12 w-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold">
+          <div className="h-12 w-12 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center font-bold">
             <UserCheck className="w-6 h-6" />
           </div>
         </div>
 
         {/* Card 2: Total Concessions Amount */}
-        <div className="glass-card p-5 rounded-2xl border border-teal-500/30 flex items-center justify-between">
+        <div className="glass-card p-5 rounded-2xl border border-blue-200 bg-white flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
               My Total Concessions Granted
             </span>
-            <span className="text-2xl font-black text-teal-300 mt-1 block">
+            <span className="text-2xl font-black text-blue-700 mt-1 block">
               ₹{totalConcessionsAmount.toLocaleString('en-IN')}
             </span>
-            <span className="text-[11px] text-teal-400 font-semibold block mt-0.5">
+            <span className="text-[11px] text-blue-600 font-semibold block mt-0.5">
               Cumulative Waiver Amount
             </span>
           </div>
-          <div className="h-12 w-12 rounded-2xl bg-teal-500/10 border border-teal-500/30 text-teal-400 flex items-center justify-center font-bold">
+          <div className="h-12 w-12 rounded-2xl bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center font-bold">
             <IndianRupee className="w-6 h-6" />
           </div>
         </div>
 
         {/* Card 3: Pending Approvals */}
-        <div className="glass-card p-5 rounded-2xl border border-amber-500/30 flex items-center justify-between">
+        <div className="glass-card p-5 rounded-2xl border border-amber-200 bg-white flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
               My Pending Concessions
             </span>
-            <span className="text-2xl font-black text-amber-300 mt-1 block">
+            <span className="text-2xl font-black text-amber-700 mt-1 block">
               ₹{pendingConcessionsAmount.toLocaleString('en-IN')}
             </span>
-            <span className="text-[11px] text-amber-400 font-semibold block mt-0.5">
+            <span className="text-[11px] text-amber-700 font-semibold block mt-0.5">
               {pendingDoctorRequests.length} Requests Awaiting Clearance
             </span>
           </div>
-          <div className="h-12 w-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 flex items-center justify-center font-bold">
+          <div className="h-12 w-12 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center font-bold">
             <Clock className="w-6 h-6" />
           </div>
         </div>
 
         {/* Card 4: Executive Visibility Seal */}
-        <div className="glass-card p-5 rounded-2xl border border-purple-500/30 flex items-center justify-between">
+        <div className="glass-card p-5 rounded-2xl border border-indigo-200 bg-white flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 block">
+            <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 block">
               Executive Board Audit
             </span>
-            <span className="text-sm font-extrabold text-purple-300 mt-1 block">
+            <span className="text-sm font-extrabold text-indigo-700 mt-1 block">
               Visible to MD & Chairman
             </span>
-            <span className="text-[11px] text-purple-400 font-semibold block mt-0.5">
+            <span className="text-[11px] text-indigo-600 font-semibold block mt-0.5">
               Access Granted by Admin
             </span>
           </div>
-          <div className="h-12 w-12 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-purple-300 flex items-center justify-center font-bold">
+          <div className="h-12 w-12 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-600 flex items-center justify-center font-bold">
             <ShieldCheck className="w-6 h-6" />
           </div>
         </div>
@@ -221,7 +221,7 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
       </div>
 
       {/* Filter & Search Bar */}
-      <div className="glass-card p-4 rounded-2xl border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="glass-card p-4 rounded-2xl border border-slate-200 bg-white flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="relative flex-1 w-full">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
@@ -229,16 +229,16 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
             placeholder={`Search ${doctorName}'s patient requests by name, UHID, or code...`}
             value={searchTerm}
             onChange={e => setSearchTerm(e.target.value)}
-            className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"
+            className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-600"
           />
         </div>
 
         <div className="flex items-center gap-2 w-full md:w-auto">
-          <Filter className="w-4 h-4 text-emerald-400" />
+          <Filter className="w-4 h-4 text-blue-600" />
           <select
             value={statusFilter}
             onChange={e => setStatusFilter(e.target.value)}
-            className="bg-slate-900 border border-slate-700 text-xs font-bold text-slate-200 rounded-xl pl-4 pr-8 py-2 focus:outline-none focus:border-emerald-500 w-full max-w-full truncate"
+            className="bg-slate-50 border border-slate-300 text-xs font-bold text-slate-900 rounded-xl pl-4 pr-8 py-2 focus:outline-none focus:border-blue-600 w-full max-w-full truncate"
           >
             <option value="ALL">All Statuses</option>
             <option value="PENDING">Pending Approval</option>
@@ -250,15 +250,15 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
 
       {/* Doctor's Own Requests Grid */}
       {doctorRequests.length === 0 ? (
-        <div className="glass-card p-12 text-center rounded-3xl border border-slate-800 space-y-3">
-          <Stethoscope className="w-12 h-12 text-emerald-400/50 mx-auto" />
-          <h3 className="text-base font-bold text-slate-200">No Patient Discount Requests Found</h3>
-          <p className="text-xs text-slate-400 max-w-sm mx-auto">
+        <div className="glass-card p-12 text-center rounded-3xl border border-slate-200 bg-white space-y-3">
+          <Stethoscope className="w-12 h-12 text-blue-500/50 mx-auto" />
+          <h3 className="text-base font-bold text-slate-900">No Patient Discount Requests Found</h3>
+          <p className="text-xs text-slate-500 max-w-sm mx-auto">
             You do not have any patient discount requests matching the selected filters for {doctorName}. Click below to create a direct concession!
           </p>
           <button
             onClick={() => setShowDoctorModal(true)}
-            className="px-5 py-2.5 rounded-xl bg-emerald-400 text-slate-950 font-black text-xs inline-flex items-center gap-1.5 shadow-lg shadow-emerald-500/20"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-black text-xs inline-flex items-center gap-1.5 shadow-md shadow-blue-600/20"
           >
             <PlusCircle className="w-4 h-4" /> Issue Patient Concession
           </button>
@@ -277,25 +277,25 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
 
       {/* Modal for Direct Doctor Concession Creation */}
       {showDoctorModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-fadeIn overflow-y-auto">
-          <div className="glass-card w-full max-w-lg rounded-3xl p-6 border border-emerald-500/40 shadow-2xl relative my-auto custom-scrollbar">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn overflow-y-auto">
+          <div className="bg-white w-full max-w-lg rounded-3xl p-6 border border-slate-200 shadow-2xl relative my-auto custom-scrollbar">
             
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
               <div className="flex items-center gap-2">
-                <div className="h-9 w-9 rounded-xl bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 flex items-center justify-center font-bold">
+                <div className="h-9 w-9 rounded-xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center font-bold">
                   <Stethoscope className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-base text-slate-100">
+                  <h3 className="font-extrabold text-base text-slate-900">
                     Direct Doctor Concession Request
                   </h3>
-                  <p className="text-xs text-emerald-300 font-semibold">{doctorName}</p>
+                  <p className="text-xs text-blue-700 font-semibold">{doctorName}</p>
                 </div>
               </div>
 
               <button
                 onClick={() => setShowDoctorModal(false)}
-                className="h-8 w-8 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 flex items-center justify-center font-bold text-sm"
+                className="h-8 w-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm"
               >
                 ✕
               </button>
@@ -305,25 +305,25 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
               
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Patient Name *</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Patient Name *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Ramesh Shah"
                     value={docFormData.patientName}
                     onChange={e => setDocFormData({ ...docFormData, patientName: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">UHID / Patient ID</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">UHID / Patient ID</label>
                   <input
                     type="text"
                     placeholder="UHID-2026-8801"
                     value={docFormData.patientId}
                     onChange={e => setDocFormData({ ...docFormData, patientId: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-cyan-300 font-mono focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-blue-700 font-mono focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
@@ -331,13 +331,13 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
               {/* Target Department / Billing Desk Dropdown */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-emerald-300 mb-1">
+                  <label className="block text-xs font-semibold text-blue-700 mb-1">
                     Target Department / Place *
                   </label>
                   <select
                     value={docFormData.targetDepartment}
                     onChange={e => setDocFormData({ ...docFormData, targetDepartment: e.target.value })}
-                    className="w-full bg-slate-900 border border-emerald-500/50 rounded-xl px-3 py-2 text-xs text-emerald-200 font-bold focus:outline-none focus:border-emerald-400"
+                    className="w-full bg-slate-50 border border-blue-200 rounded-xl px-3 py-2 text-xs text-blue-900 font-bold focus:outline-none focus:border-blue-600"
                   >
                     <option value="OPD">OPD Reception</option>
                     <option value="Clinical Operation">IPD Billing Desk</option>
@@ -351,13 +351,13 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-cyan-300 mb-1">
+                  <label className="block text-xs font-semibold text-blue-700 mb-1">
                     Specific Service Place
                   </label>
                   <select
                     value={docFormData.targetPlace}
                     onChange={e => setDocFormData({ ...docFormData, targetPlace: e.target.value })}
-                    className="w-full bg-slate-900 border border-cyan-500/50 rounded-xl px-3 py-2 text-xs text-cyan-200 font-bold focus:outline-none focus:border-cyan-400"
+                    className="w-full bg-slate-50 border border-blue-200 rounded-xl px-3 py-2 text-xs text-blue-900 font-bold focus:outline-none focus:border-blue-600"
                   >
                     <option value="OPD Reception">OPD Reception Counter</option>
                     <option value="IPD Billing Desk">IPD Room & Surgery Billing</option>
@@ -372,18 +372,18 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Gross Bill Amount (₹)</label>
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">Gross Bill Amount (₹)</label>
                   <input
                     type="number"
                     required
                     value={docFormData.totalBillAmount}
                     onChange={e => setDocFormData({ ...docFormData, totalBillAmount: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-slate-100 font-bold focus:outline-none focus:border-emerald-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-xs text-slate-900 font-bold focus:outline-none focus:border-blue-600"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-teal-300 mb-1">Concession (% Required)</label>
+                  <label className="block text-xs font-semibold text-blue-700 mb-1">Concession (% Required)</label>
                   <input
                     type="number"
                     required
@@ -391,19 +391,19 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
                     max={100}
                     value={docFormData.discountVal}
                     onChange={e => setDocFormData({ ...docFormData, discountVal: e.target.value })}
-                    className="w-full bg-slate-900 border border-teal-500/50 rounded-xl px-3.5 py-2 text-xs text-teal-300 font-bold focus:outline-none focus:border-teal-400"
+                    className="w-full bg-slate-50 border border-blue-300 rounded-xl px-3.5 py-2 text-xs text-blue-700 font-bold focus:outline-none focus:border-blue-600"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">Clinical / Concession Reason</label>
+                <label className="block text-xs font-semibold text-slate-700 mb-1">Clinical / Concession Reason</label>
                 <textarea
                   rows={2}
                   required
                   value={docFormData.detailedReason}
                   onChange={e => setDocFormData({ ...docFormData, detailedReason: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-slate-100 focus:outline-none focus:border-emerald-500 resize-none"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs text-slate-900 focus:outline-none focus:border-blue-600 resize-none"
                 />
               </div>
 
@@ -411,14 +411,14 @@ export const DoctorPortalView = ({ onSelectRequest, onOpenNewModal }) => {
                 <button
                   type="button"
                   onClick={() => setShowDoctorModal(false)}
-                  className="px-4 py-2.5 rounded-xl bg-slate-900 text-slate-400 hover:text-slate-200 text-xs font-bold"
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 text-slate-600 hover:text-slate-900 text-xs font-bold"
                 >
                   Cancel
                 </button>
 
                 <button
                   type="submit"
-                  className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow-lg shadow-emerald-500/25 transition-all active:scale-95"
+                  className="px-6 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs flex items-center gap-1.5 shadow-md shadow-blue-600/20 transition-all active:scale-95"
                 >
                   <PlusCircle className="w-4 h-4" />
                   Submit Doctor Concession

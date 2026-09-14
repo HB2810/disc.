@@ -47,21 +47,21 @@ export function AppContent() {
   const isDoctor = activeUser?.role === 'DOCTOR';
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100 font-sans selection:bg-teal-500 selection:text-slate-950">
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-blue-600 selection:text-white">
       
       {/* Toast Alert Banner */}
       {toastAlert && (
         <div className="fixed bottom-6 right-6 z-50 animate-slideUp">
-          <div className={`glass-card px-4 py-3 rounded-2xl border flex items-center gap-3 shadow-2xl ${
+          <div className={`glass-card px-4 py-3 rounded-2xl border flex items-center gap-3 shadow-xl ${
             toastAlert.type === 'success' 
-              ? 'border-emerald-500/40 bg-emerald-950/90 text-emerald-300' 
+              ? 'border-emerald-300 bg-emerald-50 text-emerald-800' 
               : toastAlert.type === 'warning' 
-              ? 'border-rose-500/40 bg-rose-950/90 text-rose-300' 
-              : 'border-teal-500/40 bg-slate-900/90 text-teal-300'
+              ? 'border-rose-300 bg-rose-50 text-rose-800' 
+              : 'border-blue-300 bg-blue-50 text-blue-900'
           }`}>
-            {toastAlert.type === 'success' && <CheckCircle className="w-5 h-5 text-emerald-400" />}
-            {toastAlert.type === 'warning' && <AlertCircle className="w-5 h-5 text-rose-400" />}
-            {toastAlert.type === 'info' && <Info className="w-5 h-5 text-teal-400" />}
+            {toastAlert.type === 'success' && <CheckCircle className="w-5 h-5 text-emerald-600" />}
+            {toastAlert.type === 'warning' && <AlertCircle className="w-5 h-5 text-rose-600" />}
+            {toastAlert.type === 'info' && <Info className="w-5 h-5 text-blue-600" />}
             <span className="text-xs font-bold">{toastAlert.msg}</span>
           </div>
         </div>
@@ -148,11 +148,11 @@ export function AppContent() {
         <PortingModal onClose={() => setShowPortingModal(false)} />
       )}
 
-      {/* Mobile Bottom Navigation Bar (Thumb Accessible on Smartphones) */}
-      <div className="md:hidden sticky bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 px-4 py-2 flex items-center justify-around shadow-2xl">
+      {/* Mobile Bottom Navigation Bar */}
+      <div className="md:hidden sticky bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200 px-4 py-2 flex items-center justify-around shadow-lg">
         <button
           onClick={() => setShowNewModal(true)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-gradient-to-r from-teal-400 to-emerald-400 text-slate-950 font-black text-xs shadow-lg shadow-teal-500/25 active:scale-95"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs shadow-md shadow-blue-600/25 active:scale-95"
         >
           <PlusCircle className="w-4.5 h-4.5 stroke-[2.5]" />
           <span>Ask Discount</span>
@@ -160,15 +160,15 @@ export function AppContent() {
 
         <button
           onClick={() => setShowMobileSyncModal(true)}
-          className="flex flex-col items-center gap-0.5 text-slate-400 hover:text-teal-300 text-[10px] font-bold py-1 active:scale-95"
+          className="flex flex-col items-center gap-0.5 text-slate-500 hover:text-blue-600 text-[10px] font-bold py-1 active:scale-95"
         >
-          <Smartphone className="w-5 h-5 text-teal-400" />
+          <Smartphone className="w-5 h-5 text-blue-600" />
           <span>Sync</span>
         </button>
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-slate-900/80 py-6 px-4 pb-16 md:pb-6 text-center text-xs text-slate-400 bg-slate-950/80">
+      <footer className="border-t border-slate-200 py-6 px-4 pb-16 md:pb-6 text-center text-xs text-slate-500 bg-white/80">
         <p className="font-medium">
           Stavya Spine Hospital & Research Institute Pvt. Ltd. — Discount Permission & Approval System • Powered by Stavya Intelligence
         </p>

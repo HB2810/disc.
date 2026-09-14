@@ -98,20 +98,20 @@ export const DoctorBiometricModal = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/90 backdrop-blur-lg animate-fadeIn overflow-y-auto">
-      <div className="glass-card w-full max-w-md rounded-3xl p-6 border border-teal-500/40 shadow-2xl relative my-auto custom-scrollbar text-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn overflow-y-auto">
+      <div className="glass-card w-full max-w-md rounded-3xl p-6 bg-white border border-slate-200 shadow-2xl relative my-auto custom-scrollbar text-center text-slate-900">
         
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+        <div className="flex items-center justify-between border-b border-slate-200 pb-3 mb-4">
           <div className="flex items-center gap-2 text-left">
-            <div className="h-9 w-9 rounded-xl bg-teal-500/20 text-teal-400 border border-teal-500/30 flex items-center justify-center font-bold">
-              <Stethoscope className="w-5 h-5" />
+            <div className="h-9 w-9 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 flex items-center justify-center font-bold">
+              <Stethoscope className="w-5 h-5 text-blue-600" />
             </div>
             <div>
-              <h3 className="font-extrabold text-base text-slate-100 flex items-center gap-1.5">
+              <h3 className="font-extrabold text-base text-slate-900 flex items-center gap-1.5">
                 Doctor Biometric Authorization
               </h3>
-              <p className="text-[11px] text-teal-300 font-semibold truncate max-w-[240px]">
+              <p className="text-[11px] text-blue-700 font-bold truncate max-w-[240px]">
                 {doctorName}
               </p>
             </div>
@@ -119,7 +119,7 @@ export const DoctorBiometricModal = ({
 
           <button
             onClick={onCancel}
-            className="h-8 w-8 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-slate-200 flex items-center justify-center font-bold text-sm"
+            className="h-8 w-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center font-bold text-sm transition-all"
           >
             <X className="w-4 h-4" />
           </button>
@@ -127,27 +127,27 @@ export const DoctorBiometricModal = ({
 
         {/* Request Quick Summary Badge */}
         {request && (
-          <div className="mb-5 p-3 rounded-xl bg-slate-900/90 border border-slate-800 text-left flex items-center justify-between gap-2">
+          <div className="mb-5 p-3 rounded-xl bg-blue-50/60 border border-blue-200 text-left flex items-center justify-between gap-2">
             <div>
-              <span className="text-[10px] text-slate-400 uppercase font-bold block">Patient Request</span>
-              <span className="font-bold text-xs text-slate-100">{request.patientName} ({request.requestCode})</span>
+              <span className="text-[10px] text-slate-500 uppercase font-bold block">Patient Request</span>
+              <span className="font-bold text-xs text-slate-900">{request.patientName} ({request.requestCode})</span>
             </div>
             <div className="text-right">
-              <span className="text-[10px] text-teal-400 uppercase font-bold block">Discount Granted</span>
-              <span className="font-extrabold text-xs text-emerald-400">₹{Number(request.calculatedDiscountAmount || 0).toLocaleString('en-IN')} ({request.requestedDiscountVal}%)</span>
+              <span className="text-[10px] text-blue-700 uppercase font-bold block">Discount Granted</span>
+              <span className="font-extrabold text-xs text-emerald-700">₹{Number(request.calculatedDiscountAmount || 0).toLocaleString('en-IN')} ({request.requestedDiscountVal}%)</span>
             </div>
           </div>
         )}
 
         {/* Auth Method Selector Tabs */}
-        <div className="grid grid-cols-3 gap-2 bg-slate-950 p-1 rounded-xl border border-slate-800 mb-5">
+        <div className="grid grid-cols-3 gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200 mb-5">
           <button
             type="button"
             onClick={() => { setAuthMethod('FINGERPRINT'); setErrorMsg(''); }}
             className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center gap-1 transition-all ${
               authMethod === 'FINGERPRINT'
-                ? 'bg-teal-400 text-slate-950 shadow-md font-extrabold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-md font-extrabold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Fingerprint className="w-4 h-4" />
@@ -159,8 +159,8 @@ export const DoctorBiometricModal = ({
             onClick={() => { setAuthMethod('FACE_ID'); setErrorMsg(''); }}
             className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center gap-1 transition-all ${
               authMethod === 'FACE_ID'
-                ? 'bg-teal-400 text-slate-950 shadow-md font-extrabold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-md font-extrabold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <ScanFace className="w-4 h-4" />
@@ -172,8 +172,8 @@ export const DoctorBiometricModal = ({
             onClick={() => { setAuthMethod('PASSCODE'); setErrorMsg(''); }}
             className={`py-2 px-1 rounded-lg text-xs font-bold flex flex-col items-center gap-1 transition-all ${
               authMethod === 'PASSCODE'
-                ? 'bg-teal-400 text-slate-950 shadow-md font-extrabold'
-                : 'text-slate-400 hover:text-slate-200'
+                ? 'bg-blue-600 text-white shadow-md font-extrabold'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <KeyRound className="w-4 h-4" />
@@ -191,26 +191,26 @@ export const DoctorBiometricModal = ({
                 disabled={isScanning || verifiedSuccess}
                 className={`h-28 w-28 rounded-3xl flex flex-col items-center justify-center mx-auto border-4 transition-all duration-300 relative overflow-hidden group ${
                   verifiedSuccess
-                    ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-xl shadow-emerald-500/20'
+                    ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-xl shadow-emerald-500/20'
                     : isScanning
-                    ? 'bg-teal-500/30 border-teal-300 text-teal-200 animate-pulse'
-                    : 'bg-slate-900 hover:bg-slate-800 border-slate-700 hover:border-teal-400 text-teal-400 active:scale-95 shadow-lg'
+                    ? 'bg-blue-100 border-blue-500 text-blue-700 animate-pulse'
+                    : 'bg-blue-50 hover:bg-blue-100 border-blue-200 hover:border-blue-500 text-blue-600 active:scale-95 shadow-md'
                 }`}
               >
                 {/* Laser scan line overlay */}
                 {isScanning && (
-                  <div className="absolute inset-x-0 h-1 bg-teal-400 shadow-lg shadow-teal-400/80 animate-bounce top-0"></div>
+                  <div className="absolute inset-x-0 h-1 bg-blue-600 shadow-lg shadow-blue-500/80 animate-bounce top-0"></div>
                 )}
 
                 {verifiedSuccess ? (
-                  <CheckCircle2 className="w-12 h-12 text-emerald-400 stroke-[2.5] animate-scaleUp" />
+                  <CheckCircle2 className="w-12 h-12 text-emerald-600 stroke-[2.5] animate-scaleUp" />
                 ) : (
-                  <Fingerprint className={`w-14 h-14 ${isScanning ? 'text-teal-300 animate-pulse' : 'text-teal-400'}`} />
+                  <Fingerprint className={`w-14 h-14 ${isScanning ? 'text-blue-700 animate-pulse' : 'text-blue-600'}`} />
                 )}
               </button>
             </div>
 
-            <p className="text-xs text-slate-300 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               {verifiedSuccess
                 ? '✓ Fingerprint Biometric Verified Successfully!'
                 : isScanning
@@ -222,7 +222,7 @@ export const DoctorBiometricModal = ({
               <button
                 type="button"
                 onClick={handleStartBiometricScan}
-                className="w-full py-3 rounded-xl bg-teal-400 hover:bg-teal-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all active:scale-95"
+                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all active:scale-95"
               >
                 <Fingerprint className="w-4 h-4" />
                 <span>Scan Doctor Fingerprint</span>
@@ -241,25 +241,25 @@ export const DoctorBiometricModal = ({
                 disabled={isScanning || verifiedSuccess}
                 className={`h-28 w-28 rounded-3xl flex flex-col items-center justify-center mx-auto border-4 transition-all duration-300 relative overflow-hidden group ${
                   verifiedSuccess
-                    ? 'bg-emerald-500/20 border-emerald-400 text-emerald-300 shadow-xl shadow-emerald-500/20'
+                    ? 'bg-emerald-50 border-emerald-500 text-emerald-700 shadow-xl shadow-emerald-500/20'
                     : isScanning
-                    ? 'bg-teal-500/30 border-teal-300 text-teal-200 animate-pulse'
-                    : 'bg-slate-900 hover:bg-slate-800 border-slate-700 hover:border-teal-400 text-teal-400 active:scale-95 shadow-lg'
+                    ? 'bg-blue-100 border-blue-500 text-blue-700 animate-pulse'
+                    : 'bg-blue-50 hover:bg-blue-100 border-blue-200 hover:border-blue-500 text-blue-600 active:scale-95 shadow-md'
                 }`}
               >
                 {isScanning && (
-                  <div className="absolute inset-0 border-2 border-dashed border-teal-400 rounded-3xl animate-spin"></div>
+                  <div className="absolute inset-0 border-2 border-dashed border-blue-600 rounded-3xl animate-spin"></div>
                 )}
 
                 {verifiedSuccess ? (
-                  <CheckCircle2 className="w-12 h-12 text-emerald-400 stroke-[2.5] animate-scaleUp" />
+                  <CheckCircle2 className="w-12 h-12 text-emerald-600 stroke-[2.5] animate-scaleUp" />
                 ) : (
-                  <ScanFace className={`w-14 h-14 ${isScanning ? 'text-teal-300 animate-pulse' : 'text-teal-400'}`} />
+                  <ScanFace className={`w-14 h-14 ${isScanning ? 'text-blue-700 animate-pulse' : 'text-blue-600'}`} />
                 )}
               </button>
             </div>
 
-            <p className="text-xs text-slate-300 font-medium">
+            <p className="text-xs text-slate-600 font-medium">
               {verifiedSuccess
                 ? '✓ Doctor Face Recognized & Authenticated!'
                 : isScanning
@@ -271,7 +271,7 @@ export const DoctorBiometricModal = ({
               <button
                 type="button"
                 onClick={handleStartBiometricScan}
-                className="w-full py-3 rounded-xl bg-teal-400 hover:bg-teal-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all active:scale-95"
+                className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all active:scale-95"
               >
                 <ScanFace className="w-4 h-4" />
                 <span>Start Face Recognition Scan</span>
@@ -284,7 +284,7 @@ export const DoctorBiometricModal = ({
         {authMethod === 'PASSCODE' && (
           <form onSubmit={handleVerifyPasscode} className="space-y-4 py-2">
             <div>
-              <label className="block text-xs font-semibold text-slate-300 mb-1.5 text-left">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 text-left">
                 Enter Doctor Passcode / Master PIN
               </label>
               <div className="relative">
@@ -295,14 +295,14 @@ export const DoctorBiometricModal = ({
                   placeholder="Enter 4 to 6-digit PIN (e.g. 123456)"
                   value={passcode}
                   onChange={e => setPasscode(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-center text-lg text-teal-300 font-mono tracking-widest focus:outline-none focus:border-teal-400"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 text-center text-lg text-blue-700 font-mono tracking-widest focus:outline-none focus:border-blue-600 font-bold"
                 />
-                <Lock className="w-4 h-4 text-slate-500 absolute right-3.5 top-3.5" />
+                <Lock className="w-4 h-4 text-slate-400 absolute right-3.5 top-3.5" />
               </div>
             </div>
 
             {errorMsg && (
-              <p className="text-xs text-rose-400 font-semibold flex items-center justify-center gap-1">
+              <p className="text-xs text-rose-600 font-semibold flex items-center justify-center gap-1">
                 <AlertCircle className="w-3.5 h-3.5" /> {errorMsg}
               </p>
             )}
@@ -310,7 +310,7 @@ export const DoctorBiometricModal = ({
             <button
               type="submit"
               disabled={verifiedSuccess}
-              className="w-full py-3 rounded-xl bg-teal-400 hover:bg-teal-300 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-lg shadow-teal-500/20 transition-all active:scale-95 disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all active:scale-95 disabled:opacity-50"
             >
               {verifiedSuccess ? (
                 <>
@@ -328,8 +328,8 @@ export const DoctorBiometricModal = ({
         )}
 
         {/* Security Stamp */}
-        <div className="mt-4 pt-3 border-t border-slate-800 text-[10px] text-slate-500 flex items-center justify-center gap-1.5">
-          <Lock className="w-3 h-3 text-teal-400" />
+        <div className="mt-4 pt-3 border-t border-slate-200 text-[10px] text-slate-500 flex items-center justify-center gap-1.5 font-medium">
+          <Lock className="w-3 h-3 text-blue-600" />
           <span>Biometric & Passcode Security Encrypted per Stavya Spine Hospital Protocols</span>
         </div>
 

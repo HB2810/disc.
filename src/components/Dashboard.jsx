@@ -69,7 +69,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
     return acc;
   }, {});
 
-  const COLORS = ['#14b8a6', '#6366f1', '#f59e0b', '#ec4899', '#8b5cf6'];
+  const COLORS = ['#2563eb', '#0284c7', '#4f46e5', '#d97706', '#059669'];
   const reasonChartData = Object.keys(reasonDataMap).map(reason => ({
     name: reason,
     value: reasonDataMap[reason]
@@ -107,13 +107,13 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
       {/* Top Welcome & KPI Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h2 className="text-2xl font-extrabold text-slate-100 tracking-tight flex items-center gap-2">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
             Stavya Spine Hospital & Research Institute Pvt. Ltd.
-            <span className="text-xs px-2.5 py-0.5 rounded-lg bg-sky-500/20 text-sky-300 border border-sky-500/30 font-bold uppercase tracking-wider">
+            <span className="text-xs px-2.5 py-0.5 rounded-lg bg-blue-50 text-blue-700 border border-blue-200 font-bold uppercase tracking-wider">
               Stavya Intelligence
             </span>
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 mt-0.5">
             Stavya Billing Desk ➔ Chief Accountant ➔ CFO Permission ➔ MD/Chairman Approval • Live Sync
           </p>
         </div>
@@ -121,9 +121,9 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
         <div className="flex items-center gap-3">
           <button
             onClick={onOpenExcelModal}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-emerald-400 border border-emerald-500/30 text-xs font-bold transition-all"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold transition-all shadow-sm"
           >
-            <FileSpreadsheet className="w-4 h-4" />
+            <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
             Export Excel Report
           </button>
         </div>
@@ -133,68 +133,68 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         
         {/* Card 1 */}
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 border-l-4 border-l-teal-500 relative overflow-hidden transition-all hover:scale-[1.01]">
+        <div className="glass-card p-5 rounded-2xl border border-slate-200 border-l-4 border-l-blue-600 relative overflow-hidden transition-all hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Total Discount Authorized</span>
-            <div className="h-9 w-9 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center font-bold">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Total Discount Authorized</span>
+            <div className="h-9 w-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center font-bold">
               <IndianRupee className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl font-extrabold text-teal-300">
+            <h3 className="text-2xl font-extrabold text-blue-700">
               ₹{totalDiscountGranted.toLocaleString('en-IN', { minimumFractionDigits: 0 })}
             </h3>
-            <p className="text-[11px] text-slate-400 mt-1 flex items-center gap-1">
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+            <p className="text-[11px] text-slate-500 mt-1 flex items-center gap-1">
+              <TrendingUp className="w-3.5 h-3.5 text-emerald-600" />
               <span>Out of ₹{totalBillSum.toLocaleString('en-IN')} gross billings</span>
             </p>
           </div>
         </div>
 
         {/* Card 2 */}
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 border-l-4 border-l-amber-500 relative overflow-hidden transition-all hover:scale-[1.01]">
+        <div className="glass-card p-5 rounded-2xl border border-slate-200 border-l-4 border-l-amber-500 relative overflow-hidden transition-all hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Pending Permissions</span>
-            <div className="h-9 w-9 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Pending Permissions</span>
+            <div className="h-9 w-9 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold">
               <Clock className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
             <div className="flex items-baseline gap-2">
-              <h3 className="text-2xl font-extrabold text-amber-300">{pendingRequests.length}</h3>
-              <span className="text-xs text-amber-400 font-bold">(₹{pendingDiscountValue.toLocaleString('en-IN')})</span>
+              <h3 className="text-2xl font-extrabold text-amber-700">{pendingRequests.length}</h3>
+              <span className="text-xs text-amber-700 font-bold">(₹{pendingDiscountValue.toLocaleString('en-IN')})</span>
             </div>
-            <p className="text-[11px] text-slate-400 mt-1">Chief Accountant / CFO / MD / Chairman</p>
+            <p className="text-[11px] text-slate-500 mt-1">Chief Accountant / CFO / MD / Chairman</p>
           </div>
         </div>
 
         {/* Card 3 */}
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 border-l-4 border-l-emerald-500 relative overflow-hidden transition-all hover:scale-[1.01]">
+        <div className="glass-card p-5 rounded-2xl border border-slate-200 border-l-4 border-l-emerald-500 relative overflow-hidden transition-all hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Approval Ratio</span>
-            <div className="h-9 w-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Approval Ratio</span>
+            <div className="h-9 w-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold">
               <CheckCircle2 className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl font-extrabold text-emerald-400">{approvalRate}%</h3>
-            <p className="text-[11px] text-slate-400 mt-1">
+            <h3 className="text-2xl font-extrabold text-emerald-700">{approvalRate}%</h3>
+            <p className="text-[11px] text-slate-500 mt-1">
               {approvedRequests.length} approved • {rejectedRequests.length} rejected
             </p>
           </div>
         </div>
 
         {/* Card 4 */}
-        <div className="glass-card p-5 rounded-2xl border border-slate-800 border-l-4 border-l-indigo-500 relative overflow-hidden transition-all hover:scale-[1.01]">
+        <div className="glass-card p-5 rounded-2xl border border-slate-200 border-l-4 border-l-indigo-600 relative overflow-hidden transition-all hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-slate-400">Direct Exec Grants</span>
-            <div className="h-9 w-9 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold">
+            <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Direct Exec Grants</span>
+            <div className="h-9 w-9 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold">
               <Sparkles className="w-5 h-5" />
             </div>
           </div>
           <div className="mt-3">
-            <h3 className="text-2xl font-extrabold text-purple-300">{directGrantRequests.length}</h3>
-            <p className="text-[11px] font-semibold text-teal-400 mt-1">
+            <h3 className="text-2xl font-extrabold text-indigo-700">{directGrantRequests.length}</h3>
+            <p className="text-[11px] font-semibold text-blue-600 mt-1">
               Direct MD / Chairman Patient Waivers
             </p>
           </div>
@@ -206,40 +206,40 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         
         {/* Chart 1: Discount Value by Department */}
-        <div className="glass-card p-5 rounded-2xl border border-slate-800">
+        <div className="glass-card p-5 rounded-2xl border border-slate-200">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <BarChart3 className="w-4 h-4 text-teal-400" />
-              <h3 className="font-bold text-sm text-slate-200">Discount Waiver Granted by Department (₹)</h3>
+              <BarChart3 className="w-4 h-4 text-blue-600" />
+              <h3 className="font-bold text-sm text-slate-900">Discount Waiver Granted by Department (₹)</h3>
             </div>
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Live Analytics</span>
+            <span className="text-[10px] text-slate-500 uppercase font-semibold">Live Analytics</span>
           </div>
 
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={departmentChartData}>
-                <XAxis dataKey="department" stroke="#94a3b8" fontSize={11} />
-                <YAxis stroke="#94a3b8" fontSize={11} />
+                <XAxis dataKey="department" stroke="#64748b" fontSize={11} />
+                <YAxis stroke="#64748b" fontSize={11} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#38bdf8', borderRadius: '12px', fontSize: '12px', color: '#f8fafc', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)' }}
-                  itemStyle={{ color: '#38bdf8', fontWeight: 'bold' }}
-                  labelStyle={{ color: '#f8fafc', fontWeight: 'bold' }}
+                  contentStyle={{ backgroundColor: '#ffffff', borderColor: '#2563eb', borderRadius: '12px', fontSize: '12px', color: '#0f172a', boxShadow: '0 10px 25px -5px rgba(37, 99, 235, 0.15)' }}
+                  itemStyle={{ color: '#2563eb', fontWeight: 'bold' }}
+                  labelStyle={{ color: '#0f172a', fontWeight: 'bold' }}
                   formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, 'Discount Waiver']}
                 />
-                <Bar dataKey="discountAmount" fill="#14b8a6" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="discountAmount" fill="#2563eb" radius={[6, 6, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
         {/* Chart 2: Reason Breakdown */}
-        <div className="glass-card p-5 rounded-2xl border border-slate-800">
+        <div className="glass-card p-5 rounded-2xl border border-slate-200">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
-              <PieIcon className="w-4 h-4 text-purple-400" />
-              <h3 className="font-bold text-sm text-slate-200">Requests Breakdown by Reason Category</h3>
+              <PieIcon className="w-4 h-4 text-indigo-600" />
+              <h3 className="font-bold text-sm text-slate-900">Requests Breakdown by Reason Category</h3>
             </div>
-            <span className="text-[10px] text-slate-400 uppercase font-semibold">Proportion</span>
+            <span className="text-[10px] text-slate-500 uppercase font-semibold">Proportion</span>
           </div>
 
           <div className="h-64 w-full">
@@ -259,12 +259,12 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
                   ))}
                 </Pie>
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#0f172a', borderColor: '#38bdf8', borderRadius: '12px', fontSize: '12px', color: '#f8fafc', boxShadow: '0 10px 25px -5px rgba(0,0,0,0.5)' }}
-                  itemStyle={{ color: '#38bdf8', fontWeight: 'bold' }}
-                  labelStyle={{ color: '#f8fafc', fontWeight: 'bold' }}
+                  contentStyle={{ backgroundColor: '#ffffff', borderColor: '#2563eb', borderRadius: '12px', fontSize: '12px', color: '#0f172a', boxShadow: '0 10px 25px -5px rgba(37, 99, 235, 0.15)' }}
+                  itemStyle={{ color: '#2563eb', fontWeight: 'bold' }}
+                  labelStyle={{ color: '#0f172a', fontWeight: 'bold' }}
                   formatter={(val, name) => [`${val} Request(s)`, name]}
                 />
-                <Legend wrapperStyle={{ fontSize: '11px', color: '#cbd5e1' }} />
+                <Legend wrapperStyle={{ fontSize: '11px', color: '#475569' }} />
               </PieChart>
             </ResponsiveContainer>
           </div>
@@ -273,7 +273,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
       </div>
 
       {/* Search & Filter Bar */}
-      <div className="glass-card p-4 rounded-2xl border border-slate-800 space-y-3">
+      <div className="glass-card p-4 rounded-2xl border border-slate-200 space-y-3">
         <div className="flex flex-col md:flex-row items-center justify-between gap-3">
           
           {/* Search Box */}
@@ -283,7 +283,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
               placeholder="Search patient, ID, doctor, or code..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-100 focus:outline-none focus:border-teal-500"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-4 py-2 text-xs text-slate-900 focus:outline-none focus:border-blue-600"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
           </div>
@@ -292,7 +292,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
           <div className="flex items-center gap-2 flex-wrap w-full md:w-auto justify-end">
             
             {/* Status Filter */}
-            <div className="flex items-center gap-1.5 bg-slate-900 p-1.5 rounded-xl border border-slate-800 w-full md:w-auto overflow-x-auto no-scrollbar scroll-px-2">
+            <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full md:w-auto overflow-x-auto no-scrollbar scroll-px-2">
               {['ALL', 'PENDING', 'PENDING_CFO', 'APPROVED', 'REJECTED'].map(st => {
                 let label = 'All';
                 if (st === 'PENDING') label = 'Pending';
@@ -305,8 +305,8 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
                     onClick={() => setStatusFilter(st)}
                     className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex-shrink-0 whitespace-nowrap min-w-max ${
                       statusFilter === st 
-                        ? 'bg-teal-500 text-slate-950 shadow-sm' 
-                        : 'text-slate-400 hover:text-slate-200'
+                        ? 'bg-blue-600 text-white shadow-sm' 
+                        : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     {label}
@@ -319,7 +319,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
             <select
               value={authorityFilter}
               onChange={e => setAuthorityFilter(e.target.value)}
-              className="bg-slate-900 border border-slate-700 rounded-xl pl-4 pr-8 py-2 text-xs text-slate-200 focus:outline-none font-semibold w-full md:w-auto max-w-full truncate"
+              className="bg-slate-50 border border-slate-300 rounded-xl pl-4 pr-8 py-2 text-xs text-slate-900 focus:outline-none font-semibold w-full md:w-auto max-w-full truncate"
             >
               <option value="ALL">All Approval Procedure Tiers</option>
               <option value="BILLING_MANAGER">Finance Manager (Up to ₹25,000/-)</option>
@@ -331,7 +331,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
             <select
               value={serviceFilter}
               onChange={e => setServiceFilter(e.target.value)}
-              className="bg-slate-900 border border-teal-500/40 text-teal-300 rounded-xl pl-4 pr-8 py-2 text-xs focus:outline-none font-semibold w-full md:w-auto max-w-full truncate"
+              className="bg-slate-50 border border-blue-200 text-blue-900 rounded-xl pl-4 pr-8 py-2 text-xs focus:outline-none font-semibold w-full md:w-auto max-w-full truncate"
             >
               <option value="ALL">All Hospital Services</option>
               {services.map(s => (
@@ -343,7 +343,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
             <select
               value={matrixFilter}
               onChange={e => setMatrixFilter(e.target.value)}
-              className="bg-slate-900 border border-cyan-500/50 text-cyan-300 rounded-xl pl-4 pr-8 py-2 text-xs focus:outline-none font-bold w-full md:w-auto max-w-full truncate"
+              className="bg-slate-50 border border-indigo-200 text-indigo-900 rounded-xl pl-4 pr-8 py-2 text-xs focus:outline-none font-bold w-full md:w-auto max-w-full truncate"
             >
               <option value="ALL">All Matrix Tiers</option>
               <option value="10">10% Matrix</option>
@@ -359,9 +359,9 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
 
       {/* Requests Grid */}
       {filteredRequests.length === 0 ? (
-        <div className="glass-card p-12 text-center rounded-2xl border border-slate-800">
-          <ShieldAlert className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-          <h4 className="font-bold text-slate-300">No discount requests found</h4>
+        <div className="glass-card p-12 text-center rounded-2xl border border-slate-200">
+          <ShieldAlert className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+          <h4 className="font-bold text-slate-700">No discount requests found</h4>
           <p className="text-xs text-slate-500 mt-1">Try resetting search filters or submit a new discount request.</p>
         </div>
       ) : (

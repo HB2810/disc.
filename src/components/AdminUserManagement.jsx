@@ -147,12 +147,12 @@ export const AdminUserManagement = () => {
   if (!isAdmin) {
     const adminUser = users.find(u => u.role === 'ADMIN');
     return (
-      <div className="glass-card p-12 text-center rounded-3xl border border-rose-500/30 max-w-2xl mx-auto my-12 shadow-2xl">
-        <div className="h-16 w-16 rounded-2xl bg-rose-500/10 text-rose-400 border border-rose-500/30 flex items-center justify-center mx-auto mb-4">
+      <div className="glass-card p-12 text-center rounded-3xl border border-rose-200 bg-white max-w-2xl mx-auto my-12 shadow-xl text-slate-900">
+        <div className="h-16 w-16 rounded-2xl bg-rose-50 text-rose-600 border border-rose-200 flex items-center justify-center mx-auto mb-4">
           <ShieldCheck className="w-8 h-8" />
         </div>
-        <h3 className="text-xl font-bold text-slate-100">Admin Authorization Required</h3>
-        <p className="text-sm text-slate-400 mt-2 max-w-md mx-auto">
+        <h3 className="text-xl font-bold text-slate-900">Admin Authorization Required</h3>
+        <p className="text-sm text-slate-600 mt-2 max-w-md mx-auto">
           Only an authorized <strong>System Administrator (ADMIN)</strong> can create, edit, or assign multi-tier authority roles to users.
         </p>
         <div className="mt-6">
@@ -160,7 +160,7 @@ export const AdminUserManagement = () => {
             onClick={() => {
               if (adminUser) setActiveUser(adminUser);
             }}
-            className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-amber-500 text-slate-950 font-bold text-sm shadow-lg shadow-rose-500/20 hover:from-rose-400 hover:to-amber-400 transition-all"
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 transition-all"
           >
             Switch to Admin Role ({adminUser ? adminUser.name : 'System Admin'})
           </button>
@@ -170,18 +170,17 @@ export const AdminUserManagement = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 text-slate-900">
       
       {/* Top Banner Notice */}
-      <div className="glass-card p-6 rounded-2xl border border-teal-500/20 bg-gradient-to-r from-slate-900 via-slate-900 to-teal-950/40 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-teal-500/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
+      <div className="glass-card p-6 rounded-2xl border border-blue-200 bg-white relative overflow-hidden shadow-sm">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <ShieldCheck className="w-6 h-6 text-teal-400" />
-              <h2 className="text-xl font-bold text-slate-100">Multi-Tier Role Hierarchy & Department Control</h2>
+              <ShieldCheck className="w-6 h-6 text-blue-600" />
+              <h2 className="text-xl font-bold text-slate-900">Multi-Tier Role Hierarchy & Department Control</h2>
             </div>
-            <p className="text-sm text-slate-400 mt-1 max-w-2xl">
+            <p className="text-sm text-slate-600 mt-1 max-w-2xl font-medium">
               Configure Chief Accountant, CFO, MD, Vice Chairman, Chairman, and Billing Department users for permission routing.
             </p>
           </div>
@@ -201,7 +200,7 @@ export const AdminUserManagement = () => {
               });
               setShowAddModal(true);
             }}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-400 text-slate-950 font-black text-sm shadow-lg shadow-teal-500/20 hover:from-teal-300 hover:to-emerald-300 transition-all active:scale-95 whitespace-nowrap"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 transition-all active:scale-95 whitespace-nowrap"
           >
             <UserPlus className="w-4 h-4" />
             Create Authority User
@@ -210,62 +209,62 @@ export const AdminUserManagement = () => {
       </div>
 
       {/* Visual Role Hierarchy Card */}
-      <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+      <div className="glass-card p-5 rounded-2xl border border-slate-200 bg-white space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-teal-400" />
-            <h3 className="font-bold text-base text-slate-100">Hospital Billing & Discount Role Hierarchy Structure</h3>
+            <Sparkles className="w-5 h-5 text-blue-600" />
+            <h3 className="font-bold text-base text-slate-900">Hospital Billing & Discount Role Hierarchy Structure</h3>
           </div>
-          <span className="text-xs text-teal-400 font-mono font-semibold">6-Tier Multi-Level Workflow</span>
+          <span className="text-xs text-blue-700 font-mono font-bold">6-Tier Multi-Level Workflow</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-          <div className="p-4 rounded-xl bg-slate-900/90 border border-cyan-500/40 flex flex-col justify-between space-y-2">
+          <div className="p-4 rounded-xl bg-blue-50/60 border border-blue-200 flex flex-col justify-between space-y-2">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-xs uppercase font-extrabold text-cyan-400">Tier 1 Approval</span>
-                <span className="text-xs px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300 font-extrabold">Up to ₹25,000/-</span>
+                <span className="text-xs uppercase font-extrabold text-blue-800">Tier 1 Approval</span>
+                <span className="text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-900 border border-blue-200 font-extrabold">Up to ₹25,000/-</span>
               </div>
-              <p className="font-extrabold text-sm text-slate-100 mt-2">FINANCE MANAGER</p>
-              <p className="text-xs text-cyan-300 font-medium">Finance Manager / Chief Accountant Desk</p>
+              <p className="font-extrabold text-sm text-slate-900 mt-2">FINANCE MANAGER</p>
+              <p className="text-xs text-blue-700 font-semibold">Finance Manager / Chief Accountant Desk</p>
             </div>
-            <p className="text-xs text-slate-400 border-t border-slate-800 pt-2">All Department requests up to ₹25,000/- routed for approval</p>
+            <p className="text-xs text-slate-600 border-t border-blue-200/80 pt-2 font-medium">All Department requests up to ₹25,000/- routed for approval</p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900/90 border border-purple-500/40 flex flex-col justify-between space-y-2">
+          <div className="p-4 rounded-xl bg-purple-50/60 border border-purple-200 flex flex-col justify-between space-y-2">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-xs uppercase font-extrabold text-purple-400">Tier 2 Approval</span>
-                <span className="text-xs px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-extrabold">₹25,000/- to ₹2,00,000/-</span>
+                <span className="text-xs uppercase font-extrabold text-purple-800">Tier 2 Approval</span>
+                <span className="text-xs px-2 py-0.5 rounded bg-purple-100 text-purple-900 border border-purple-200 font-extrabold">₹25,000/- to ₹2,00,000/-</span>
               </div>
-              <p className="font-extrabold text-sm text-slate-100 mt-2">CFO</p>
-              <p className="text-xs text-purple-300 font-medium">Chief Financial Officer (CFO)</p>
+              <p className="font-extrabold text-sm text-slate-900 mt-2">CFO</p>
+              <p className="text-xs text-purple-700 font-semibold">Chief Financial Officer (CFO)</p>
             </div>
-            <p className="text-xs text-slate-400 border-t border-slate-800 pt-2">All Department requests above ₹25,000/- to ₹2,00,000/-</p>
+            <p className="text-xs text-slate-600 border-t border-purple-200/80 pt-2 font-medium">All Department requests above ₹25,000/- to ₹2,00,000/-</p>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900/90 border border-amber-500/40 flex flex-col justify-between space-y-2">
+          <div className="p-4 rounded-xl bg-amber-50/60 border border-amber-200 flex flex-col justify-between space-y-2">
             <div>
               <div className="flex items-center justify-between">
-                <span className="text-xs uppercase font-extrabold text-amber-400">Tier 3 Executive</span>
-                <span className="text-xs px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 font-extrabold">Above ₹2,00,000/-</span>
+                <span className="text-xs uppercase font-extrabold text-amber-800">Tier 3 Executive</span>
+                <span className="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-200 font-extrabold">Above ₹2,00,000/-</span>
               </div>
-              <p className="font-extrabold text-sm text-slate-100 mt-2">MD / VICE CHAIRMAN / CHAIRMAN / DIRECTOR</p>
-              <p className="text-xs text-amber-300 font-medium">Executive Management Board</p>
+              <p className="font-extrabold text-sm text-slate-900 mt-2">MD / VICE CHAIRMAN / CHAIRMAN / DIRECTOR</p>
+              <p className="text-xs text-amber-700 font-semibold">Executive Management Board</p>
             </div>
-            <p className="text-xs text-slate-400 border-t border-slate-800 pt-2">All Department requests exceeding ₹2,00,000/- & Direct Grants</p>
+            <p className="text-xs text-slate-600 border-t border-amber-200/80 pt-2 font-medium">All Department requests exceeding ₹2,00,000/- & Direct Grants</p>
           </div>
         </div>
       </div>
 
       {/* Admin Department Control Box */}
-      <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+      <div className="glass-card p-5 rounded-2xl border border-slate-200 bg-white space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Building className="w-5 h-5 text-teal-400" />
-            <h3 className="font-bold text-base text-slate-100">Hospital Departments Directory</h3>
+            <Building className="w-5 h-5 text-blue-600" />
+            <h3 className="font-bold text-base text-slate-900">Hospital Departments Directory</h3>
           </div>
-          <span className="text-xs text-slate-400 font-mono">{departments.length} Departments Active</span>
+          <span className="text-xs text-slate-500 font-mono font-medium">{departments.length} Departments Active</span>
         </div>
 
         <form 
@@ -284,11 +283,11 @@ export const AdminUserManagement = () => {
             placeholder="Type new department name (e.g. Cardiology, Neurosurgery, ICU)..."
             value={newDeptName}
             onChange={e => setNewDeptName(e.target.value)}
-            className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+            className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
           />
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl bg-teal-500/20 hover:bg-teal-500/30 text-teal-300 border border-teal-500/40 text-xs font-bold transition-all active:scale-95"
+            className="px-5 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition-all active:scale-95"
           >
             + Add Department
           </button>
@@ -298,13 +297,13 @@ export const AdminUserManagement = () => {
           {departments.map((dept) => (
             <div 
               key={dept}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 border border-slate-800 text-xs font-semibold text-slate-200"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-50 border border-slate-200 text-xs font-semibold text-slate-800"
             >
               <span>{dept}</span>
               <button
                 type="button"
                 onClick={() => deleteDepartment(dept)}
-                className="text-slate-500 hover:text-rose-400 text-xs font-bold"
+                className="text-slate-400 hover:text-rose-600 text-xs font-bold"
                 title="Remove Department"
               >
                 ✕
@@ -315,13 +314,13 @@ export const AdminUserManagement = () => {
       </div>
 
       {/* Admin Hospital Services Control Box */}
-      <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+      <div className="glass-card p-5 rounded-2xl border border-slate-200 bg-white space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-cyan-400" />
-            <h3 className="font-bold text-base text-slate-100">Hospital Billing Services Directory</h3>
+            <Sparkles className="w-5 h-5 text-blue-600" />
+            <h3 className="font-bold text-base text-slate-900">Hospital Billing Services Directory</h3>
           </div>
-          <span className="text-xs text-cyan-400 font-mono font-semibold">{services.length} Services Configured</span>
+          <span className="text-xs text-blue-700 font-mono font-semibold">{services.length} Services Configured</span>
         </div>
 
         <form 
@@ -340,11 +339,11 @@ export const AdminUserManagement = () => {
             placeholder="Type new service name (e.g. Consultation Fees, Pathology, MRI, Open MRI, Pharmacy, IPD)..."
             value={newServiceName}
             onChange={e => setNewServiceName(e.target.value)}
-            className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-cyan-500"
+            className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
           />
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 text-xs font-bold transition-all active:scale-95"
+            className="px-5 py-2.5 rounded-xl bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-bold transition-all active:scale-95"
           >
             + Add Service
           </button>
@@ -354,16 +353,16 @@ export const AdminUserManagement = () => {
           {services.map((srv) => (
             <div 
               key={srv}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-cyan-500/30 text-xs font-semibold text-cyan-200"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-blue-50/60 border border-blue-200 text-xs font-semibold text-blue-900"
             >
               <span>{srv}</span>
-              <span className="text-[10px] px-1.5 py-0.5 rounded bg-cyan-500/10 text-cyan-300 border border-cyan-500/20 font-normal">
+              <span className="text-[10px] px-1.5 py-0.5 rounded bg-blue-100 text-blue-800 border border-blue-200 font-normal">
                 {getDepartmentForService ? getDepartmentForService(srv) : 'General'}
               </span>
               <button
                 type="button"
                 onClick={() => deleteService(srv)}
-                className="text-slate-500 hover:text-rose-400 text-xs font-bold"
+                className="text-slate-400 hover:text-rose-600 text-xs font-bold"
                 title="Remove Service"
               >
                 ✕
@@ -374,19 +373,19 @@ export const AdminUserManagement = () => {
       </div>
 
       {/* Admin Hospital Doctors Control Box */}
-      <div className="glass-card p-5 rounded-2xl border border-slate-800 space-y-4">
+      <div className="glass-card p-5 rounded-2xl border border-slate-200 bg-white space-y-4 shadow-sm">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Stethoscope className="w-5 h-5 text-emerald-400" />
-            <h3 className="font-bold text-base text-slate-100">Hospital Doctors Directory</h3>
+            <Stethoscope className="w-5 h-5 text-emerald-600" />
+            <h3 className="font-bold text-base text-slate-900">Hospital Doctors Directory</h3>
           </div>
           <div className="flex items-center gap-3">
-            <span className="text-xs text-emerald-400 font-mono font-semibold">{doctors?.length || 0} Attending Doctors</span>
+            <span className="text-xs text-emerald-700 font-mono font-semibold">{doctors?.length || 0} Attending Doctors</span>
             {doctors && doctors.length > 0 && (
               <button
                 type="button"
                 onClick={clearAllDoctors}
-                className="px-2.5 py-1 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/30 text-[11px] font-bold transition-all"
+                className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-[11px] font-bold transition-all"
               >
                 Clear All Preset Doctors
               </button>
@@ -410,11 +409,11 @@ export const AdminUserManagement = () => {
             placeholder="Type new doctor name (e.g. Dr. Sarah Jenkins, Dr. Rajesh Kumar, Dr. Elena Rostova)..."
             value={newDoctorName}
             onChange={e => setNewDoctorName(e.target.value)}
-            className="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-slate-100 focus:outline-none focus:border-emerald-500"
+            className="flex-1 bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
           />
           <button
             type="submit"
-            className="px-5 py-2.5 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition-all active:scale-95"
+            className="px-5 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 text-xs font-bold transition-all active:scale-95"
           >
             + Add Doctor
           </button>
@@ -424,14 +423,14 @@ export const AdminUserManagement = () => {
           {doctors?.map((doc) => (
             <div 
               key={doc}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900/90 border border-emerald-500/30 text-xs font-semibold text-emerald-200"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-50/60 border border-emerald-200 text-xs font-semibold text-emerald-900"
             >
-              <Stethoscope className="w-3.5 h-3.5 text-emerald-400" />
+              <Stethoscope className="w-3.5 h-3.5 text-emerald-600" />
               <span>{doc}</span>
               <button
                 type="button"
                 onClick={() => deleteDoctor(doc)}
-                className="text-slate-500 hover:text-rose-400 text-xs font-bold ml-1"
+                className="text-slate-400 hover:text-rose-600 text-xs font-bold ml-1"
                 title="Remove Doctor"
               >
                 ✕
@@ -442,34 +441,34 @@ export const AdminUserManagement = () => {
       </div>
 
       {/* Approval Procedure Financial Threshold Reference Card */}
-      <div className="p-5 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
+      <div className="p-5 rounded-2xl bg-white border border-slate-200 space-y-3 shadow-sm">
         <div className="flex items-center justify-between">
-          <h3 className="text-sm font-bold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-            <ShieldCheck className="w-4 h-4 text-teal-400" />
+          <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider flex items-center gap-2">
+            <ShieldCheck className="w-4 h-4 text-blue-600" />
             Hospital Approval Procedure Financial Limits
           </h3>
-          <span className="text-[10px] text-teal-300 bg-teal-500/10 px-2 py-0.5 rounded border border-teal-500/30 font-semibold">
+          <span className="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-bold">
             Official Routing Limits
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <div className="p-3.5 rounded-xl bg-slate-950 border border-teal-500/30 text-center space-y-1">
-            <span className="text-xs text-slate-400 font-bold block uppercase tracking-wide">Tier 1 Approval</span>
-            <span className="text-lg font-extrabold text-teal-400 block">Up to ₹10,000/-</span>
-            <span className="text-xs text-teal-300 font-semibold block">Trf to Finance Manager</span>
+          <div className="p-3.5 rounded-xl bg-blue-50/60 border border-blue-200 text-center space-y-1">
+            <span className="text-xs text-slate-600 font-bold block uppercase tracking-wide">Tier 1 Approval</span>
+            <span className="text-lg font-extrabold text-blue-700 block">Up to ₹10,000/-</span>
+            <span className="text-xs text-blue-800 font-semibold block">Trf to Finance Manager</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-950 border border-amber-500/30 text-center space-y-1">
-            <span className="text-xs text-slate-400 font-bold block uppercase tracking-wide">Tier 2 Approval</span>
-            <span className="text-lg font-extrabold text-amber-400 block">Above ₹10,000/- - ₹2,00,000/-</span>
-            <span className="text-xs text-amber-300 font-semibold block">Trf to CFO</span>
+          <div className="p-3.5 rounded-xl bg-amber-50/60 border border-amber-200 text-center space-y-1">
+            <span className="text-xs text-slate-600 font-bold block uppercase tracking-wide">Tier 2 Approval</span>
+            <span className="text-lg font-extrabold text-amber-700 block">Above ₹10,000/- - ₹2,00,000/-</span>
+            <span className="text-xs text-amber-800 font-semibold block">Trf to CFO</span>
           </div>
 
-          <div className="p-3.5 rounded-xl bg-slate-950 border border-rose-500/30 text-center space-y-1">
-            <span className="text-xs text-slate-400 font-bold block uppercase tracking-wide">Tier 3 Approval</span>
-            <span className="text-lg font-extrabold text-rose-400 block">Above ₹2,00,000/-</span>
-            <span className="text-xs text-rose-300 font-semibold block">Director (Managing Director)</span>
+          <div className="p-3.5 rounded-xl bg-rose-50/60 border border-rose-200 text-center space-y-1">
+            <span className="text-xs text-slate-600 font-bold block uppercase tracking-wide">Tier 3 Approval</span>
+            <span className="text-lg font-extrabold text-rose-700 block">Above ₹2,00,000/-</span>
+            <span className="text-xs text-rose-800 font-semibold block">Director (Managing Director)</span>
           </div>
         </div>
       </div>
@@ -477,37 +476,30 @@ export const AdminUserManagement = () => {
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {users.map(user => {
-          const isChairman = user.role === 'CHAIRMAN';
-          const isVChairman = user.role === 'VICE_CHAIRMAN';
-          const isMD = user.role === 'MD';
-          const isCFO = user.role === 'CFO';
-          const isCA = user.role === 'CHIEF_ACCOUNTANT';
-          const isRec = user.role === 'RECEPTIONIST';
-
           return (
             <div 
               key={user.id} 
-              className={`glass-card p-5 rounded-2xl relative transition-all duration-200 hover:border-teal-500/40 ${
-                user.id === activeUser.id ? 'ring-2 ring-teal-500/80 bg-slate-900/90' : ''
+              className={`glass-card p-5 rounded-2xl bg-white border relative transition-all duration-200 hover:border-blue-400 shadow-sm ${
+                user.id === activeUser.id ? 'ring-2 ring-blue-600 border-blue-400' : 'border-slate-200'
               }`}
             >
               {user.id === activeUser.id && (
-                <span className="absolute top-4 right-4 text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-md bg-teal-400 text-slate-950">
+                <span className="absolute top-4 right-4 text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-md bg-blue-600 text-white shadow-sm">
                   Logged In As
                 </span>
               )}
 
               <div className="flex items-start gap-4">
-                <div className="h-12 w-12 rounded-xl bg-slate-800 border border-slate-700 overflow-hidden flex-shrink-0 flex items-center justify-center">
+                <div className="h-12 w-12 rounded-xl bg-blue-50 border border-blue-200 overflow-hidden flex-shrink-0 flex items-center justify-center">
                   {user.avatar ? (
                     <img src={user.avatar} alt={user.name} className="h-full w-full object-cover" />
                   ) : (
-                    <UserCircle className="w-8 h-8 text-slate-400" />
+                    <UserCircle className="w-8 h-8 text-blue-600" />
                   )}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-base text-slate-100 truncate">{user.name}</h3>
+                  <h3 className="font-bold text-base text-slate-900 truncate">{user.name}</h3>
                   
                   {editingDesignationId === user.id ? (
                     <div className="mt-1 flex items-center gap-1">
@@ -530,7 +522,7 @@ export const AdminUserManagement = () => {
                             setEditingDesignationId(null);
                           }
                         }}
-                        className="bg-slate-950 border border-teal-500 rounded px-2 py-0.5 text-xs text-teal-300 font-bold focus:outline-none w-full"
+                        className="bg-white border border-blue-600 rounded px-2 py-0.5 text-xs text-blue-800 font-bold focus:outline-none w-full"
                       />
                     </div>
                   ) : (
@@ -541,11 +533,11 @@ export const AdminUserManagement = () => {
                           setEditingDesignationText(user.designation || '');
                         }
                       }}
-                      className="text-xs text-slate-400 font-medium hover:text-teal-300 cursor-pointer flex items-center gap-1 group/desig"
+                      className="text-xs text-slate-500 font-medium hover:text-blue-700 cursor-pointer flex items-center gap-1 group/desig"
                       title="Click to edit Designation"
                     >
                       <span className="truncate">{user.designation || 'Click to set Designation'}</span>
-                      <Edit3 className="w-3 h-3 opacity-0 group-hover/desig:opacity-100 text-teal-400 flex-shrink-0" />
+                      <Edit3 className="w-3 h-3 opacity-0 group-hover/desig:opacity-100 text-blue-600 flex-shrink-0" />
                     </p>
                   )}
                   
@@ -554,7 +546,7 @@ export const AdminUserManagement = () => {
                       {user.role} ({getRoleMeta(user.role).tier})
                     </span>
 
-                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1">
+                    <span className="text-[11px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 flex items-center gap-1">
                       <Building className="w-3 h-3 text-slate-400" />
                       {user.department}
                     </span>
@@ -563,23 +555,23 @@ export const AdminUserManagement = () => {
               </div>
 
               {/* Login Credentials Strip (Admin Viewable) */}
-              <div className="mt-3 p-3 rounded-xl bg-slate-950/90 border border-slate-800/80 space-y-1.5 text-xs">
+              <div className="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 space-y-1.5 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">User ID / Username:</span>
-                  <span className="font-mono font-bold text-cyan-300 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+                  <span className="text-[10px] uppercase font-bold text-slate-500">User ID / Username:</span>
+                  <span className="font-mono font-bold text-blue-800 bg-blue-50 px-2 py-0.5 rounded border border-blue-200">
                     {user.username || 'N/A'}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] uppercase font-bold text-slate-400">Password:</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-500">Password:</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="font-mono text-amber-300">
+                    <span className="font-mono font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">
                       {showPasswordMap[user.id] ? user.password || 'Pass@123' : '••••••••••••'}
                     </span>
                     <button
                       type="button"
                       onClick={() => toggleCardPassword(user.id)}
-                      className="text-[10px] text-slate-400 hover:text-slate-200 underline ml-1"
+                      className="text-[10px] text-blue-600 hover:text-blue-800 font-bold ml-1"
                     >
                       {showPasswordMap[user.id] ? 'Hide' : 'Show'}
                     </button>
@@ -588,22 +580,22 @@ export const AdminUserManagement = () => {
               </div>
 
               {/* Contact Info for Notifications */}
-              <div className="mt-3 space-y-1.5 text-xs text-slate-400">
+              <div className="mt-3 space-y-1.5 text-xs text-slate-600 font-medium">
                 <div className="flex items-center gap-2">
-                  <Phone className="w-3.5 h-3.5 text-slate-500" />
+                  <Phone className="w-3.5 h-3.5 text-slate-400" />
                   <span>{user.phone}</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-3.5 h-3.5 text-slate-500" />
+                  <Mail className="w-3.5 h-3.5 text-slate-400" />
                   <span className="truncate">{user.email}</span>
                 </div>
               </div>
 
               {/* Actions */}
-              <div className="mt-4 pt-3 border-t border-slate-800 flex items-center justify-end gap-2">
+              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center justify-end gap-2">
                 <button
                   onClick={() => handleEdit(user)}
-                  className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition-colors"
+                  className="p-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 transition-colors"
                   title="Edit Limits & Profile"
                 >
                   <Edit3 className="w-3.5 h-3.5" />
@@ -611,7 +603,7 @@ export const AdminUserManagement = () => {
                 {user.role !== 'ADMIN' && (
                   <button
                     onClick={() => deleteUser(user.id)}
-                    className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 transition-colors"
+                    className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-colors"
                     title="Delete User"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
@@ -625,18 +617,18 @@ export const AdminUserManagement = () => {
 
       {/* Modal for Adding / Editing Authority User */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fadeIn">
-          <div className="glass-card w-full max-w-lg rounded-2xl p-6 border border-slate-700 shadow-2xl relative">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4 mb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-fadeIn">
+          <div className="glass-card w-full max-w-lg rounded-2xl p-6 bg-white border border-slate-200 shadow-2xl relative text-slate-900">
+            <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-5 h-5 text-teal-400" />
-                <h3 className="font-bold text-lg text-slate-100">
+                <ShieldCheck className="w-5 h-5 text-blue-600" />
+                <h3 className="font-bold text-lg text-slate-900">
                   {editingUserId ? 'Edit Authority Profile' : 'Create Authority User'}
                 </h3>
               </div>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="text-slate-400 hover:text-slate-200 font-bold text-lg"
+                className="text-slate-400 hover:text-slate-700 font-bold text-lg"
               >
                 ✕
               </button>
@@ -645,43 +637,43 @@ export const AdminUserManagement = () => {
             <form onSubmit={handleCreateUser} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Full Name *</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Full Name *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. Robert Hoffman"
                     value={formData.name}
                     onChange={e => handleNameChange(e.target.value)}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-cyan-300 mb-1">User ID / Username</label>
+                  <label className="block text-xs font-bold text-blue-700 mb-1">User ID / Username</label>
                   <input
                     type="text"
                     placeholder="e.g. ca_robert (auto-generated if empty)"
                     value={formData.username}
                     onChange={e => setFormData({ ...formData, username: e.target.value })}
-                    className="w-full bg-slate-900 border border-cyan-500/50 rounded-xl px-3.5 py-2 text-sm text-cyan-300 font-mono focus:outline-none focus:border-cyan-400"
+                    className="w-full bg-slate-50 border border-blue-200 rounded-xl px-3.5 py-2 text-sm text-blue-900 font-mono focus:outline-none focus:border-blue-600 font-medium transition-all"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-amber-300 mb-1">Account Password</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1">Account Password</label>
                 <div className="relative">
                   <input
                     type={showFormPassword ? "text" : "password"}
                     placeholder="Enter password (default: Pass@123)"
                     value={formData.password}
                     onChange={e => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full bg-slate-900 border border-amber-500/50 rounded-xl pl-3.5 pr-20 py-2 text-sm text-amber-200 font-mono focus:outline-none focus:border-amber-400"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-3.5 pr-20 py-2 text-sm text-slate-900 font-mono focus:outline-none focus:border-blue-600 font-medium transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowFormPassword(!showFormPassword)}
-                    className="absolute right-3 top-2.5 text-xs text-slate-400 hover:text-slate-200 font-semibold"
+                    className="absolute right-3 top-2.5 text-xs text-blue-600 hover:text-blue-800 font-bold"
                   >
                     {showFormPassword ? "Hide" : "Show"}
                   </button>
@@ -690,22 +682,22 @@ export const AdminUserManagement = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Designation</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Designation</label>
                   <input
                     type="text"
                     placeholder="e.g. Chief Accountant"
                     value={formData.designation}
                     onChange={e => setFormData({ ...formData, designation: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Role Hierarchy</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Role Hierarchy</label>
                   <select
                     value={formData.role}
                     onChange={e => setFormData({ ...formData, role: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
                   >
                     <option value="DOCTOR">DOCTOR (Attending Doctor Signatory & Confirmation)</option>
                     <option value="BILLING_CLERK">BILLING_CLERK (Junior Billing Person)</option>
@@ -723,13 +715,13 @@ export const AdminUserManagement = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1">
+                <label className="block text-xs font-bold text-slate-700 mb-1">
                   Department
                 </label>
                 <select
                   value={formData.department}
                   onChange={e => setFormData({ ...formData, department: e.target.value })}
-                  className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
                 >
                   {departments.map(d => (
                     <option key={d} value={d}>{d}</option>
@@ -739,39 +731,39 @@ export const AdminUserManagement = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Mobile Phone (For SMS)</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Mobile Phone (For SMS)</label>
                   <input
                     type="text"
                     placeholder="e.g. +1 (555) 000-0000"
                     value={formData.phone}
                     onChange={e => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
                   <input
                     type="email"
                     placeholder="e.g. official@hospital.com"
                     value={formData.email}
                     onChange={e => setFormData({ ...formData, email: e.target.value })}
-                    className="w-full bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2 text-sm text-slate-100 focus:outline-none focus:border-teal-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium transition-all"
                   />
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-slate-800 flex justify-end gap-3">
+              <div className="pt-4 border-t border-slate-200 flex justify-end gap-3">
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-semibold"
+                  className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-sm font-semibold transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-teal-400 to-emerald-400 text-slate-950 font-black text-sm shadow-lg shadow-teal-500/20"
+                  className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 active:scale-95 transition-all"
                 >
                   {editingUserId ? 'Save Changes' : 'Create User'}
                 </button>

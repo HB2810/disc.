@@ -8,19 +8,11 @@ import {
   EyeOff, 
   ArrowRight, 
   ShieldCheck, 
-  KeyRound, 
-  AlertCircle, 
-  CheckCircle2,
-  Stethoscope,
-  Sparkles,
-  Globe,
-  Copy,
-  Check,
-  ExternalLink
+  AlertCircle
 } from 'lucide-react';
 
 export const LoginPage = () => {
-  const { users, login, triggerToast, getRoleMeta } = useApp();
+  const { login } = useApp();
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -42,49 +34,31 @@ export const LoginPage = () => {
     }, 400);
   };
 
-  const handleSelectDemoUser = (u) => {
-    setUsername(u.username || u.email || u.name);
-    setPassword(u.password || 'Pass@123');
-    setErrorMsg('');
-  };
-
   return (
-    <div className="min-h-screen w-full bg-slate-950 flex flex-col justify-between relative overflow-hidden font-sans selection:bg-teal-500 selection:text-slate-950">
+    <div className="min-h-screen w-full bg-slate-50 flex flex-col justify-between relative overflow-hidden font-sans selection:bg-blue-600 selection:text-white">
       
-      {/* Background Gradients & Glow Effects */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-teal-500/10 rounded-full blur-[140px] pointer-events-none"></div>
+      {/* Background Ambient Glow Effects */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-[140px] pointer-events-none"></div>
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] pointer-events-none"></div>
-      <div className="absolute top-1/2 right-10 w-[300px] h-[300px] bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none"></div>
+      <div className="absolute top-1/2 right-10 w-[300px] h-[300px] bg-sky-500/10 rounded-full blur-[100px] pointer-events-none"></div>
 
       {/* Top Navbar Brand Bar */}
       <header className="px-6 lg:px-12 py-6 flex items-center justify-between relative z-10">
         <div className="flex items-center gap-3">
-          <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-teal-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-teal-500/25 text-slate-950 font-extrabold text-xl">
+          <div className="h-11 w-11 rounded-2xl bg-gradient-to-tr from-blue-600 via-blue-700 to-indigo-600 flex items-center justify-center shadow-md shadow-blue-600/20 text-white font-extrabold text-xl">
             <Building2 className="w-6 h-6 stroke-[2.5]" />
           </div>
           <div>
-            <h1 className="font-extrabold text-xl text-slate-100 tracking-tight flex items-center gap-2">
-              Stavya Spine Hospital <span className="text-xs px-2 py-0.5 rounded-md font-bold bg-sky-500/20 text-sky-300 border border-sky-500/30">Stavya Intelligence</span>
+            <h1 className="font-extrabold text-xl text-slate-900 tracking-tight flex items-center gap-2">
+              Stavya Spine Hospital <span className="text-xs px-2 py-0.5 rounded-md font-bold bg-blue-50 text-blue-700 border border-blue-200">Stavya Intelligence</span>
             </h1>
-            <p className="text-xs text-slate-400">Research Institute Pvt. Ltd. • Discount Permission Portal</p>
+            <p className="text-xs text-slate-500">Research Institute Pvt. Ltd. • Discount Permission Portal</p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 text-xs text-slate-400 bg-slate-900/80 px-3.5 py-1.5 rounded-xl border border-slate-800">
-            <span className="h-2 w-2 rounded-full bg-emerald-400 pulse-badge"></span>
-            <span>Stavya System Active • Live Sync</span>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setShowCommonModal(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 text-xs font-bold transition-all active:scale-95 shadow-sm"
-            title="Open Common Access Link Options for Network Devices"
-          >
-            <Globe className="w-4 h-4 text-cyan-400" />
-            <span>Common Opening Link</span>
-          </button>
+        <div className="hidden md:flex items-center gap-2 text-xs text-slate-600 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200 shadow-sm">
+          <span className="h-2 w-2 rounded-full bg-emerald-500 pulse-badge"></span>
+          <span>Stavya System Active • Live Sync</span>
         </div>
       </header>
 
@@ -92,27 +66,27 @@ export const LoginPage = () => {
       <main className="flex-1 flex items-center justify-center p-4 lg:p-8 relative z-10">
         <div className="w-full max-w-md">
           
-          <div className="glass-panel p-8 md:p-10 rounded-3xl border border-slate-800/90 shadow-2xl">
+          <div className="bg-white/95 backdrop-blur-xl p-8 md:p-10 rounded-3xl border border-slate-200 shadow-xl shadow-blue-500/5">
             <div className="mb-8 text-center">
-              <div className="h-12 w-12 rounded-2xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center mx-auto mb-3">
+              <div className="h-12 w-12 rounded-2xl bg-blue-50 text-blue-600 border border-blue-200 flex items-center justify-center mx-auto mb-3">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h2 className="text-2xl font-extrabold text-slate-100">Stavya Intelligence Portal</h2>
-              <p className="text-xs text-slate-400 mt-1">
+              <h2 className="text-2xl font-extrabold text-slate-900">Stavya Intelligence Portal</h2>
+              <p className="text-xs text-slate-500 mt-1">
                 Stavya Spine Hospital & Research Institute Pvt. Ltd. Login Portal
               </p>
             </div>
 
             {errorMsg && (
-              <div className="mb-6 p-3.5 rounded-2xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold flex items-center gap-2.5 animate-fadeIn">
-                <AlertCircle className="w-4 h-4 flex-shrink-0" />
+              <div className="mb-6 p-3.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-semibold flex items-center gap-2.5 animate-fadeIn">
+                <AlertCircle className="w-4 h-4 flex-shrink-0 text-rose-600" />
                 <span>{errorMsg}</span>
               </div>
             )}
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-xs font-semibold text-slate-300 mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
                   User ID / Username / Email
                 </label>
                 <div className="relative">
@@ -125,15 +99,15 @@ export const LoginPage = () => {
                     placeholder="Enter your User ID or Username..."
                     value={username}
                     onChange={e => setUsername(e.target.value)}
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl pl-10 pr-4 py-3 text-sm text-slate-100 font-mono focus:outline-none focus:border-teal-500 transition-all placeholder:text-slate-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-2xl pl-10 pr-4 py-3 text-sm text-slate-900 font-mono focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-400"
                   />
-                  <User className="w-4.5 h-4.5 text-slate-500 absolute left-3.5 top-3.5" />
+                  <User className="w-4.5 h-4.5 text-slate-400 absolute left-3.5 top-3.5" />
                 </div>
               </div>
 
               <div>
                 <div className="flex items-center justify-between mb-1.5">
-                  <label className="block text-xs font-semibold text-slate-300">Password</label>
+                  <label className="block text-xs font-semibold text-slate-700">Password</label>
                 </div>
                 <div className="relative">
                   <input
@@ -145,13 +119,13 @@ export const LoginPage = () => {
                     placeholder="Enter account password..."
                     value={password}
                     onChange={e => setPassword(e.target.value)}
-                    className="w-full bg-slate-900/90 border border-slate-700/80 rounded-2xl pl-10 pr-11 py-3 text-sm text-slate-100 font-mono focus:outline-none focus:border-teal-500 transition-all placeholder:text-slate-500"
+                    className="w-full bg-slate-50 border border-slate-300 rounded-2xl pl-10 pr-11 py-3 text-sm text-slate-900 font-mono focus:outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-400"
                   />
-                  <Lock className="w-4.5 h-4.5 text-slate-500 absolute left-3.5 top-3.5" />
+                  <Lock className="w-4.5 h-4.5 text-slate-400 absolute left-3.5 top-3.5" />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-200"
+                    className="absolute right-3.5 top-3.5 text-slate-400 hover:text-slate-600"
                   >
                     {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
@@ -159,11 +133,11 @@ export const LoginPage = () => {
               </div>
 
               <div className="flex items-center justify-between text-xs pt-1">
-                <label className="flex items-center gap-2 cursor-pointer text-slate-300">
+                <label className="flex items-center gap-2 cursor-pointer text-slate-600">
                   <input 
                     type="checkbox" 
                     defaultChecked
-                    className="rounded bg-slate-900 border-slate-700 text-teal-500 focus:ring-teal-500" 
+                    className="rounded bg-white border-slate-300 text-blue-600 focus:ring-blue-500" 
                   />
                   <span>Remember my session</span>
                 </label>
@@ -172,7 +146,7 @@ export const LoginPage = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-400 hover:to-emerald-400 text-slate-950 font-extrabold text-sm shadow-xl shadow-teal-500/25 flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 mt-2"
+                className="w-full py-3.5 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-md shadow-blue-600/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98] disabled:opacity-50 mt-2"
               >
                 {isLoading ? (
                   <span>Authenticating...</span>
@@ -185,7 +159,7 @@ export const LoginPage = () => {
               </button>
             </form>
 
-            <div className="mt-5 text-center text-xs text-slate-500">
+            <div className="mt-6 text-center text-xs text-slate-500">
               Stavya Spine Hospital OS • Official Authorization Platform
             </div>
           </div>
@@ -194,7 +168,7 @@ export const LoginPage = () => {
       </main>
 
       {/* Footer */}
-      <footer className="px-6 py-4 text-center text-xs text-slate-500 relative z-10">
+      <footer className="px-6 py-4 text-center text-xs text-slate-500 relative z-10 border-t border-slate-200 bg-white/60">
         © 2026 Stavya Spine Hospital & Research Institute Pvt. Ltd. All rights reserved.
       </footer>
 

@@ -87,26 +87,26 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
     <div className="space-y-6">
       
       {/* Top Billing Department Desk Banner */}
-      <div className="glass-card p-6 md:p-8 rounded-3xl border border-teal-500/30 bg-gradient-to-r from-slate-900 via-slate-900 to-teal-950/40 relative overflow-hidden shadow-2xl">
+      <div className="glass-card p-6 md:p-8 rounded-3xl border border-blue-200 bg-gradient-to-r from-white via-blue-50/60 to-blue-100/40 relative overflow-hidden shadow-sm">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-md bg-teal-500/20 text-teal-300 border border-teal-500/40">
+              <span className="text-xs font-extrabold uppercase px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 border border-blue-200">
                 {deskInfo.badge}
               </span>
-              <span className="text-xs text-slate-400 font-mono">ID: {activeUser.username || activeUser.email || activeUser.id}</span>
+              <span className="text-xs text-slate-500 font-mono">ID: {activeUser.username || activeUser.email || activeUser.id}</span>
             </div>
-            <h2 className="text-2xl font-extrabold text-slate-100 mt-1">
+            <h2 className="text-2xl font-extrabold text-slate-900 mt-1">
               {deskInfo.title}
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-slate-600 mt-0.5">
               {deskInfo.desc}
             </p>
           </div>
 
           <button
             onClick={onOpenNewModal}
-            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gradient-to-r from-teal-500 to-emerald-500 text-slate-950 font-extrabold text-sm shadow-xl shadow-teal-500/25 hover:from-teal-400 hover:to-emerald-400 transition-all active:scale-95 whitespace-nowrap"
+            className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-700 text-white font-extrabold text-sm shadow-md shadow-blue-600/20 transition-all active:scale-95 whitespace-nowrap"
           >
             <PlusCircle className="w-5 h-5 stroke-[2.5]" />
             Ask Discount at Billing
@@ -116,21 +116,21 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
 
       {/* Direct Executive Discount Live Alert Notice */}
       {directGrantCount > 0 && (
-        <div className="p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-between gap-4 animate-fadeIn">
+        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-between gap-4 animate-fadeIn">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-amber-500/20 text-amber-300 flex items-center justify-center font-bold">
+            <div className="h-10 w-10 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-xs font-extrabold text-amber-200 block">
+              <span className="text-xs font-extrabold text-amber-900 block">
                 {directGrantCount} Direct Executive Discount Grant(s) Active on Billing Desk!
               </span>
-              <p className="text-[11px] text-amber-300/80">
+              <p className="text-[11px] text-amber-700">
                 Chairman, Vice Chairman, or MD issued direct discounts directly to patients. Apply immediately during payment settlement.
               </p>
             </div>
           </div>
-          <span className="text-xs font-bold px-3 py-1.5 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40">
+          <span className="text-xs font-bold px-3 py-1.5 rounded-xl bg-amber-100 text-amber-800 border border-amber-300">
             Ready to Apply
           </span>
         </div>
@@ -138,61 +138,61 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
 
       {/* Quick Status Pill Counters */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
-        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-amber-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-amber-200 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold flex-shrink-0">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center font-bold flex-shrink-0">
               <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="text-[11px] sm:text-xs font-semibold text-slate-400 block truncate">Pending</span>
-              <span className="text-lg sm:text-xl font-extrabold text-amber-300">{pendingCount}</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-500 block truncate">Pending</span>
+              <span className="text-lg sm:text-xl font-extrabold text-amber-700">{pendingCount}</span>
             </div>
           </div>
-          <span className="text-[9px] sm:text-[10px] text-amber-400/80 font-bold uppercase hidden sm:inline">CA / CFO / Exec</span>
+          <span className="text-[9px] sm:text-[10px] text-amber-700 font-bold uppercase hidden sm:inline">CA / CFO / Exec</span>
         </div>
 
-        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-emerald-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-emerald-200 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold flex-shrink-0">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold flex-shrink-0">
               <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="text-[11px] sm:text-xs font-semibold text-slate-400 block truncate">Approved</span>
-              <span className="text-lg sm:text-xl font-extrabold text-emerald-400">{approvedCount}</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-500 block truncate">Approved</span>
+              <span className="text-lg sm:text-xl font-extrabold text-emerald-700">{approvedCount}</span>
             </div>
           </div>
-          <span className="text-[9px] sm:text-[10px] text-emerald-400/80 font-bold uppercase hidden sm:inline">Ready for Bill</span>
+          <span className="text-[9px] sm:text-[10px] text-emerald-700 font-bold uppercase hidden sm:inline">Ready for Bill</span>
         </div>
 
-        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-purple-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-indigo-200 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center font-bold flex-shrink-0">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold flex-shrink-0">
               <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="text-[11px] sm:text-xs font-semibold text-slate-400 block truncate">Direct Exec</span>
-              <span className="text-lg sm:text-xl font-extrabold text-purple-300">{directGrantCount}</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-500 block truncate">Direct Exec</span>
+              <span className="text-lg sm:text-xl font-extrabold text-indigo-700">{directGrantCount}</span>
             </div>
           </div>
-          <span className="text-[9px] sm:text-[10px] text-purple-400/80 font-bold uppercase hidden sm:inline">Chairman/MD</span>
+          <span className="text-[9px] sm:text-[10px] text-indigo-700 font-bold uppercase hidden sm:inline">Chairman/MD</span>
         </div>
 
-        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-rose-500/20 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+        <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-rose-200 bg-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
           <div className="flex items-center gap-2.5">
-            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center font-bold flex-shrink-0">
+            <div className="h-8 w-8 sm:h-10 sm:w-10 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold flex-shrink-0">
               <XCircle className="w-4 h-4 sm:w-5 sm:h-5" />
             </div>
             <div>
-              <span className="text-[11px] sm:text-xs font-semibold text-slate-400 block truncate">Rejected</span>
-              <span className="text-lg sm:text-xl font-extrabold text-rose-400">{rejectedCount}</span>
+              <span className="text-[11px] sm:text-xs font-semibold text-slate-500 block truncate">Rejected</span>
+              <span className="text-lg sm:text-xl font-extrabold text-rose-700">{rejectedCount}</span>
             </div>
           </div>
-          <span className="text-[9px] sm:text-[10px] text-rose-400/80 font-bold uppercase hidden sm:inline">Declined</span>
+          <span className="text-[9px] sm:text-[10px] text-rose-700 font-bold uppercase hidden sm:inline">Declined</span>
         </div>
       </div>
 
       {/* Search & Touch-Friendly Status Filter Carousel */}
-      <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-slate-800 space-y-3">
+      <div className="glass-card p-3.5 sm:p-4 rounded-2xl border border-slate-200 space-y-3 bg-white">
         <div className="flex flex-col md:flex-row items-center justify-between gap-3">
           <div className="relative w-full md:w-80">
             <input
@@ -200,12 +200,12 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
               placeholder="Search patient name, ID, or request code..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-teal-500"
+              className="w-full bg-slate-50 border border-slate-300 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-blue-600"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-3" />
           </div>
 
-          <div className="flex items-center gap-1.5 bg-slate-900 p-1.5 rounded-xl border border-slate-800 w-full md:w-auto overflow-x-auto no-scrollbar scroll-px-2">
+          <div className="flex items-center gap-1.5 bg-slate-100 p-1.5 rounded-xl border border-slate-200 w-full md:w-auto overflow-x-auto no-scrollbar scroll-px-2">
             {['ALL', 'PENDING_CA', 'PENDING_CFO', 'PENDING_EXECUTIVE', 'APPROVED', 'REJECTED'].map(st => {
               let label = 'All';
               if (st === 'PENDING_CA') label = 'Pending CA';
@@ -219,8 +219,8 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
                   onClick={() => setStatusFilter(st)}
                   className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex-shrink-0 whitespace-nowrap min-w-max ${
                     statusFilter === st 
-                      ? 'bg-teal-500 text-slate-950 shadow-sm' 
-                      : 'text-slate-400 hover:text-slate-200'
+                      ? 'bg-blue-600 text-white shadow-sm' 
+                      : 'text-slate-600 hover:text-slate-900'
                   }`}
                 >
                   {label}
@@ -233,9 +233,9 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
 
       {/* Requests Grid */}
       {employeeRequests.length === 0 ? (
-        <div className="glass-card p-12 text-center rounded-2xl border border-slate-800">
-          <Inbox className="w-12 h-12 text-slate-600 mx-auto mb-3" />
-          <h4 className="font-bold text-slate-300">No discount requests found</h4>
+        <div className="glass-card p-12 text-center rounded-2xl border border-slate-200 bg-white">
+          <Inbox className="w-12 h-12 text-slate-400 mx-auto mb-3" />
+          <h4 className="font-bold text-slate-700">No discount requests found</h4>
           <p className="text-xs text-slate-500 mt-1">Click "Ask Discount at Billing" to submit a new waiver for Chief Accountant & CFO permission.</p>
         </div>
       ) : (

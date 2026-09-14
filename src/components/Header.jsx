@@ -16,6 +16,7 @@ import {
   Globe,
   Link2,
   Cpu,
+  Calculator,
   Menu,
   X
 } from 'lucide-react';
@@ -27,6 +28,7 @@ export const Header = ({
   onOpenSupabaseModal,
   onOpenMobileSyncModal,
   onOpenPortingModal,
+  onOpenTallyModal,
   onOpenLoginModal,
   activeTab,
   setActiveTab 
@@ -168,6 +170,16 @@ export const Header = ({
           >
             <Cpu className="w-4 h-4 text-indigo-600" />
             <span>Port & API</span>
+          </button>
+
+          {/* Tally ERP 9 / Tally Prime Accounting Button */}
+          <button
+            onClick={onOpenTallyModal}
+            className="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+            title="Tally ERP 9 / Tally Prime Accounting & Data Merger"
+          >
+            <Calculator className="w-4 h-4 text-amber-600" />
+            <span>Tally Accounting</span>
           </button>
 
           {/* Quick Manual Sync Refresh Button */}

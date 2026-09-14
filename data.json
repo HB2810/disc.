@@ -32,7 +32,7 @@
       "approverComments": "",
       "approvedBy": "",
       "approvalTimestamp": null,
-      "createdAt": "2026-09-14T13:15:59.672Z",
+      "createdAt": "2026-09-14T13:23:11.375Z",
       "approvalChain": [
         {
           "step": 1,
@@ -41,7 +41,7 @@
           "role": "RECEPTIONIST",
           "action": "SUBMITTED",
           "comments": "Discount request of 15% (₹2,775) created for Spine MRI Scan.",
-          "timestamp": "2026-09-14T13:15:59.672Z"
+          "timestamp": "2026-09-14T13:23:11.375Z"
         }
       ]
     },
@@ -77,7 +77,7 @@
       "approverComments": "",
       "approvedBy": "",
       "approvalTimestamp": null,
-      "createdAt": "2026-09-14T13:15:59.672Z",
+      "createdAt": "2026-09-14T13:23:11.375Z",
       "approvalChain": [
         {
           "step": 1,
@@ -86,7 +86,7 @@
           "role": "RECEPTIONIST",
           "action": "SUBMITTED",
           "comments": "Discount request of 20% (₹32,000) routed to CFO for approval.",
-          "timestamp": "2026-09-14T13:15:59.672Z"
+          "timestamp": "2026-09-14T13:23:11.375Z"
         }
       ]
     }
@@ -234,6 +234,6 @@
     "Ambulance",
     "Pain Management"
   ],
-  "clientTimestamp": 1789391969431,
-  "serverTimestamp": 1789391969438
+  "clientTimestamp": 1789392423756,
+  "serverTimestamp": 1789392423780
 }

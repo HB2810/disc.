@@ -15,7 +15,8 @@ import { LoginModal } from './components/LoginModal';
 import { LoginPage } from './components/LoginPage';
 import { MobileSyncModal } from './components/MobileSyncModal';
 import { PortingModal } from './components/PortingModal';
-import { AlertCircle, CheckCircle, Info, ShieldAlert, PlusCircle, Globe, Smartphone } from 'lucide-react';
+import { TallyIntegrationModal } from './components/TallyIntegrationModal';
+import { AlertCircle, CheckCircle, Info, ShieldAlert, PlusCircle, Globe, Smartphone, Calculator } from 'lucide-react';
 
 export function AppContent() {
   const { toastAlert, isAuthenticated, activeUser, isBillingRole } = useApp();
@@ -29,6 +30,7 @@ export function AppContent() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showMobileSyncModal, setShowMobileSyncModal] = useState(false);
   const [showPortingModal, setShowPortingModal] = useState(false);
+  const [showTallyModal, setShowTallyModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   // Enforce non-admin users stay on dashboard tab
@@ -77,6 +79,7 @@ export function AppContent() {
         onOpenSupabaseModal={() => setShowSupabaseModal(true)}
         onOpenMobileSyncModal={() => setShowMobileSyncModal(true)}
         onOpenPortingModal={() => setShowPortingModal(true)}
+        onOpenTallyModal={() => setShowTallyModal(true)}
         onOpenLoginModal={() => setShowLoginModal(true)}
       />
 
@@ -123,7 +126,7 @@ export function AppContent() {
 
       {showNotifDrawer && (
         <NotificationDrawer 
-          onClose={() => setShowNotifDrawer(false)} 
+          onClose={() => setShowNotifDrawer(false)}
           onOpenGatewayModal={() => setShowGatewayModal(true)}
         />
       )}
@@ -146,6 +149,10 @@ export function AppContent() {
 
       {showPortingModal && (
         <PortingModal onClose={() => setShowPortingModal(false)} />
+      )}
+
+      {showTallyModal && (
+        <TallyIntegrationModal onClose={() => setShowTallyModal(false)} />
       )}
 
       {/* Mobile Bottom Navigation Bar */}

@@ -37,7 +37,7 @@ export const PortingModal = ({ onClose }) => {
   const [copiedSpec, setCopiedSpec] = useState(false);
   const [importJsonText, setImportJsonText] = useState('');
   const [apiHealth, setApiHealth] = useState(null);
-  const [apiKey, setApiKey] = useState('stavya_live_key_9902_prod_v1');
+  const [apiKey, setApiKey] = useState('stavya_live_key_prod_v1');
   const [copiedKey, setCopiedKey] = useState(false);
   
   // Webhooks state

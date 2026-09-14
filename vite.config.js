@@ -243,7 +243,7 @@ const localNetworkSyncPlugin = () => ({
         if (urlPath === '/export' && req.method === 'GET') {
           const exportBundle = {
             metadata: {
-              systemId: "STAVYA-SPINE-9902",
+              systemId: "STAVYA-SPINE",
               systemName: "Stavya Spine Hospital & Research Institute",
               exportTimestamp: new Date().toISOString(),
               schemaVersion: "1.0",
@@ -531,7 +531,7 @@ const localNetworkSyncPlugin = () => ({
             samplePayload: {
               event: "DISCOUNT_REQUEST_STATUS_CHANGE",
               timestamp: new Date().toISOString(),
-              hospitalId: "STAVYA-SPINE-9902",
+              hospitalId: "STAVYA-SPINE",
               data: {
                 requestCode: "DISC-9012",
                 patientName: "Rajesh Sharma",

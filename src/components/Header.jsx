@@ -61,8 +61,6 @@ export const Header = ({
                 <span className="hidden sm:inline">{supabaseConfig.isConnected ? 'Supabase Realtime' : 'Spine OPD System'}</span>
                 <span className="sm:hidden">Online</span>
               </span>
-              <span className="hidden sm:inline">•</span>
-              <span className="font-mono text-blue-600 hidden sm:inline">ID: #STAVYA-SPINE-9902</span>
             </div>
           </div>
         </div>

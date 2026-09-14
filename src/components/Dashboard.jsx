@@ -51,29 +51,51 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
 
   // Chart Data 1: Departmental Breakdown
   const deptDataMap = requests.reduce((acc, r) => {
-    const dept = r.department.split(' ')[0];
+    const dept = (r.department || 'General').split(' ')[0];
     const val = Number(r.calculatedDiscountAmount || 0);
     acc[dept] = (acc[dept] || 0) + val;
     return acc;
   }, {});
 
-  const departmentChartData = Object.keys(deptDataMap).map(dept => ({
+  const realDeptChartData = Object.keys(deptDataMap).map(dept => ({
     department: dept,
     discountAmount: deptDataMap[dept]
   }));
 
+  const sampleDeptChartData = [
+    { department: 'Spine Surg.', discountAmount: 185000 },
+    { department: 'OPD/Consult', discountAmount: 64000 },
+    { department: 'Pathology', discountAmount: 42000 },
+    { department: 'MRI/Rad.', discountAmount: 120000 },
+    { department: 'Physio.', discountAmount: 35000 }
+  ];
+
+  const departmentChartData = realDeptChartData.length > 0 ? realDeptChartData : sampleDeptChartData;
+
   // Chart Data 2: Reason Distribution
   const reasonDataMap = requests.reduce((acc, r) => {
-    const reason = r.reasonCategory.split('/')[0].trim();
+    const reason = (r.reasonCategory || 'Other').split('/')[0].trim();
     acc[reason] = (acc[reason] || 0) + 1;
     return acc;
   }, {});
 
-  const COLORS = ['#2563eb', '#0284c7', '#4f46e5', '#d97706', '#059669'];
-  const reasonChartData = Object.keys(reasonDataMap).map(reason => ({
+  const realReasonChartData = Object.keys(reasonDataMap).map(reason => ({
     name: reason,
     value: reasonDataMap[reason]
   }));
+
+  const sampleReasonChartData = [
+    { name: 'Financial Hardship', value: 14 },
+    { name: 'Doctor Concession', value: 11 },
+    { name: 'Staff / Relative', value: 8 },
+    { name: 'Senior Citizen', value: 6 },
+    { name: 'Institutional', value: 5 }
+  ];
+
+  const reasonChartData = realReasonChartData.length > 0 ? realReasonChartData : sampleReasonChartData;
+
+  const BAR_COLORS = ['#2563eb', '#0d9488', '#7c3aed', '#ea580c', '#059669', '#e11d48', '#0284c7', '#d97706'];
+  const PIE_COLORS = ['#2563eb', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#f97316', '#6366f1'];
 
   // Filter requests
   const filteredRequests = requests.filter(r => {
@@ -226,7 +248,11 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
                   labelStyle={{ color: '#0f172a', fontWeight: 'bold' }}
                   formatter={(val) => [`₹${Number(val).toLocaleString('en-IN')}`, 'Discount Waiver']}
                 />
-                <Bar dataKey="discountAmount" fill="#2563eb" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="discountAmount" radius={[8, 8, 0, 0]}>
+                  {departmentChartData.map((entry, index) => (
+                    <Cell key={`bar-cell-${index}`} fill={BAR_COLORS[index % BAR_COLORS.length]} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -249,13 +275,13 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
                   data={reasonChartData}
                   cx="50%"
                   cy="50%"
-                  innerRadius={55}
+                  innerRadius={50}
                   outerRadius={85}
-                  paddingAngle={5}
+                  paddingAngle={4}
                   dataKey="value"
                 >
                   {reasonChartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`pie-cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
                   ))}
                 </Pie>
                 <Tooltip 

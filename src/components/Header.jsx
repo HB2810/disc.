@@ -26,13 +26,12 @@ export const Header = ({
   onOpenNotifDrawer, 
   onOpenSupabaseModal,
   onOpenMobileSyncModal,
-  onOpenCommonLinkModal,
   onOpenPortingModal,
   onOpenLoginModal,
   activeTab,
   setActiveTab 
 }) => {
-  const { users, activeUser, setActiveUser, notifications, supabaseConfig, logout, isBillingRole, getRoleMeta, resetSystemDefaults, copyCommonAppUrl, getCommonAppUrl, manualSync } = useApp();
+  const { users, activeUser, setActiveUser, notifications, supabaseConfig, logout, isBillingRole, getRoleMeta, resetSystemDefaults, manualSync } = useApp();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const isBillingStaff = isBillingRole(activeUser?.role);
@@ -152,16 +151,6 @@ export const Header = ({
               <span>Export Excel</span>
             </button>
           )}
-
-          {/* Common Opening Link Button */}
-          <button
-            onClick={onOpenCommonLinkModal || copyCommonAppUrl}
-            className="px-3 py-2 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 font-bold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
-            title={`Open Common Access Link (${getCommonAppUrl ? getCommonAppUrl() : 'http://192.168.7.64:3000'}) Options`}
-          >
-            <Globe className="w-4 h-4 text-cyan-400" />
-            <span>Common Link</span>
-          </button>
 
           {/* Mobile Sync Trigger Button */}
           <button
@@ -313,14 +302,6 @@ export const Header = ({
             >
               <PlusCircle className="w-4 h-4" />
               <span>New Discount</span>
-            </button>
-
-            <button
-              onClick={() => { onOpenCommonLinkModal(); setMobileMenuOpen(false); }}
-              className="py-2.5 px-3 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold text-xs flex items-center justify-center gap-1.5"
-            >
-              <Globe className="w-4 h-4" />
-              <span>Common Link</span>
             </button>
 
             <button

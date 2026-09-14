@@ -14,7 +14,6 @@ import { NotificationSettingsModal } from './components/NotificationSettingsModa
 import { LoginModal } from './components/LoginModal';
 import { LoginPage } from './components/LoginPage';
 import { MobileSyncModal } from './components/MobileSyncModal';
-import { CommonLinkModal } from './components/CommonLinkModal';
 import { PortingModal } from './components/PortingModal';
 import { AlertCircle, CheckCircle, Info, ShieldAlert, PlusCircle, Globe, Smartphone } from 'lucide-react';
 
@@ -29,7 +28,6 @@ export function AppContent() {
   const [showGatewayModal, setShowGatewayModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showMobileSyncModal, setShowMobileSyncModal] = useState(false);
-  const [showCommonLinkModal, setShowCommonLinkModal] = useState(false);
   const [showPortingModal, setShowPortingModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
@@ -78,7 +76,6 @@ export function AppContent() {
         onOpenNotifDrawer={() => setShowNotifDrawer(true)}
         onOpenSupabaseModal={() => setShowSupabaseModal(true)}
         onOpenMobileSyncModal={() => setShowMobileSyncModal(true)}
-        onOpenCommonLinkModal={() => setShowCommonLinkModal(true)}
         onOpenPortingModal={() => setShowPortingModal(true)}
         onOpenLoginModal={() => setShowLoginModal(true)}
       />
@@ -147,24 +144,12 @@ export function AppContent() {
         <MobileSyncModal onClose={() => setShowMobileSyncModal(false)} />
       )}
 
-      {showCommonLinkModal && (
-        <CommonLinkModal onClose={() => setShowCommonLinkModal(false)} />
-      )}
-
       {showPortingModal && (
         <PortingModal onClose={() => setShowPortingModal(false)} />
       )}
 
       {/* Mobile Bottom Navigation Bar (Thumb Accessible on Smartphones) */}
       <div className="md:hidden sticky bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur-xl border-t border-slate-800 px-4 py-2 flex items-center justify-around shadow-2xl">
-        <button
-          onClick={() => setShowCommonLinkModal(true)}
-          className="flex flex-col items-center gap-0.5 text-slate-400 hover:text-cyan-300 text-[10px] font-bold py-1 active:scale-95"
-        >
-          <Globe className="w-5 h-5 text-cyan-400" />
-          <span>Link</span>
-        </button>
-
         <button
           onClick={() => setShowNewModal(true)}
           className="flex items-center gap-1.5 px-4 py-2 rounded-2xl bg-gradient-to-r from-teal-400 to-emerald-400 text-slate-950 font-black text-xs shadow-lg shadow-teal-500/25 active:scale-95"

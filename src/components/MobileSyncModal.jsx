@@ -4,32 +4,18 @@ import { QRCodeSVG } from 'qrcode.react';
 import { Smartphone, Copy, Check, QrCode, Download, Upload, ShieldCheck, Sparkles, Globe } from 'lucide-react';
 
 export const MobileSyncModal = ({ onClose }) => {
-  const { getMobileSyncUrl, importSystemSyncData, triggerToast, copyCommonAppUrl, getCommonAppUrl } = useApp();
+  const { getMobileSyncUrl, importSystemSyncData, triggerToast } = useApp();
   const [copied, setCopied] = useState(false);
-  const [copiedCommon, setCopiedCommon] = useState(false);
   const [pasteToken, setPasteToken] = useState('');
-  const [qrMode, setQrMode] = useState('APP'); // 'APP' (Short URL, 100% scannable) or 'DATA' (Full Payload)
 
-  const commonUrl = getCommonAppUrl ? getCommonAppUrl() : 'http://192.168.7.64:3000';
   const mobileSyncUrl = getMobileSyncUrl ? getMobileSyncUrl() : window.location.href;
-  const targetQrValue = qrMode === 'APP' ? mobileSyncUrl : commonUrl;
+  const targetQrValue = mobileSyncUrl;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(mobileSyncUrl);
     setCopied(true);
     triggerToast('Mobile Sync Link copied to clipboard!', 'success');
     setTimeout(() => setCopied(false), 3000);
-  };
-
-  const handleCopyCommon = () => {
-    if (copyCommonAppUrl) {
-      copyCommonAppUrl();
-    } else {
-      navigator.clipboard.writeText(commonUrl);
-      triggerToast(`Common App Link (${commonUrl}) copied to clipboard!`, 'success');
-    }
-    setCopiedCommon(true);
-    setTimeout(() => setCopiedCommon(false), 3000);
   };
 
   const handleImport = (e) => {

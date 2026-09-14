@@ -185,51 +185,6 @@ export const LoginPage = () => {
               </button>
             </form>
 
-            {/* Quick Demo Login Credentials Section */}
-            <div className="mt-6 pt-5 border-t border-slate-800/80">
-              <span className="text-[11px] font-extrabold uppercase tracking-wider text-slate-400 block mb-2 text-center">
-                Quick Demo Accounts (Click to Fill)
-              </span>
-
-              <div className="grid grid-cols-2 gap-2 text-xs">
-                <button
-                  type="button"
-                  onClick={() => { setUsername('admin_sys'); setPassword('admin@123password'); }}
-                  className="p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-teal-500/30 text-teal-300 font-bold text-left transition-all active:scale-95"
-                >
-                  <div className="text-[10px] text-teal-400 uppercase font-black">ADMIN</div>
-                  <div className="truncate text-slate-200">admin_sys</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => { setUsername('finance_mgr'); setPassword('Pass@123'); }}
-                  className="p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-300 font-semibold text-left transition-all active:scale-95"
-                >
-                  <div className="text-[10px] text-cyan-400 uppercase font-black">BILLING MGR</div>
-                  <div className="truncate text-slate-200">finance_mgr</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => { setUsername('cfo_official'); setPassword('Pass@123'); }}
-                  className="p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-300 font-semibold text-left transition-all active:scale-95"
-                >
-                  <div className="text-[10px] text-indigo-400 uppercase font-black">CFO</div>
-                  <div className="truncate text-slate-200">cfo_official</div>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => { setUsername('md_director'); setPassword('Pass@123'); }}
-                  className="p-2 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700/80 text-slate-300 font-semibold text-left transition-all active:scale-95"
-                >
-                  <div className="text-[10px] text-amber-400 uppercase font-black">MD / CHAIRMAN</div>
-                  <div className="truncate text-slate-200">md_director</div>
-                </button>
-              </div>
-            </div>
-
             <div className="mt-5 text-center text-xs text-slate-500">
               Stavya Spine Hospital OS • Official Authorization Platform
             </div>

@@ -16,6 +16,7 @@ import { LoginPage } from './components/LoginPage';
 import { MobileSyncModal } from './components/MobileSyncModal';
 import { PortingModal } from './components/PortingModal';
 import { TallyIntegrationModal } from './components/TallyIntegrationModal';
+import { TallyCloneModule } from './components/TallyCloneModule';
 import { AlertCircle, CheckCircle, Info, ShieldAlert, PlusCircle, Globe, Smartphone, Calculator } from 'lucide-react';
 
 export function AppContent() {
@@ -31,6 +32,7 @@ export function AppContent() {
   const [showMobileSyncModal, setShowMobileSyncModal] = useState(false);
   const [showPortingModal, setShowPortingModal] = useState(false);
   const [showTallyModal, setShowTallyModal] = useState(false);
+  const [showTallyCloneModal, setShowTallyCloneModal] = useState(false);
   const [selectedRequest, setSelectedRequest] = useState(null);
 
   // Enforce non-admin users stay on dashboard tab
@@ -80,6 +82,7 @@ export function AppContent() {
         onOpenMobileSyncModal={() => setShowMobileSyncModal(true)}
         onOpenPortingModal={() => setShowPortingModal(true)}
         onOpenTallyModal={() => setShowTallyModal(true)}
+        onOpenTallyCloneModal={() => setShowTallyCloneModal(true)}
         onOpenLoginModal={() => setShowLoginModal(true)}
       />
 
@@ -152,7 +155,17 @@ export function AppContent() {
       )}
 
       {showTallyModal && (
-        <TallyIntegrationModal onClose={() => setShowTallyModal(false)} />
+        <TallyIntegrationModal 
+          onClose={() => setShowTallyModal(false)}
+          onOpenTallyClone={() => {
+            setShowTallyModal(false);
+            setShowTallyCloneModal(true);
+          }}
+        />
+      )}
+
+      {showTallyCloneModal && (
+        <TallyCloneModule onClose={() => setShowTallyCloneModal(false)} />
       )}
 
       {/* Mobile Bottom Navigation Bar */}

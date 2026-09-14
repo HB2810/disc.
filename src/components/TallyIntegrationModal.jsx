@@ -21,7 +21,7 @@ import {
   X
 } from 'lucide-react';
 
-export const TallyIntegrationModal = ({ onClose }) => {
+export const TallyIntegrationModal = ({ onClose, onOpenTallyClone }) => {
   const { requests, addRequest, triggerToast } = useApp();
 
   const [activeTab, setActiveTab] = useState('DIRECT_CONNECT'); // 'DIRECT_CONNECT', 'MERGE_DATA', 'EXPORT_XML', 'LEDGER_MAP'
@@ -194,12 +194,23 @@ export const TallyIntegrationModal = ({ onClose }) => {
             </div>
           </div>
 
-          <button
-            onClick={onClose}
-            className="h-9 w-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center font-bold text-sm transition-all"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          <div className="flex items-center gap-2">
+            {onOpenTallyClone && (
+              <button
+                onClick={onOpenTallyClone}
+                className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs flex items-center gap-1.5 transition-all shadow-md"
+              >
+                <span>Launch Tally Clone OS</span>
+              </button>
+            )}
+
+            <button
+              onClick={onClose}
+              className="h-9 w-9 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center font-bold text-sm transition-all"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
         {/* Tab Navigation */}

@@ -29,6 +29,7 @@ export const Header = ({
   onOpenMobileSyncModal,
   onOpenPortingModal,
   onOpenTallyModal,
+  onOpenTallyCloneModal,
   onOpenLoginModal,
   activeTab,
   setActiveTab 
@@ -176,10 +177,20 @@ export const Header = ({
           <button
             onClick={onOpenTallyModal}
             className="px-3 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
-            title="Tally ERP 9 / Tally Prime Accounting & Data Merger"
+            title="Tally ERP 9 / Tally Prime Direct Integration & Data Merger"
           >
             <Calculator className="w-4 h-4 text-amber-600" />
-            <span>Tally Accounting</span>
+            <span>Tally Sync</span>
+          </button>
+
+          {/* Tally Interactive Clone Module */}
+          <button
+            onClick={onOpenTallyCloneModal}
+            className="px-3 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs flex items-center gap-1.5 transition-all shadow-md shadow-amber-500/20 active:scale-95"
+            title="Interactive Tally Prime Emulator & Accounting Vouchers Module"
+          >
+            <Building2 className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+            <span>Tally Clone OS</span>
           </button>
 
           {/* Quick Manual Sync Refresh Button */}

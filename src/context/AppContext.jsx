@@ -330,6 +330,21 @@ export const AppProvider = ({ children }) => {
     }
   });
 
+  const [requests, setRequests] = useState(() => {
+    const savedDel = localStorage.getItem('carepulse_deleted_requests');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
+    const saved = localStorage.getItem('carepulse_requests');
+    if (saved !== null) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) return parsed.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
+      } catch (e) {
+        // ignore parse error
+      }
+    }
+    return INITIAL_REQUESTS.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
+  });
+
   // Auto sync DOCTOR role users and request doctors into doctors directory
   useEffect(() => {
     const savedDel = localStorage.getItem('carepulse_deleted_doctors');
@@ -353,21 +368,6 @@ export const AppProvider = ({ children }) => {
       return prev;
     });
   }, [users, requests]);
-
-  const [requests, setRequests] = useState(() => {
-    const savedDel = localStorage.getItem('carepulse_deleted_requests');
-    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
-    const saved = localStorage.getItem('carepulse_requests');
-    if (saved !== null) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) return parsed.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
-      } catch (e) {
-        // ignore parse error
-      }
-    }
-    return INITIAL_REQUESTS.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
-  });
 
   const [activeUser, setActiveUser] = useState(() => {
     const savedRole = localStorage.getItem('carepulse_active_user');

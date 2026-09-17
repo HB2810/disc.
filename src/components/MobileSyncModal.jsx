@@ -71,19 +71,28 @@ export const MobileSyncModal = ({ onClose }) => {
 
             {/* Ultra High Contrast Scannable SVG QR Code */}
             <div className="bg-white p-4 rounded-2xl inline-block shadow-lg mx-auto border-2 border-slate-200">
-              <QRCodeSVG 
-                value={targetQrValue} 
-                size={210}
-                level="L"
-                includeMargin={true}
-                bgColor="#FFFFFF"
-                fgColor="#000000"
-              />
+              {(() => {
+                const cleanAppUrl = window.location.origin + window.location.pathname;
+                let qrValue = cleanAppUrl;
+                if (mobileSyncUrl && mobileSyncUrl.length <= 1800) {
+                  qrValue = mobileSyncUrl;
+                }
+                return (
+                  <QRCodeSVG 
+                    value={qrValue} 
+                    size={210}
+                    level="L"
+                    includeMargin={true}
+                    bgColor="#FFFFFF"
+                    fgColor="#000000"
+                  />
+                );
+              })()}
             </div>
 
             <div className="space-y-1">
               <p className="text-xs font-mono font-bold text-blue-800 bg-blue-50 py-1.5 px-3 rounded-lg border border-blue-200 inline-block max-w-full truncate">
-                {targetQrValue}
+                {mobileSyncUrl && mobileSyncUrl.length <= 100 ? mobileSyncUrl : (window.location.origin + window.location.pathname)}
               </p>
               <p className="text-xs text-slate-600 max-w-sm mx-auto leading-relaxed pt-1 font-medium">
                 Open Camera app on your phone and point at the QR code above.
@@ -97,7 +106,7 @@ export const MobileSyncModal = ({ onClose }) => {
                 className="py-3 px-6 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all active:scale-[0.98]"
               >
                 {copied ? <Check className="w-4 h-4 stroke-[3]" /> : <Copy className="w-4 h-4" />}
-                <span>{copied ? 'Mobile Sync Link Copied!' : 'Copy Mobile Sync Link'}</span>
+                <span>{copied ? 'Mobile Link Copied!' : 'Copy Mobile Sync Link'}</span>
               </button>
             </div>
           </div>

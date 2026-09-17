@@ -368,13 +368,38 @@ export const NewDiscountModal = ({ onClose }) => {
 
             <div className="min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1">Particulars (Billing Item Particulars)</label>
-              <input
-                type="text"
-                placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
-                value={formData.particulars}
-                onChange={e => setFormData({ ...formData, particulars: e.target.value })}
-                className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
-              />
+              <div className="space-y-1.5">
+                <select
+                  value={services.some(s => formData.particulars?.includes(s)) ? services.find(s => formData.particulars?.includes(s)) : (formData.particulars === 'Consultation & Clinical Procedure Particulars' ? 'PRESET_DEFAULT' : 'CUSTOM')}
+                  onChange={e => {
+                    const val = e.target.value;
+                    if (val === 'CUSTOM') {
+                      setFormData({ ...formData, particulars: '' });
+                    } else if (val === 'PRESET_DEFAULT') {
+                      setFormData({ ...formData, particulars: 'Consultation & Clinical Procedure Particulars' });
+                    } else {
+                      setFormData({ ...formData, particulars: `${val} Procedure & Charge Waiver` });
+                    }
+                  }}
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs md:text-sm font-semibold text-blue-900 focus:outline-none focus:border-blue-600 min-w-0 box-border truncate"
+                >
+                  <option value="PRESET_DEFAULT">Select Hospital Service / Particular Preset...</option>
+                  <optgroup label="Hospital Services Directory">
+                    {(services || []).map(svc => (
+                      <option key={svc} value={svc}>{svc} ({svc} Waiver Particulars)</option>
+                    ))}
+                  </optgroup>
+                  <option value="CUSTOM">+ Custom Particular Text...</option>
+                </select>
+
+                <input
+                  type="text"
+                  placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
+                  value={formData.particulars}
+                  onChange={e => setFormData({ ...formData, particulars: e.target.value })}
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border font-medium"
+                />
+              </div>
             </div>
           </div>
 

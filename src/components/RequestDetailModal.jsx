@@ -299,12 +299,36 @@ export const RequestDetailModal = ({ request, onClose }) => {
 
               <div className="md:col-span-2">
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Item Particulars</label>
-                <input
-                  type="text"
-                  value={editForm.particulars}
-                  onChange={e => setEditForm(prev => ({ ...prev, particulars: e.target.value }))}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600"
-                />
+                <div className="space-y-1">
+                  <select
+                    value={services?.some(s => editForm.particulars?.includes(s)) ? services.find(s => editForm.particulars?.includes(s)) : 'CUSTOM'}
+                    onChange={e => {
+                      const val = e.target.value;
+                      if (val === 'CUSTOM') {
+                        setEditForm(prev => ({ ...prev, particulars: '' }));
+                      } else {
+                        setEditForm(prev => ({ ...prev, particulars: `${val} Procedure & Charge Waiver` }));
+                      }
+                    }}
+                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-semibold text-blue-900 focus:outline-none focus:border-blue-600 truncate mb-1"
+                  >
+                    <option value="CUSTOM">Select Service Preset / Custom Particular...</option>
+                    <optgroup label="Hospital Services Directory">
+                      {(services || []).map(svc => (
+                        <option key={svc} value={svc}>{svc} ({svc} Waiver Particulars)</option>
+                      ))}
+                    </optgroup>
+                    <option value="CUSTOM">+ Type Custom Particular Text...</option>
+                  </select>
+
+                  <input
+                    type="text"
+                    placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
+                    value={editForm.particulars}
+                    onChange={e => setEditForm(prev => ({ ...prev, particulars: e.target.value }))}
+                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600"
+                  />
+                </div>
               </div>
 
               <div>

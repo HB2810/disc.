@@ -1755,19 +1755,17 @@ export const AppProvider = ({ children }) => {
     // Find target user to capture id, username, and name
     const targetUser = users.find(u => u.id === userId || u.username === userId || u.name === userId);
 
+    const idVal = userId;
+    const targetId = targetUser?.id || userId;
+    const targetUsername = targetUser?.username;
+    const targetName = targetUser?.name;
+
     // Save id, username, and name to deleted users blacklist so Supabase sync never restores them
     try {
       const savedDeleted = localStorage.getItem('carepulse_deleted_users');
       const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
       
-      const idsToAdd = [
-        userId,
-        targetUser?.id,
-        targetUser?.username,
-        targetUser?.name
-      ].filter(Boolean);
-
-      idsToAdd.forEach(item => {
+      [idVal, targetId, targetUsername, targetName].filter(Boolean).forEach(item => {
         if (!deletedList.includes(item)) {
           deletedList.push(item);
         }
@@ -1783,11 +1781,12 @@ export const AppProvider = ({ children }) => {
 
     setUsers(prev => {
       const next = prev.filter(u => 
-        u.id !== userId && 
-        u.username !== userId && 
-        u.name !== userId &&
-        u.id !== targetUser?.id &&
-        u.username !== targetUser?.username
+        u.id !== idVal && 
+        u.id !== targetId &&
+        u.username !== targetId &&
+        u.name !== targetId &&
+        (!targetUsername || u.username !== targetUsername) &&
+        (!targetName || u.name !== targetName)
       );
       localStorage.setItem('carepulse_users', JSON.stringify(next));
       return next;
@@ -1796,20 +1795,13 @@ export const AppProvider = ({ children }) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
     if (client) {
       try {
-        await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('id', userId);
-        if (targetUser?.id) {
-          await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('id', targetUser.id);
-        }
-        if (targetUser?.username) {
-          await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('username', targetUser.username);
-        }
-        if (targetUser?.name) {
-          await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('name', targetUser.name);
-        }
-        await client.from('hospital_users').delete().eq('id', userId);
+        if (targetId) await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('id', targetId);
+        if (targetUsername) await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('username', targetUsername);
+        if (targetName) await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('name', targetName);
+        await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('id', idVal);
       } catch (e) {}
     }
-    triggerToast(`User "${targetUser?.name || userId}" removed from directory.`, 'info');
+    triggerToast(`User "${targetName || targetId || userId}" removed from directory.`, 'info');
   };
 
   // Department Admin CRUD actions

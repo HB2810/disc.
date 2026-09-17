@@ -602,11 +602,16 @@ export const AdminUserManagement = () => {
                 </button>
                 {user.role !== 'ADMIN' && (
                   <button
-                    onClick={() => deleteUser(user.id)}
-                    className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-colors"
+                    onClick={() => {
+                      if (window.confirm(`Are you sure you want to remove authority user "${user.name}" (${user.username || user.role}) from the directory permanently?`)) {
+                        deleteUser(user.id);
+                      }
+                    }}
+                    className="p-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 transition-colors flex items-center gap-1 text-xs font-bold px-2 py-1"
                     title="Delete User"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
+                    <span>Delete</span>
                   </button>
                 )}
               </div>

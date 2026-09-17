@@ -502,6 +502,15 @@ export const AppProvider = ({ children }) => {
           if (!isMounted) return;
           if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
             const r = payload.new;
+            const savedDelReqs = localStorage.getItem('carepulse_deleted_requests');
+            const deletedReqSet = new Set(savedDelReqs ? JSON.parse(savedDelReqs) : []);
+
+            if (r.status === 'DELETED' || deletedReqSet.has(r.id)) {
+              isRemoteUpdateRef.current = true;
+              setRequests(prev => prev.filter(item => item.id !== r.id));
+              return;
+            }
+
             const updatedReq = {
               id: r.id,
               requestCode: r.request_code,
@@ -560,19 +569,29 @@ export const AppProvider = ({ children }) => {
         (payload) => {
           if (!isMounted) return;
           if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+            const u = payload.new;
+            const savedDelUsers = localStorage.getItem('carepulse_deleted_users');
+            const deletedUserSet = new Set(savedDelUsers ? JSON.parse(savedDelUsers) : []);
+
+            if (u.active === false || u.role === 'DELETED' || deletedUserSet.has(u.id) || deletedUserSet.has(u.username) || deletedUserSet.has(u.name)) {
+              isRemoteUpdateRef.current = true;
+              setUsers(prev => prev.filter(item => item.id !== u.id && item.username !== u.username && item.name !== u.name));
+              return;
+            }
+
             isRemoteUpdateRef.current = true;
             setUsers(prev => {
-              const idx = prev.findIndex(u => u.id === payload.new.id);
+              const idx = prev.findIndex(item => item.id === u.id || item.username === u.username);
               if (idx >= 0) {
                 const next = [...prev];
-                next[idx] = payload.new;
+                next[idx] = u;
                 return next;
               }
-              return [...prev, payload.new];
+              return [...prev, u];
             });
           } else if (payload.eventType === 'DELETE') {
             isRemoteUpdateRef.current = true;
-            setUsers(prev => prev.filter(u => u.id !== payload.old.id));
+            setUsers(prev => prev.filter(u => u.id !== payload.old.id && u.username !== payload.old.username));
           }
         }
       )

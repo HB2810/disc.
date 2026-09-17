@@ -1669,28 +1669,57 @@ export const AppProvider = ({ children }) => {
   const deleteUser = async (userId) => {
     if (!userId) return;
     
-    // Save to deleted users blacklist so Supabase sync never restores it
+    // Find target user to capture id, username, and name
+    const targetUser = users.find(u => u.id === userId || u.username === userId || u.name === userId);
+
+    // Save id, username, and name to deleted users blacklist so Supabase sync never restores them
     try {
       const savedDeleted = localStorage.getItem('carepulse_deleted_users');
       const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
-      if (!deletedList.includes(userId)) {
-        deletedList.push(userId);
-        localStorage.setItem('carepulse_deleted_users', JSON.stringify(deletedList));
-      }
+      
+      const idsToAdd = [
+        userId,
+        targetUser?.id,
+        targetUser?.username,
+        targetUser?.name
+      ].filter(Boolean);
+
+      idsToAdd.forEach(item => {
+        if (!deletedList.includes(item)) {
+          deletedList.push(item);
+        }
+      });
+
+      localStorage.setItem('carepulse_deleted_users', JSON.stringify(deletedList));
     } catch (e) {}
 
+    // If deleting a doctor user, also remove doctor's name from preset doctors directory
+    if (targetUser && (targetUser.role === 'DOCTOR' || targetUser.name?.toLowerCase().includes('dr.'))) {
+      deleteDoctor(targetUser.name);
+    }
+
     setUsers(prev => {
-      const next = prev.filter(u => u.id !== userId && u.username !== userId);
+      const next = prev.filter(u => 
+        u.id !== userId && 
+        u.username !== userId && 
+        u.name !== userId &&
+        u.id !== targetUser?.id &&
+        u.username !== targetUser?.username
+      );
       localStorage.setItem('carepulse_users', JSON.stringify(next));
       return next;
     });
+
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
     if (client) {
       try {
         await client.from('hospital_users').delete().eq('id', userId);
+        if (targetUser?.username) {
+          await client.from('hospital_users').delete().eq('username', targetUser.username);
+        }
       } catch (e) {}
     }
-    triggerToast('User removed from directory.', 'info');
+    triggerToast(`User "${targetUser?.name || userId}" removed from directory.`, 'info');
   };
 
   // Department Admin CRUD actions

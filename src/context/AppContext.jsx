@@ -360,15 +360,17 @@ export const AppProvider = ({ children }) => {
   });
 
   const [supabaseConfig, setSupabaseConfigState] = useState(() => {
+    const defaultUrl = 'https://iqxeglbbvseirtjbwtdu.supabase.co';
+    const defaultKey = 'sb_publishable_5fFaz9BHk_oxp_LyBH9e4A_8JtEIErr';
     const saved = localStorage.getItem('carepulse_supabase_config');
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (parsed && (parsed.url || parsed.anonKey)) return parsed;
+        if (parsed && parsed.url && !parsed.url.includes('mock') && parsed.anonKey && !parsed.anonKey.includes('mock')) {
+          return parsed;
+        }
       } catch (e) {}
     }
-    const defaultUrl = 'https://iqxeglbbvseirtjbwtdu.supabase.co';
-    const defaultKey = 'sb_publishable_5fFaz9BHk_oxp_LyBH9e4A_8JtEIErr';
     const envUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL || defaultUrl;
     const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || defaultKey;
     return {

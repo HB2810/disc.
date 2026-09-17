@@ -11,11 +11,14 @@ const DEFAULT_KEY = 'sb_publishable_5fFaz9BHk_oxp_LyBH9e4A_8JtEIErr';
  * Get or initialize Supabase Client instance
  */
 export const getSupabaseClient = (customUrl, customKey) => {
-  const url = customUrl || import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_URL;
-  const key = customKey || import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || DEFAULT_KEY;
+  let url = customUrl || import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_URL;
+  let key = customKey || import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || DEFAULT_KEY;
 
-  if (!url || !key) {
-    return null;
+  if (!url || url.includes('mock')) {
+    url = DEFAULT_URL;
+  }
+  if (!key || key.includes('mock')) {
+    key = DEFAULT_KEY;
   }
 
   if (cachedClient && lastUrl === url && lastKey === key) {

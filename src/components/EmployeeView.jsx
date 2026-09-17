@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 
 export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
-  const { requests, activeUser, isBillingRole } = useApp();
+  const { requests, activeUser, isExecutiveRole } = useApp();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
@@ -49,22 +49,34 @@ export const EmployeeView = ({ onSelectRequest, onOpenNewModal }) => {
         return {
           badge: 'Billing & Counter Operations Desk',
           title: `Welcome, ${activeUser.name}`,
-          desc: 'Submit patient discount requests at billing payment time (Chief Accountant ➔ CFO ➔ MD/Chairman) & receive live direct grants.'
+          desc: 'Submit patient discount requests at billing payment time & track status of your submitted requests.'
         };
     }
   };
 
   const deskInfo = getDeskInfo();
 
-  // Filter requests relevant to employee (receptionist, clerk, manager, CA, CFO, MD)
+  // Filter requests with user data isolation (non-executives see ONLY their own data)
   const employeeRequests = requests.filter(r => {
-    const isRelevant = 
-      (activeUser?.name && r.requestedBy?.includes(activeUser.name)) ||
-      r.currentApproverRole === activeUser?.role ||
-      r.requiredAuthorityRole === activeUser?.role ||
-      (activeUser?.role && r.status?.includes(activeUser?.role)) ||
-      isBillingRole(activeUser?.role) ||
-      r.isDirectExecutiveGrant;
+    const isExecutive = isExecutiveRole(activeUser?.role);
+    
+    let isRelevant = false;
+    if (isExecutive) {
+      // Executive management roles (MD, CFO, Chairman, Vice Chairman, Director, Finance Manager) see all data
+      isRelevant = true;
+    } else {
+      // Billing & Counter Operations Desk (Receptionists/Clerks) see ONLY their own data
+      const reqBy = (r.requestedBy || '').toLowerCase();
+      const userName = (activeUser?.name || '').toLowerCase();
+      const userUsername = (activeUser?.username || '').toLowerCase();
+      const userId = (activeUser?.id || '').toLowerCase();
+
+      isRelevant = (
+        (userName && reqBy.includes(userName)) ||
+        (userUsername && reqBy.includes(userUsername)) ||
+        (userId && reqBy.includes(userId))
+      );
+    }
 
     const matchesSearch = (
       r.patientName.toLowerCase().includes(searchTerm.toLowerCase()) ||

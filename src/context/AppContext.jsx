@@ -1148,6 +1148,23 @@ export const AppProvider = ({ children }) => {
     return role === 'BILLING_CLERK' || role === 'RECEPTIONIST' || role === 'BILLING_MANAGER';
   };
 
+  // Helper check if role is an executive / approver / management role (can see all hospital data)
+  const isExecutiveRole = (roleToCheck) => {
+    const role = (roleToCheck || activeUser?.role || '').toUpperCase();
+    return [
+      'ADMIN',
+      'MD',
+      'EXECUTIVE',
+      'CHAIRMAN',
+      'VICE_CHAIRMAN',
+      'DIRECTOR',
+      'CFO',
+      'BILLING_MANAGER',
+      'CHIEF_ACCOUNTANT',
+      'FINANCE_MANAGER'
+    ].includes(role);
+  };
+
   // Helper to format role badge styling & label
   const getRoleMeta = (roleStr) => {
     const role = roleStr || activeUser?.role || 'STAFF';
@@ -1723,6 +1740,7 @@ export const AppProvider = ({ children }) => {
         triggerToast,
         getRequiredAuthorityForDiscount,
         isBillingRole,
+        isExecutiveRole,
         getRoleMeta,
         createDiscountRequest,
         createDirectExecutiveGrant,

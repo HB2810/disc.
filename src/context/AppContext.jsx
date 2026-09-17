@@ -267,13 +267,7 @@ export const getDepartmentForService = (serviceName) => {
   return matchedKey ? SERVICE_DEPARTMENT_MAP[matchedKey] : 'Other Support Service';
 };
 
-const INITIAL_DOCTORS = [
-  'Dr. Sarah Jenkins',
-  'Dr. Michael Chang',
-  'Dr. Rajesh Kumar',
-  'Dr. Elena Rostova',
-  'Dr. Ananya Sharma'
-];
+const INITIAL_DOCTORS = [];
 
 export const AppProvider = ({ children }) => {
   const [users, setUsers] = useState(() => {
@@ -345,29 +339,20 @@ export const AppProvider = ({ children }) => {
     return INITIAL_REQUESTS.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
   });
 
-  // Auto sync DOCTOR role users and request doctors into doctors directory
+  // Sync doctors directory with local storage filter
   useEffect(() => {
     const savedDel = localStorage.getItem('carepulse_deleted_doctors');
     const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
 
-    const docUsers = (Array.isArray(users) ? users : [])
-      .filter(u => u.active !== false && u.role !== 'DELETED' && (u.role === 'DOCTOR' || u.name?.toLowerCase().includes('dr.')))
-      .map(u => u.name)
-      .filter(Boolean);
-
-    const reqDocs = (Array.isArray(requests) ? requests : [])
-      .flatMap(r => [r.doctorName, r.referenceName])
-      .filter(d => Boolean(d) && typeof d === 'string' && d !== 'N/A' && d !== 'Attending Doctor' && d.trim() !== '');
-
     setDoctors(prev => {
-      const merged = Array.from(new Set([...prev, ...docUsers, ...reqDocs])).filter(d => !delSet.has(d));
-      if (JSON.stringify(merged) !== JSON.stringify(prev)) {
-        localStorage.setItem('carepulse_doctors', JSON.stringify(merged));
-        return merged;
+      const filtered = prev.filter(d => !delSet.has(d));
+      if (JSON.stringify(filtered) !== JSON.stringify(prev)) {
+        localStorage.setItem('carepulse_doctors', JSON.stringify(filtered));
+        return filtered;
       }
       return prev;
     });
-  }, [users, requests]);
+  }, []);
 
   const [activeUser, setActiveUser] = useState(() => {
     const savedRole = localStorage.getItem('carepulse_active_user');

@@ -49,6 +49,23 @@ export const NewDiscountModal = ({ onClose }) => {
     proofFileName: ''
   });
 
+  // Sync default doctor when doctors array updates asynchronously
+  React.useEffect(() => {
+    if (doctors && doctors.length > 0) {
+      setFormData(prev => {
+        if (!prev.doctorName || prev.doctorName === 'Dr. Michael Chang' || !doctors.includes(prev.doctorName)) {
+          const firstDoc = doctors[0];
+          return {
+            ...prev,
+            doctorName: firstDoc,
+            referenceName: (prev.referenceName === 'Dr. Michael Chang' || !prev.referenceName) ? firstDoc : prev.referenceName
+          };
+        }
+        return prev;
+      });
+    }
+  }, [doctors]);
+
   // Calculate live financials
   const bill = Number(formData.totalBillAmount) || 0;
   let discountVal = Number(formData.requestedDiscountVal) || 0;

@@ -330,26 +330,29 @@ export const AppProvider = ({ children }) => {
     }
   });
 
-  // Auto sync DOCTOR role users into doctors directory
+  // Auto sync DOCTOR role users and request doctors into doctors directory
   useEffect(() => {
-    if (Array.isArray(users)) {
-      const savedDel = localStorage.getItem('carepulse_deleted_doctors');
-      const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
-      const docUsers = users
-        .filter(u => u.active !== false && u.role !== 'DELETED' && (u.role === 'DOCTOR' || u.name?.toLowerCase().includes('dr.')))
-        .map(u => u.name)
-        .filter(Boolean);
+    const savedDel = localStorage.getItem('carepulse_deleted_doctors');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
 
-      setDoctors(prev => {
-        const merged = Array.from(new Set([...prev, ...docUsers])).filter(d => !delSet.has(d));
-        if (JSON.stringify(merged) !== JSON.stringify(prev)) {
-          localStorage.setItem('carepulse_doctors', JSON.stringify(merged));
-          return merged;
-        }
-        return prev;
-      });
-    }
-  }, [users]);
+    const docUsers = (Array.isArray(users) ? users : [])
+      .filter(u => u.active !== false && u.role !== 'DELETED' && (u.role === 'DOCTOR' || u.name?.toLowerCase().includes('dr.')))
+      .map(u => u.name)
+      .filter(Boolean);
+
+    const reqDocs = (Array.isArray(requests) ? requests : [])
+      .flatMap(r => [r.doctorName, r.referenceName])
+      .filter(d => Boolean(d) && typeof d === 'string' && d !== 'N/A' && d !== 'Attending Doctor' && d.trim() !== '');
+
+    setDoctors(prev => {
+      const merged = Array.from(new Set([...prev, ...docUsers, ...reqDocs])).filter(d => !delSet.has(d));
+      if (JSON.stringify(merged) !== JSON.stringify(prev)) {
+        localStorage.setItem('carepulse_doctors', JSON.stringify(merged));
+        return merged;
+      }
+      return prev;
+    });
+  }, [users, requests]);
 
   const [requests, setRequests] = useState(() => {
     const savedDel = localStorage.getItem('carepulse_deleted_requests');

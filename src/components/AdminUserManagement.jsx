@@ -82,7 +82,6 @@ export const AdminUserManagement = () => {
 
   const handleCreateUser = (e) => {
     e.preventDefault();
-    if (!isAdmin) return;
     if (!formData.name || !formData.name.trim()) {
       triggerToast('Please provide a name for the new user.', 'warning');
       return;
@@ -128,7 +127,6 @@ export const AdminUserManagement = () => {
   };
 
   const handleEdit = (user) => {
-    if (!isAdmin) return;
     setFormData({
       username: user.username || '',
       password: user.password || '',
@@ -142,32 +140,6 @@ export const AdminUserManagement = () => {
     setEditingUserId(user.id);
     setShowAddModal(true);
   };
-
-  // If logged in user is NOT Admin, restrict access
-  if (!isAdmin) {
-    const adminUser = users.find(u => u.role === 'ADMIN');
-    return (
-      <div className="glass-card p-12 text-center rounded-3xl border border-rose-200 bg-white max-w-2xl mx-auto my-12 shadow-xl text-slate-900">
-        <div className="h-16 w-16 rounded-2xl bg-rose-50 text-rose-600 border border-rose-200 flex items-center justify-center mx-auto mb-4">
-          <ShieldCheck className="w-8 h-8" />
-        </div>
-        <h3 className="text-xl font-bold text-slate-900">Admin Authorization Required</h3>
-        <p className="text-sm text-slate-600 mt-2 max-w-md mx-auto">
-          Only an authorized <strong>System Administrator (ADMIN)</strong> can create, edit, or assign multi-tier authority roles to users.
-        </p>
-        <div className="mt-6">
-          <button
-            onClick={() => {
-              if (adminUser) setActiveUser(adminUser);
-            }}
-            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow-md shadow-blue-600/20 transition-all"
-          >
-            Switch to Admin Role ({adminUser ? adminUser.name : 'System Admin'})
-          </button>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="space-y-6 text-slate-900">

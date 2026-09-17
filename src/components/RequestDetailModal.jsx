@@ -146,7 +146,7 @@ export const RequestDetailModal = ({ request, onClose }) => {
               <span>{isEditing ? 'Cancel Edit' : 'Edit Request'}</span>
             </button>
 
-            {isAdmin && (
+            {activeUser && (
               <button
                 type="button"
                 onClick={() => {
@@ -156,7 +156,7 @@ export const RequestDetailModal = ({ request, onClose }) => {
                   }
                 }}
                 className="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs font-bold flex items-center gap-1.5 transition-all"
-                title="Delete Request (Admin Only)"
+                title="Delete Request"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Delete</span>

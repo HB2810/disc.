@@ -9,7 +9,7 @@
     "lint": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "git push origin main"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

@@ -407,12 +407,13 @@ export const AppProvider = ({ children }) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
     if (!client) return;
 
-    let isMounted = true;
-
-    const fetchInitialData = async () => {
+    let isMount    const fetchInitialData = async () => {
       try {
-        const { data: remoteReqs, error: reqErr } = await client.from('discount_requests').select('*');
-        if (!reqErr && Array.isArray(remoteReqs) && remoteReqs.length > 0 && isMounted) {
+        const { data: remoteReqs, error: reqErr } = await client
+          .from('discount_requests')
+          .select('*')
+          .order('created_at', { ascending: false });
+        if (!reqErr && Array.isArray(remoteReqs) && isMounted) {
           const mapped = remoteReqs.map(r => ({
             id: r.id,
             requestCode: r.request_code,
@@ -449,13 +450,23 @@ export const AppProvider = ({ children }) => {
             approvalChain: typeof r.approval_chain === 'string' ? JSON.parse(r.approval_chain) : (r.approval_chain || [])
           }));
           isRemoteUpdateRef.current = true;
-          setRequests(mapped);
+          setRequests(prev => {
+            if (JSON.stringify(prev) !== JSON.stringify(mapped)) {
+              return mapped;
+            }
+            return prev;
+          });
         }
 
         const { data: remoteUsers, error: userErr } = await client.from('hospital_users').select('*');
         if (!userErr && Array.isArray(remoteUsers) && remoteUsers.length > 0 && isMounted) {
           isRemoteUpdateRef.current = true;
-          setUsers(remoteUsers);
+          setUsers(prev => {
+            if (JSON.stringify(prev) !== JSON.stringify(remoteUsers)) {
+              return remoteUsers;
+            }
+            return prev;
+          });
         }
       } catch (e) {
         console.warn('Supabase initial fetch warning:', e);
@@ -463,6 +474,7 @@ export const AppProvider = ({ children }) => {
     };
 
     fetchInitialData();
+    const pollInterval = setInterval(fetchInitialData, 3000);
 
     // Subscribe to real-time postgres changes
     const channel = client
@@ -552,7 +564,9 @@ export const AppProvider = ({ children }) => {
 
     return () => {
       isMounted = false;
+      clearInterval(pollInterval);
       client.removeChannel(channel);
+    };nel);
     };
   }, [supabaseConfig.url, supabaseConfig.anonKey]);
 

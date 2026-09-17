@@ -614,40 +614,43 @@ export const AppProvider = ({ children }) => {
         .filter(req => req && req.status !== 'DELETED')
         .map(req => ({
           id: req.id,
-          request_code: req.requestCode,
-          patient_id: req.patientId,
-          patient_name: req.patientName,
-          patient_age: req.patientAge,
-          patient_gender: req.patientGender,
-          department: req.department,
-          service_name: req.serviceName,
-          doctor_name: req.doctorName,
-          particulars: req.particulars,
-          reference_name: req.referenceName,
-          relative_name: req.relativeName,
-          receipt_no: req.receiptNo,
-          bill_date: req.billDate,
-          opd_ipd_no: req.opdIpdNo,
-          total_bill_amount: req.totalBillAmount,
-          requested_discount_type: req.requestedDiscountType,
-          requested_discount_val: req.requestedDiscountVal,
-          calculated_discount_amount: req.calculatedDiscountAmount,
-          final_payable_amount: req.finalPayableAmount,
-          reason_category: req.reasonCategory,
-          detailed_reason: req.detailedReason,
-          proof_file_name: req.proofFileName,
-          requested_by: req.requestedBy,
-          required_authority_role: req.requiredAuthorityRole,
-          current_approver_role: req.currentApproverRole,
-          status: req.status,
-          is_direct_executive_grant: req.isDirectExecutiveGrant,
-          approver_comments: req.approverComments,
-          approved_by: req.approvedBy,
-          approval_timestamp: req.approvalTimestamp,
-          approval_chain: req.approvalChain
+          request_code: req.requestCode || ('DISC-' + Math.floor(1000 + Math.random() * 9000)),
+          patient_id: req.patientId || ('UHID-2026-' + Math.floor(1000 + Math.random() * 9000)),
+          patient_name: req.patientName || 'Patient',
+          patient_age: Number(req.patientAge) || 0,
+          patient_gender: req.patientGender || 'Male',
+          department: req.department || 'Billing & Accounts',
+          service_name: req.serviceName || 'Consultation Fees',
+          doctor_name: req.doctorName || 'Attending Doctor',
+          particulars: req.particulars || 'Billing Item Particulars',
+          reference_name: req.referenceName || req.doctorName || 'N/A',
+          relative_name: req.relativeName || 'N/A',
+          receipt_no: req.receiptNo || ('RCP-' + Math.floor(10000 + Math.random() * 90000)),
+          bill_date: req.billDate || new Date().toISOString().split('T')[0],
+          opd_ipd_no: req.opdIpdNo || ('OPD-' + Math.floor(1000 + Math.random() * 9000)),
+          total_bill_amount: Number(req.totalBillAmount) || 0,
+          requested_discount_type: req.requestedDiscountType || 'PERCENTAGE',
+          requested_discount_val: Number(req.requestedDiscountVal) || 0,
+          calculated_discount_amount: Number(req.calculatedDiscountAmount) || 0,
+          final_payable_amount: Number(req.finalPayableAmount) || 0,
+          reason_category: req.reasonCategory || 'Management Special Grant',
+          detailed_reason: req.detailedReason || 'Special Concession',
+          proof_file_name: req.proofFileName || 'Document.pdf',
+          requested_by: req.requestedBy || 'Billing Desk',
+          required_authority_role: req.requiredAuthorityRole || 'BILLING_MANAGER',
+          current_approver_role: req.currentApproverRole || 'BILLING_MANAGER',
+          status: req.status || 'PENDING_BMGR',
+          is_direct_executive_grant: Boolean(req.isDirectExecutiveGrant),
+          approver_comments: req.approverComments || '',
+          approved_by: req.approvedBy || '',
+          approval_timestamp: req.approvalTimestamp || null,
+          approval_chain: req.approvalChain || []
         }));
       if (records.length > 0) {
-        await client.from('discount_requests').upsert(records, { onConflict: 'id' });
+        const { error } = await client.from('discount_requests').upsert(records, { onConflict: 'id' });
+        if (error) {
+          console.warn('Supabase discount_requests upsert warning:', error);
+        }
       }
     } catch (e) {
       console.warn('Supabase request sync failed:', e);
@@ -659,9 +662,26 @@ export const AppProvider = ({ children }) => {
     if (!client || !Array.isArray(usersList)) return;
 
     try {
-      const records = usersList.filter(u => u && u.active !== false && u.role !== 'DELETED');
+      const records = usersList
+        .filter(u => u && u.active !== false && u.role !== 'DELETED')
+        .map(u => ({
+          id: u.id,
+          username: u.username || u.id,
+          password: u.password || 'Pass@123',
+          name: u.name || 'Hospital Staff',
+          role: u.role || 'BILLING_CLERK',
+          designation: u.designation || u.role || 'Staff',
+          department: u.department || 'Billing & Accounts',
+          email: u.email || `${u.username || u.id}@carepulse.com`,
+          phone: u.phone || '+1 (555) 000-1122',
+          active: u.active !== false,
+          avatar: u.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(u.name || 'User')}`
+        }));
       if (records.length > 0) {
-        await client.from('hospital_users').upsert(records, { onConflict: 'id' });
+        const { error } = await client.from('hospital_users').upsert(records, { onConflict: 'id' });
+        if (error) {
+          console.warn('Supabase hospital_users upsert warning:', error);
+        }
       }
     } catch (e) {
       console.warn('Supabase user sync failed:', e);

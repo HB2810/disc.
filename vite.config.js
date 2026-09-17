@@ -555,7 +555,7 @@ const localNetworkSyncPlugin = () => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/Discount/',
+  base: process.env.VERCEL ? '/' : (process.env.VITE_BASE_PATH || '/Discount/'),
   plugins: [react(), localNetworkSyncPlugin()],
   server: {
     port: 3000,

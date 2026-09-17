@@ -649,6 +649,9 @@ export const AppProvider = ({ children }) => {
     try {
       const res = await fetch('/api/sync');
       if (!res.ok) return;
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) return;
+
       const data = await res.json();
       if (data && data.serverTimestamp && data.serverTimestamp > lastSyncServerTimestampRef.current) {
         lastSyncServerTimestampRef.current = data.serverTimestamp;
@@ -657,20 +660,34 @@ export const AppProvider = ({ children }) => {
           localStorage.setItem('carepulse_requests', JSON.stringify(data.requests));
         }
         if (Array.isArray(data.users)) {
-          setUsers(data.users);
-          localStorage.setItem('carepulse_users', JSON.stringify(data.users));
+          setUsers(prev => {
+            const mergedMap = new Map(prev.map(u => [u.id, u]));
+            data.users.forEach(u => mergedMap.set(u.id, u));
+            const merged = Array.from(mergedMap.values());
+            localStorage.setItem('carepulse_users', JSON.stringify(merged));
+            return merged;
+          });
         }
         if (Array.isArray(data.doctors)) {
-          setDoctors(data.doctors);
-          localStorage.setItem('carepulse_doctors', JSON.stringify(data.doctors));
+          setDoctors(prev => {
+            const merged = Array.from(new Set([...prev, ...data.doctors]));
+            localStorage.setItem('carepulse_doctors', JSON.stringify(merged));
+            return merged;
+          });
         }
         if (Array.isArray(data.departments)) {
-          setDepartments(data.departments);
-          localStorage.setItem('carepulse_departments', JSON.stringify(data.departments));
+          setDepartments(prev => {
+            const merged = Array.from(new Set([...prev, ...data.departments]));
+            localStorage.setItem('carepulse_departments', JSON.stringify(merged));
+            return merged;
+          });
         }
         if (Array.isArray(data.services)) {
-          setServices(data.services);
-          localStorage.setItem('carepulse_services', JSON.stringify(data.services));
+          setServices(prev => {
+            const merged = Array.from(new Set([...prev, ...data.services]));
+            localStorage.setItem('carepulse_services', JSON.stringify(merged));
+            return merged;
+          });
         }
       }
     } catch (e) {}
@@ -690,14 +707,18 @@ export const AppProvider = ({ children }) => {
       if (savedUsers !== null) {
         const parsed = JSON.parse(savedUsers);
         if (Array.isArray(parsed)) {
-          setUsers(prev => JSON.stringify(prev) !== JSON.stringify(parsed) ? parsed : prev);
+          setUsers(prev => {
+            const mergedMap = new Map(prev.map(u => [u.id, u]));
+            parsed.forEach(u => mergedMap.set(u.id, u));
+            return Array.from(mergedMap.values());
+          });
         }
       }
       const savedDocs = localStorage.getItem('carepulse_doctors');
       if (savedDocs !== null) {
         const parsed = JSON.parse(savedDocs);
         if (Array.isArray(parsed)) {
-          setDoctors(prev => JSON.stringify(prev) !== JSON.stringify(parsed) ? parsed : prev);
+          setDoctors(prev => Array.from(new Set([...prev, ...parsed])));
         }
       }
     } catch (e) {}

@@ -236,15 +236,39 @@ export const NewDiscountModal = ({ onClose }) => {
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">Attending Doctor</label>
-              <select
-                value={formData.doctorName}
-                onChange={e => setFormData({ ...formData, doctorName: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
-              >
-                {(doctors || []).map(doc => (
-                  <option key={doc} value={doc}>{doc}</option>
-                ))}
-              </select>
+              <div className="space-y-1.5">
+                <select
+                  value={doctors.includes(formData.doctorName) ? formData.doctorName : 'CUSTOM'}
+                  onChange={e => {
+                    const selected = e.target.value;
+                    if (selected === 'CUSTOM') {
+                      setFormData({ ...formData, doctorName: '' });
+                    } else {
+                      setFormData({ ...formData, doctorName: selected, referenceName: selected });
+                    }
+                  }}
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium"
+                >
+                  {(doctors || []).map(doc => (
+                    <option key={doc} value={doc}>{doc}</option>
+                  ))}
+                  <option value="CUSTOM">+ Type New Doctor Name...</option>
+                </select>
+
+                {(!doctors.includes(formData.doctorName) || formData.doctorName === '') && (
+                  <input
+                    type="text"
+                    required
+                    placeholder="Type Attending Doctor Name (e.g. Dr. Sarah Jenkins)..."
+                    value={formData.doctorName}
+                    onChange={e => {
+                      const val = e.target.value;
+                      setFormData({ ...formData, doctorName: val, referenceName: val });
+                    }}
+                    className="w-full bg-white border border-blue-500 rounded-xl px-3 py-1.5 text-xs text-slate-900 font-semibold focus:outline-none shadow-sm"
+                  />
+                )}
+              </div>
             </div>
           </div>
 

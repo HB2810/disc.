@@ -175,8 +175,8 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-            <div>
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
+            <div className="min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1">Age</label>
               <input
                 type="number"
@@ -184,16 +184,16 @@ export const NewDiscountModal = ({ onClose }) => {
                 max="120"
                 value={formData.patientAge}
                 onChange={e => setFormData({ ...formData, patientAge: Number(e.target.value) })}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
               />
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1">Gender</label>
               <select
                 value={formData.patientGender}
                 onChange={e => setFormData({ ...formData, patientGender: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -201,14 +201,14 @@ export const NewDiscountModal = ({ onClose }) => {
               </select>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1">
                 Department
               </label>
               <select
                 value={formData.department}
                 onChange={e => setFormData({ ...formData, department: e.target.value })}
-                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
               >
                 {departments.map(d => (
                   <option key={d} value={d}>{d}</option>
@@ -216,7 +216,7 @@ export const NewDiscountModal = ({ onClose }) => {
               </select>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="block text-xs font-semibold text-blue-700 mb-1">
                 Hospital Service
               </label>
@@ -227,7 +227,7 @@ export const NewDiscountModal = ({ onClose }) => {
                   const mappedDept = getDepartmentForService ? getDepartmentForService(sName) : formData.department;
                   setFormData({ ...formData, serviceName: sName, department: mappedDept });
                 }}
-                className="w-full bg-slate-50 border border-blue-300 rounded-xl px-3 py-2 text-sm text-blue-900 font-semibold focus:outline-none focus:border-blue-600"
+                className="w-full bg-slate-50 border border-blue-300 rounded-xl px-3 py-2 text-sm text-blue-900 font-semibold focus:outline-none focus:border-blue-600 min-w-0 box-border"
               >
                 {services.map(s => (
                   <option key={s} value={s}>{s}</option>
@@ -235,7 +235,7 @@ export const NewDiscountModal = ({ onClose }) => {
               </select>
             </div>
 
-            <div>
+            <div className="col-span-2 md:col-span-1 min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1">Attending Doctor</label>
               <div className="space-y-1.5">
                 <select
@@ -243,12 +243,12 @@ export const NewDiscountModal = ({ onClose }) => {
                   onChange={e => {
                     const selected = e.target.value;
                     if (selected === 'CUSTOM') {
-                      setFormData({ ...formData, doctorName: '' });
+                      setFormData({ ...formData, doctorName: '', referenceName: '' });
                     } else {
                       setFormData({ ...formData, doctorName: selected, referenceName: selected });
                     }
                   }}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium"
+                  className="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-medium min-w-0 box-border"
                 >
                   {(doctors || []).map(doc => (
                     <option key={doc} value={doc}>{doc}</option>
@@ -266,7 +266,7 @@ export const NewDiscountModal = ({ onClose }) => {
                       const val = e.target.value;
                       setFormData({ ...formData, doctorName: val, referenceName: val });
                     }}
-                    className="w-full bg-white border border-blue-500 rounded-xl px-3 py-1.5 text-xs text-slate-900 font-semibold focus:outline-none shadow-sm"
+                    className="w-full bg-white border border-blue-500 rounded-xl px-3 py-1.5 text-xs text-slate-900 font-semibold focus:outline-none shadow-sm min-w-0 box-border"
                   />
                 )}
               </div>
@@ -280,8 +280,8 @@ export const NewDiscountModal = ({ onClose }) => {
               Receipt Particulars & Patient Reference Info
             </h4>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Receipt No</label>
                 <input
                   type="text"
@@ -289,22 +289,22 @@ export const NewDiscountModal = ({ onClose }) => {
                   placeholder="e.g. RCP-2026-9042"
                   value={formData.receiptNo}
                   onChange={e => setFormData({ ...formData, receiptNo: e.target.value })}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono min-w-0 box-border"
                 />
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Bill Date / Receipt Date</label>
                 <input
                   type="date"
                   required
                   value={formData.billDate}
                   onChange={e => setFormData({ ...formData, billDate: e.target.value })}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                  className="w-full max-w-full min-w-0 box-border bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm text-slate-900 focus:outline-none focus:border-blue-600 appearance-none"
                 />
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">OPD / IPD No</label>
                 <input
                   type="text"
@@ -312,43 +312,43 @@ export const NewDiscountModal = ({ onClose }) => {
                   placeholder="e.g. OPD-88210 / IPD-4412"
                   value={formData.opdIpdNo}
                   onChange={e => setFormData({ ...formData, opdIpdNo: e.target.value })}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 font-mono min-w-0 box-border"
                 />
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Staff / Doctor / Reference Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Dr. Michael Chang / Nurse Sarah"
                   value={formData.referenceName}
                   onChange={e => setFormData({ ...formData, referenceName: e.target.value })}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
                 />
               </div>
 
-              <div>
+              <div className="min-w-0">
                 <label className="block text-xs font-semibold text-slate-700 mb-1">Patient Name / Relative Name</label>
                 <input
                   type="text"
                   placeholder="e.g. Robert Chen (Father: James Chen)"
                   value={formData.relativeName}
                   onChange={e => setFormData({ ...formData, relativeName: e.target.value })}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
                 />
               </div>
             </div>
 
-            <div>
+            <div className="min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1">Particulars (Billing Item Particulars)</label>
               <input
                 type="text"
                 placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
                 value={formData.particulars}
                 onChange={e => setFormData({ ...formData, particulars: e.target.value })}
-                className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600"
+                className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border"
               />
             </div>
           </div>

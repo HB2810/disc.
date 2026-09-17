@@ -242,37 +242,45 @@ export const RequestDetailModal = ({ request, onClose }) => {
               <div>
                 <label className="block text-[11px] font-bold text-slate-700 mb-1">Attending Doctor</label>
                 <div className="space-y-1">
-                  <select
-                    value={doctors.includes(editForm.doctorName) ? editForm.doctorName : 'CUSTOM'}
-                    onChange={e => {
-                      const selected = e.target.value;
-                      if (selected === 'CUSTOM') {
-                        setEditForm(prev => ({ ...prev, doctorName: '' }));
-                      } else {
-                        setEditForm(prev => ({ ...prev, doctorName: selected, referenceName: selected }));
-                      }
-                    }}
-                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600"
-                  >
-                    {doctors?.map(d => (
-                      <option key={d} value={d}>{d}</option>
-                    ))}
-                    <option value="CUSTOM">+ Type Custom Doctor Name...</option>
-                  </select>
+                  {(() => {
+                    const matchDoc = (doctors || []).find(d => d.trim().toLowerCase() === (editForm.doctorName || '').trim().toLowerCase());
+                    const isExistingDoc = Boolean(matchDoc);
+                    return (
+                      <>
+                        <select
+                          value={isExistingDoc ? matchDoc : 'CUSTOM'}
+                          onChange={e => {
+                            const selected = e.target.value;
+                            if (selected === 'CUSTOM') {
+                              setEditForm(prev => ({ ...prev, doctorName: '' }));
+                            } else {
+                              setEditForm(prev => ({ ...prev, doctorName: selected, referenceName: selected }));
+                            }
+                          }}
+                          className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600 truncate"
+                        >
+                          {doctors?.map(d => (
+                            <option key={d} value={d}>{d}</option>
+                          ))}
+                          <option value="CUSTOM">+ Custom Doctor</option>
+                        </select>
 
-                  {(!doctors.includes(editForm.doctorName) || editForm.doctorName === '') && (
-                    <input
-                      type="text"
-                      required
-                      placeholder="Type Attending Doctor Name..."
-                      value={editForm.doctorName}
-                      onChange={e => {
-                        const val = e.target.value;
-                        setEditForm(prev => ({ ...prev, doctorName: val, referenceName: val }));
-                      }}
-                      className="w-full bg-white border border-blue-500 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-900 focus:outline-none shadow-sm"
-                    />
-                  )}
+                        {(!isExistingDoc || editForm.doctorName === '') && (
+                          <input
+                            type="text"
+                            required
+                            placeholder="Type Attending Doctor Name..."
+                            value={editForm.doctorName}
+                            onChange={e => {
+                              const val = e.target.value;
+                              setEditForm(prev => ({ ...prev, doctorName: val, referenceName: val }));
+                            }}
+                            className="w-full bg-white border border-blue-500 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-900 focus:outline-none shadow-sm"
+                          />
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
 

@@ -601,51 +601,54 @@ export const AppProvider = ({ children }) => {
       isMounted = false;
       clearInterval(pollInterval);
       client.removeChannel(channel);
-    };nel);
     };
   }, [supabaseConfig.url, supabaseConfig.anonKey]);
 
   // Sync state to Supabase
   const pushRequestsToSupabase = async (reqsList) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
-    if (!client || !Array.isArray(reqsList) || reqsList.length === 0) return;
+    if (!client || !Array.isArray(reqsList)) return;
 
     try {
-      const records = reqsList.map(req => ({
-        id: req.id,
-        request_code: req.requestCode,
-        patient_id: req.patientId,
-        patient_name: req.patientName,
-        patient_age: req.patientAge,
-        patient_gender: req.patientGender,
-        department: req.department,
-        service_name: req.serviceName,
-        doctor_name: req.doctorName,
-        particulars: req.particulars,
-        reference_name: req.referenceName,
-        relative_name: req.relativeName,
-        receipt_no: req.receiptNo,
-        bill_date: req.billDate,
-        opd_ipd_no: req.opdIpdNo,
-        total_bill_amount: req.totalBillAmount,
-        requested_discount_type: req.requestedDiscountType,
-        requested_discount_val: req.requestedDiscountVal,
-        calculated_discount_amount: req.calculatedDiscountAmount,
-        final_payable_amount: req.finalPayableAmount,
-        reason_category: req.reasonCategory,
-        detailed_reason: req.detailedReason,
-        proof_file_name: req.proofFileName,
-        requested_by: req.requestedBy,
-        required_authority_role: req.requiredAuthorityRole,
-        current_approver_role: req.currentApproverRole,
-        status: req.status,
-        is_direct_executive_grant: req.isDirectExecutiveGrant,
-        approver_comments: req.approverComments,
-        approved_by: req.approvedBy,
-        approval_timestamp: req.approvalTimestamp,
-        approval_chain: req.approvalChain
-      }));
-      await client.from('discount_requests').upsert(records, { onConflict: 'id' });
+      const records = reqsList
+        .filter(req => req && req.status !== 'DELETED')
+        .map(req => ({
+          id: req.id,
+          request_code: req.requestCode,
+          patient_id: req.patientId,
+          patient_name: req.patientName,
+          patient_age: req.patientAge,
+          patient_gender: req.patientGender,
+          department: req.department,
+          service_name: req.serviceName,
+          doctor_name: req.doctorName,
+          particulars: req.particulars,
+          reference_name: req.referenceName,
+          relative_name: req.relativeName,
+          receipt_no: req.receiptNo,
+          bill_date: req.billDate,
+          opd_ipd_no: req.opdIpdNo,
+          total_bill_amount: req.totalBillAmount,
+          requested_discount_type: req.requestedDiscountType,
+          requested_discount_val: req.requestedDiscountVal,
+          calculated_discount_amount: req.calculatedDiscountAmount,
+          final_payable_amount: req.finalPayableAmount,
+          reason_category: req.reasonCategory,
+          detailed_reason: req.detailedReason,
+          proof_file_name: req.proofFileName,
+          requested_by: req.requestedBy,
+          required_authority_role: req.requiredAuthorityRole,
+          current_approver_role: req.currentApproverRole,
+          status: req.status,
+          is_direct_executive_grant: req.isDirectExecutiveGrant,
+          approver_comments: req.approverComments,
+          approved_by: req.approvedBy,
+          approval_timestamp: req.approvalTimestamp,
+          approval_chain: req.approvalChain
+        }));
+      if (records.length > 0) {
+        await client.from('discount_requests').upsert(records, { onConflict: 'id' });
+      }
     } catch (e) {
       console.warn('Supabase request sync failed:', e);
     }
@@ -653,10 +656,13 @@ export const AppProvider = ({ children }) => {
 
   const pushUsersToSupabase = async (usersList) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
-    if (!client || !Array.isArray(usersList) || usersList.length === 0) return;
+    if (!client || !Array.isArray(usersList)) return;
 
     try {
-      await client.from('hospital_users').upsert(usersList, { onConflict: 'id' });
+      const records = usersList.filter(u => u && u.active !== false && u.role !== 'DELETED');
+      if (records.length > 0) {
+        await client.from('hospital_users').upsert(records, { onConflict: 'id' });
+      }
     } catch (e) {
       console.warn('Supabase user sync failed:', e);
     }

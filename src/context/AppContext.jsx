@@ -277,60 +277,72 @@ const INITIAL_DOCTORS = [
 
 export const AppProvider = ({ children }) => {
   const [users, setUsers] = useState(() => {
+    const savedDel = localStorage.getItem('carepulse_deleted_users');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
     const saved = localStorage.getItem('carepulse_users');
-    if (!saved) return INITIAL_USERS;
+    if (!saved) return INITIAL_USERS.filter(u => !delSet.has(u.id) && !delSet.has(u.username) && !delSet.has(u.name));
     try {
       const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : INITIAL_USERS;
+      return Array.isArray(parsed) 
+        ? parsed.filter(u => u.active !== false && u.role !== 'DELETED' && !delSet.has(u.id) && !delSet.has(u.username) && !delSet.has(u.name)) 
+        : INITIAL_USERS.filter(u => !delSet.has(u.id) && !delSet.has(u.username) && !delSet.has(u.name));
     } catch (e) {
-      return INITIAL_USERS;
+      return INITIAL_USERS.filter(u => !delSet.has(u.id) && !delSet.has(u.username) && !delSet.has(u.name));
     }
   });
 
   const [departments, setDepartments] = useState(() => {
+    const savedDel = localStorage.getItem('carepulse_deleted_departments');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
     const saved = localStorage.getItem('carepulse_departments');
-    if (!saved) return INITIAL_DEPARTMENTS;
+    if (!saved) return INITIAL_DEPARTMENTS.filter(d => !delSet.has(d));
     try {
       const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : INITIAL_DEPARTMENTS;
+      return Array.isArray(parsed) ? parsed.filter(d => !delSet.has(d)) : INITIAL_DEPARTMENTS.filter(d => !delSet.has(d));
     } catch (e) {
-      return INITIAL_DEPARTMENTS;
+      return INITIAL_DEPARTMENTS.filter(d => !delSet.has(d));
     }
   });
 
   const [services, setServices] = useState(() => {
+    const savedDel = localStorage.getItem('carepulse_deleted_services');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
     const saved = localStorage.getItem('carepulse_services');
-    if (!saved) return INITIAL_SERVICES;
+    if (!saved) return INITIAL_SERVICES.filter(s => !delSet.has(s));
     try {
       const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : INITIAL_SERVICES;
+      return Array.isArray(parsed) ? parsed.filter(s => !delSet.has(s)) : INITIAL_SERVICES.filter(s => !delSet.has(s));
     } catch (e) {
-      return INITIAL_SERVICES;
+      return INITIAL_SERVICES.filter(s => !delSet.has(s));
     }
   });
 
   const [doctors, setDoctors] = useState(() => {
+    const savedDel = localStorage.getItem('carepulse_deleted_doctors');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
     const saved = localStorage.getItem('carepulse_doctors');
-    if (!saved) return INITIAL_DOCTORS;
+    if (!saved) return INITIAL_DOCTORS.filter(d => !delSet.has(d));
     try {
       const parsed = JSON.parse(saved);
-      return Array.isArray(parsed) ? parsed : INITIAL_DOCTORS;
+      return Array.isArray(parsed) ? parsed.filter(d => !delSet.has(d)) : INITIAL_DOCTORS.filter(d => !delSet.has(d));
     } catch (e) {
-      return INITIAL_DOCTORS;
+      return INITIAL_DOCTORS.filter(d => !delSet.has(d));
     }
   });
 
   const [requests, setRequests] = useState(() => {
+    const savedDel = localStorage.getItem('carepulse_deleted_requests');
+    const delSet = new Set(savedDel ? JSON.parse(savedDel) : []);
     const saved = localStorage.getItem('carepulse_requests');
     if (saved !== null) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) return parsed;
+        if (Array.isArray(parsed)) return parsed.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
       } catch (e) {
         // ignore parse error
       }
     }
-    return INITIAL_REQUESTS;
+    return INITIAL_REQUESTS.filter(r => r.status !== 'DELETED' && !delSet.has(r.id));
   });
 
   const [activeUser, setActiveUser] = useState(() => {
@@ -401,7 +413,8 @@ export const AppProvider = ({ children }) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
     if (!client) return;
 
-    let isMount    const fetchInitialData = async () => {
+    let isMounted = true;
+    const fetchInitialData = async () => {
       try {
         const { data: remoteReqs, error: reqErr } = await client
           .from('discount_requests')
@@ -412,7 +425,7 @@ export const AppProvider = ({ children }) => {
           const deletedReqSet = new Set(savedDelReqs ? JSON.parse(savedDelReqs) : []);
 
           const mapped = remoteReqs
-            .filter(r => !deletedReqSet.has(r.id))
+            .filter(r => r.status !== 'DELETED' && !deletedReqSet.has(r.id))
             .map(r => ({
               id: r.id,
               requestCode: r.request_code,
@@ -461,7 +474,7 @@ export const AppProvider = ({ children }) => {
         if (!userErr && Array.isArray(remoteUsers) && remoteUsers.length > 0 && isMounted) {
           const savedDelUsers = localStorage.getItem('carepulse_deleted_users');
           const deletedUserSet = new Set(savedDelUsers ? JSON.parse(savedDelUsers) : []);
-          const filteredUsers = remoteUsers.filter(u => !deletedUserSet.has(u.id) && !deletedUserSet.has(u.username));
+          const filteredUsers = remoteUsers.filter(u => u.active !== false && u.role !== 'DELETED' && !deletedUserSet.has(u.id) && !deletedUserSet.has(u.username) && !deletedUserSet.has(u.name));
 
           isRemoteUpdateRef.current = true;
           setUsers(prev => {
@@ -703,25 +716,50 @@ export const AppProvider = ({ children }) => {
       if (savedReqs !== null) {
         const parsed = JSON.parse(savedReqs);
         if (Array.isArray(parsed)) {
-          setRequests(prev => JSON.stringify(prev) !== JSON.stringify(parsed) ? parsed : prev);
+          const savedDelReqs = localStorage.getItem('carepulse_deleted_requests');
+          const deletedReqSet = new Set(savedDelReqs ? JSON.parse(savedDelReqs) : []);
+          const filtered = parsed.filter(r => r.status !== 'DELETED' && !deletedReqSet.has(r.id));
+          setRequests(prev => JSON.stringify(prev) !== JSON.stringify(filtered) ? filtered : prev);
         }
       }
       const savedUsers = localStorage.getItem('carepulse_users');
       if (savedUsers !== null) {
         const parsed = JSON.parse(savedUsers);
         if (Array.isArray(parsed)) {
-          setUsers(prev => {
-            const mergedMap = new Map(prev.map(u => [u.id, u]));
-            parsed.forEach(u => mergedMap.set(u.id, u));
-            return Array.from(mergedMap.values());
-          });
+          const savedDelUsers = localStorage.getItem('carepulse_deleted_users');
+          const deletedUserSet = new Set(savedDelUsers ? JSON.parse(savedDelUsers) : []);
+          const filtered = parsed.filter(u => u.active !== false && u.role !== 'DELETED' && !deletedUserSet.has(u.id) && !deletedUserSet.has(u.username) && !deletedUserSet.has(u.name));
+          setUsers(filtered);
         }
       }
       const savedDocs = localStorage.getItem('carepulse_doctors');
       if (savedDocs !== null) {
         const parsed = JSON.parse(savedDocs);
         if (Array.isArray(parsed)) {
-          setDoctors(prev => Array.from(new Set([...prev, ...parsed])));
+          const savedDelDocs = localStorage.getItem('carepulse_deleted_doctors');
+          const deletedDocSet = new Set(savedDelDocs ? JSON.parse(savedDelDocs) : []);
+          const filtered = parsed.filter(d => !deletedDocSet.has(d));
+          setDoctors(filtered);
+        }
+      }
+      const savedDepts = localStorage.getItem('carepulse_departments');
+      if (savedDepts !== null) {
+        const parsed = JSON.parse(savedDepts);
+        if (Array.isArray(parsed)) {
+          const savedDelDepts = localStorage.getItem('carepulse_deleted_departments');
+          const deletedDeptSet = new Set(savedDelDepts ? JSON.parse(savedDelDepts) : []);
+          const filtered = parsed.filter(d => !deletedDeptSet.has(d));
+          setDepartments(filtered);
+        }
+      }
+      const savedSrvs = localStorage.getItem('carepulse_services');
+      if (savedSrvs !== null) {
+        const parsed = JSON.parse(savedSrvs);
+        if (Array.isArray(parsed)) {
+          const savedDelSrvs = localStorage.getItem('carepulse_deleted_services');
+          const deletedSrvSet = new Set(savedDelSrvs ? JSON.parse(savedDelSrvs) : []);
+          const filtered = parsed.filter(s => !deletedSrvSet.has(s));
+          setServices(filtered);
         }
       }
     } catch (e) {}
@@ -1713,10 +1751,17 @@ export const AppProvider = ({ children }) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
     if (client) {
       try {
-        await client.from('hospital_users').delete().eq('id', userId);
-        if (targetUser?.username) {
-          await client.from('hospital_users').delete().eq('username', targetUser.username);
+        await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('id', userId);
+        if (targetUser?.id) {
+          await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('id', targetUser.id);
         }
+        if (targetUser?.username) {
+          await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('username', targetUser.username);
+        }
+        if (targetUser?.name) {
+          await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('name', targetUser.name);
+        }
+        await client.from('hospital_users').delete().eq('id', userId);
       } catch (e) {}
     }
     triggerToast(`User "${targetUser?.name || userId}" removed from directory.`, 'info');
@@ -1726,6 +1771,15 @@ export const AppProvider = ({ children }) => {
   const addDepartment = (deptName) => {
     const trimmed = deptName.trim();
     if (!trimmed) return;
+
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_departments');
+      if (savedDeleted) {
+        const deletedList = JSON.parse(savedDeleted).filter(d => d.toLowerCase() !== trimmed.toLowerCase());
+        localStorage.setItem('carepulse_deleted_departments', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     if (departments.some(d => d.toLowerCase() === trimmed.toLowerCase())) {
       triggerToast(`Department "${trimmed}" already exists.`, 'warning');
       return;
@@ -1740,9 +1794,20 @@ export const AppProvider = ({ children }) => {
 
   const deleteDepartment = (deptName) => {
     if (!deptName) return;
-    const target = deptName.trim().toLowerCase();
+    const target = deptName.trim();
+    const targetLower = target.toLowerCase();
+
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_departments');
+      const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
+      if (!deletedList.includes(target)) {
+        deletedList.push(target);
+        localStorage.setItem('carepulse_deleted_departments', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     setDepartments(prev => {
-      const next = prev.filter(d => d.trim().toLowerCase() !== target);
+      const next = prev.filter(d => d.trim().toLowerCase() !== targetLower);
       localStorage.setItem('carepulse_departments', JSON.stringify(next));
       return next;
     });
@@ -1753,6 +1818,15 @@ export const AppProvider = ({ children }) => {
   const addService = (serviceName) => {
     const trimmed = serviceName.trim();
     if (!trimmed) return;
+
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_services');
+      if (savedDeleted) {
+        const deletedList = JSON.parse(savedDeleted).filter(s => s.toLowerCase() !== trimmed.toLowerCase());
+        localStorage.setItem('carepulse_deleted_services', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     if (services.some(s => s.toLowerCase() === trimmed.toLowerCase())) {
       triggerToast(`Service "${trimmed}" already exists.`, 'warning');
       return;
@@ -1767,9 +1841,20 @@ export const AppProvider = ({ children }) => {
 
   const deleteService = (serviceName) => {
     if (!serviceName) return;
-    const target = serviceName.trim().toLowerCase();
+    const target = serviceName.trim();
+    const targetLower = target.toLowerCase();
+
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_services');
+      const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
+      if (!deletedList.includes(target)) {
+        deletedList.push(target);
+        localStorage.setItem('carepulse_deleted_services', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     setServices(prev => {
-      const next = prev.filter(s => s.trim().toLowerCase() !== target);
+      const next = prev.filter(s => s.trim().toLowerCase() !== targetLower);
       localStorage.setItem('carepulse_services', JSON.stringify(next));
       return next;
     });
@@ -1780,6 +1865,15 @@ export const AppProvider = ({ children }) => {
   const addDoctor = (doctorName) => {
     const trimmed = doctorName.trim();
     if (!trimmed) return;
+
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_doctors');
+      if (savedDeleted) {
+        const deletedList = JSON.parse(savedDeleted).filter(d => d.toLowerCase() !== trimmed.toLowerCase());
+        localStorage.setItem('carepulse_deleted_doctors', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     if (doctors.some(d => d.toLowerCase() === trimmed.toLowerCase())) {
       triggerToast(`Doctor "${trimmed}" already exists.`, 'warning');
       return;
@@ -1792,21 +1886,99 @@ export const AppProvider = ({ children }) => {
     triggerToast(`New doctor "${trimmed}" added to directory successfully!`, 'success');
   };
 
-  const deleteDoctor = (doctorName) => {
+  const deleteDoctor = async (doctorName) => {
     if (!doctorName) return;
-    const target = doctorName.trim().toLowerCase();
+    const target = doctorName.trim();
+    const targetLower = target.toLowerCase();
+
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_doctors');
+      const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
+      if (!deletedList.includes(target)) {
+        deletedList.push(target);
+        localStorage.setItem('carepulse_deleted_doctors', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     setDoctors(prev => {
-      const next = prev.filter(d => d.trim().toLowerCase() !== target);
+      const next = prev.filter(d => d.trim().toLowerCase() !== targetLower);
       localStorage.setItem('carepulse_doctors', JSON.stringify(next));
       return next;
     });
+
+    const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
+    if (client) {
+      try {
+        await client.from('hospital_users').update({ active: false, role: 'DELETED' }).eq('name', target);
+      } catch (e) {}
+    }
+
     triggerToast(`Doctor "${doctorName}" removed from directory.`, 'info');
   };
 
   const clearAllDoctors = () => {
+    // Add all current doctors to deleted doctors blacklist
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_doctors');
+      const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
+      doctors.forEach(doc => {
+        if (!deletedList.includes(doc)) {
+          deletedList.push(doc);
+        }
+      });
+      localStorage.setItem('carepulse_deleted_doctors', JSON.stringify(deletedList));
+    } catch (e) {}
+
     setDoctors([]);
     localStorage.setItem('carepulse_doctors', JSON.stringify([]));
     triggerToast('All preset doctors cleared from directory.', 'info');
+  };
+
+  const updateDiscountRequest = (requestId, updatedFields) => {
+    if (!requestId) return false;
+    
+    let updatedObj = null;
+
+    setRequests(prev => {
+      const nextRequests = prev.map(req => {
+        if (req.id === requestId) {
+          const totalBill = updatedFields.totalBillAmount !== undefined ? Number(updatedFields.totalBillAmount) : req.totalBillAmount;
+          const discType = updatedFields.requestedDiscountType || req.requestedDiscountType;
+          let discountVal = updatedFields.requestedDiscountVal !== undefined ? Number(updatedFields.requestedDiscountVal) : req.requestedDiscountVal;
+          let calculatedDiscount = 0;
+
+          if (discType === 'FIXED') {
+            calculatedDiscount = discountVal;
+            discountVal = Number(((calculatedDiscount / totalBill) * 100).toFixed(1));
+          } else {
+            calculatedDiscount = Number(((totalBill * discountVal) / 100).toFixed(2));
+          }
+
+          const finalPayable = Math.max(0, totalBill - calculatedDiscount);
+          const authorityInfo = getRequiredAuthorityForDiscount(discountVal, calculatedDiscount, updatedFields.targetApprovalRole || req.requiredAuthorityRole);
+
+          updatedObj = {
+            ...req,
+            ...updatedFields,
+            totalBillAmount: totalBill,
+            requestedDiscountType: discType,
+            requestedDiscountVal: discountVal,
+            calculatedDiscountAmount: calculatedDiscount,
+            finalPayableAmount: finalPayable,
+            requiredAuthorityRole: authorityInfo.role
+          };
+          return updatedObj;
+        }
+        return req;
+      });
+
+      localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));
+      pushRequestsToSupabase(nextRequests);
+      return nextRequests;
+    });
+
+    triggerToast('Discount request details updated and saved successfully!', 'success');
+    return updatedObj;
   };
 
   const deleteRequest = async (requestId) => {
@@ -1831,6 +2003,7 @@ export const AppProvider = ({ children }) => {
     const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
     if (client) {
       try {
+        await client.from('discount_requests').update({ status: 'DELETED' }).eq('id', requestId);
         await client.from('discount_requests').delete().eq('id', requestId);
       } catch (e) {}
     }
@@ -1887,6 +2060,7 @@ export const AppProvider = ({ children }) => {
         isExecutiveRole,
         getRoleMeta,
         createDiscountRequest,
+        updateDiscountRequest,
         createDirectExecutiveGrant,
         escalateRequest,
         approveRequest,

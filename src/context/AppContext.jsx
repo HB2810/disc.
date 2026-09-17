@@ -1287,7 +1287,12 @@ export const AppProvider = ({ children }) => {
       ]
     };
 
-    setRequests(prev => [newRequest, ...prev]);
+    setRequests(prev => {
+      const nextRequests = [newRequest, ...prev];
+      localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));
+      pushRequestsToSupabase(nextRequests);
+      return nextRequests;
+    });
 
     // Dispatch SMS & Email to Initial Approver
     const approverUser = users.find(u => u.role === initialApproverRole && u.active) || 
@@ -1387,7 +1392,12 @@ export const AppProvider = ({ children }) => {
       ]
     };
 
-    setRequests(prev => [directReq, ...prev]);
+    setRequests(prev => {
+      const nextRequests = [directReq, ...prev];
+      localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));
+      pushRequestsToSupabase(nextRequests);
+      return nextRequests;
+    });
 
     // Dispatch notifications to Billing Department, CFO, and Chief Accountant
     const billingUser = users.find(u => u.role === 'RECEPTIONIST' || u.role === 'BILLING_CLERK') || { name: 'Billing Desk', email: 'billing@carepulse.com', phone: '+1 (555) 011-4455' };
@@ -1442,17 +1452,22 @@ export const AppProvider = ({ children }) => {
       timestamp: nowIso
     };
 
-    setRequests(prev => prev.map(req => {
-      if (req.id === requestId) {
-        return {
-          ...req,
-          status: newStatus,
-          currentApproverRole: targetUserRole,
-          approvalChain: [...(req.approvalChain || []), newChainItem]
-        };
-      }
-      return req;
-    }));
+    setRequests(prev => {
+      const nextRequests = prev.map(req => {
+        if (req.id === requestId) {
+          return {
+            ...req,
+            status: newStatus,
+            currentApproverRole: targetUserRole,
+            approvalChain: [...(req.approvalChain || []), newChainItem]
+          };
+        }
+        return req;
+      });
+      localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));
+      pushRequestsToSupabase(nextRequests);
+      return nextRequests;
+    });
 
     // Notify target user
     const targetUser = users.find(u => u.role === targetUserRole && u.active) ||
@@ -1494,19 +1509,24 @@ export const AppProvider = ({ children }) => {
       timestamp: nowIso
     };
 
-    setRequests(prev => prev.map(req => {
-      if (req.id === requestId) {
-        return {
-          ...req,
-          status: 'APPROVED',
-          approverComments: finalComment,
-          approvedBy: `${activeUser.name} (${activeUser.designation})`,
-          approvalTimestamp: nowIso,
-          approvalChain: [...(req.approvalChain || []), newChainItem]
-        };
-      }
-      return req;
-    }));
+    setRequests(prev => {
+      const nextRequests = prev.map(req => {
+        if (req.id === requestId) {
+          return {
+            ...req,
+            status: 'APPROVED',
+            approverComments: finalComment,
+            approvedBy: `${activeUser.name} (${activeUser.designation})`,
+            approvalTimestamp: nowIso,
+            approvalChain: [...(req.approvalChain || []), newChainItem]
+          };
+        }
+        return req;
+      });
+      localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));
+      pushRequestsToSupabase(nextRequests);
+      return nextRequests;
+    });
 
     const notif = sendNotification({
       type: 'SMS',
@@ -1547,19 +1567,24 @@ export const AppProvider = ({ children }) => {
       timestamp: nowIso
     };
 
-    setRequests(prev => prev.map(req => {
-      if (req.id === requestId) {
-        return {
-          ...req,
-          status: 'REJECTED',
-          approverComments: reason,
-          approvedBy: `${activeUser.name} (${activeUser.designation})`,
-          approvalTimestamp: nowIso,
-          approvalChain: [...(req.approvalChain || []), newChainItem]
-        };
-      }
-      return req;
-    }));
+    setRequests(prev => {
+      const nextRequests = prev.map(req => {
+        if (req.id === requestId) {
+          return {
+            ...req,
+            status: 'REJECTED',
+            approverComments: reason,
+            approvedBy: `${activeUser.name} (${activeUser.designation})`,
+            approvalTimestamp: nowIso,
+            approvalChain: [...(req.approvalChain || []), newChainItem]
+          };
+        }
+        return req;
+      });
+      localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));
+      pushRequestsToSupabase(nextRequests);
+      return nextRequests;
+    });
 
     const notif = sendNotification({
       type: 'SMS',
@@ -1603,6 +1628,7 @@ export const AppProvider = ({ children }) => {
     setUsers(prev => {
       const nextUsers = [...prev, newUser];
       localStorage.setItem('carepulse_users', JSON.stringify(nextUsers));
+      pushUsersToSupabase(nextUsers);
       return nextUsers;
     });
 
@@ -1617,6 +1643,7 @@ export const AppProvider = ({ children }) => {
     setUsers(prev => {
       const nextUsers = prev.map(u => (u.id === userId || u.username === userId) ? { ...u, ...updatedFields } : u);
       localStorage.setItem('carepulse_users', JSON.stringify(nextUsers));
+      pushUsersToSupabase(nextUsers);
       return nextUsers;
     });
     setActiveUser(prev => {

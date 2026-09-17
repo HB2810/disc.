@@ -15,7 +15,8 @@ import {
   IndianRupee,
   Sparkles,
   ArrowRight,
-  Trash2
+  Trash2,
+  Stethoscope
 } from 'lucide-react';
 
 export const RequestCard = ({ request, onSelect }) => {
@@ -129,6 +130,15 @@ export const RequestCard = ({ request, onSelect }) => {
               <span>ID: {request.patientId}</span>
               <span>•</span>
               <span>{request.department}</span>
+              {(request.doctorName || request.referenceName) && (
+                <>
+                  <span>•</span>
+                  <span className="font-semibold text-slate-800 bg-slate-100 px-1.5 py-0.5 rounded-md border border-slate-200 flex items-center gap-1">
+                    <Stethoscope className="w-3 h-3 text-blue-600" />
+                    {request.doctorName || request.referenceName}
+                  </span>
+                </>
+              )}
               {request.serviceName && (
                 <>
                   <span>•</span>

@@ -108,10 +108,12 @@ ALTER TABLE discount_requests ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Allow public select hospital_users" ON hospital_users FOR SELECT USING (true);
 CREATE POLICY "Allow public insert hospital_users" ON hospital_users FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public update hospital_users" ON hospital_users FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete hospital_users" ON hospital_users FOR DELETE USING (true);
 
 CREATE POLICY "Allow public select discount_requests" ON discount_requests FOR SELECT USING (true);
 CREATE POLICY "Allow public insert discount_requests" ON discount_requests FOR INSERT WITH CHECK (true);
 CREATE POLICY "Allow public update discount_requests" ON discount_requests FOR UPDATE USING (true);
+CREATE POLICY "Allow public delete discount_requests" ON discount_requests FOR DELETE USING (true);
 
 -- 4. Enable Realtime Publications for Live Sync across all browsers/devices
 ALTER PUBLICATION supabase_realtime ADD TABLE discount_requests;

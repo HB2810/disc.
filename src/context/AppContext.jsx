@@ -408,41 +408,46 @@ export const AppProvider = ({ children }) => {
           .select('*')
           .order('created_at', { ascending: false });
         if (!reqErr && Array.isArray(remoteReqs) && isMounted) {
-          const mapped = remoteReqs.map(r => ({
-            id: r.id,
-            requestCode: r.request_code,
-            patientId: r.patient_id,
-            patientName: r.patient_name,
-            patientAge: r.patient_age,
-            patientGender: r.patient_gender,
-            department: r.department,
-            serviceName: r.service_name,
-            doctorName: r.doctor_name,
-            particulars: r.particulars,
-            referenceName: r.reference_name,
-            relativeName: r.relative_name,
-            receiptNo: r.receipt_no,
-            billDate: r.bill_date,
-            opdIpdNo: r.opd_ipd_no,
-            totalBillAmount: Number(r.total_bill_amount) || 0,
-            requestedDiscountType: r.requested_discount_type || 'PERCENTAGE',
-            requestedDiscountVal: Number(r.requested_discount_val) || 0,
-            calculatedDiscountAmount: Number(r.calculated_discount_amount) || 0,
-            finalPayableAmount: Number(r.final_payable_amount) || 0,
-            reasonCategory: r.reason_category || 'Management Special Grant',
-            detailedReason: r.detailed_reason || '',
-            proofFileName: r.proof_file_name || '',
-            requestedBy: r.requested_by || '',
-            requiredAuthorityRole: r.required_authority_role || 'BILLING_MANAGER',
-            currentApproverRole: r.current_approver_role || 'BILLING_MANAGER',
-            status: r.status || 'PENDING_BMGR',
-            isDirectExecutiveGrant: Boolean(r.is_direct_executive_grant),
-            approverComments: r.approver_comments || '',
-            approvedBy: r.approved_by || '',
-            approvalTimestamp: r.approval_timestamp,
-            createdAt: r.created_at,
-            approvalChain: typeof r.approval_chain === 'string' ? JSON.parse(r.approval_chain) : (r.approval_chain || [])
-          }));
+          const savedDelReqs = localStorage.getItem('carepulse_deleted_requests');
+          const deletedReqSet = new Set(savedDelReqs ? JSON.parse(savedDelReqs) : []);
+
+          const mapped = remoteReqs
+            .filter(r => !deletedReqSet.has(r.id))
+            .map(r => ({
+              id: r.id,
+              requestCode: r.request_code,
+              patientId: r.patient_id,
+              patientName: r.patient_name,
+              patientAge: r.patient_age,
+              patientGender: r.patient_gender,
+              department: r.department,
+              serviceName: r.service_name,
+              doctorName: r.doctor_name,
+              particulars: r.particulars,
+              referenceName: r.reference_name,
+              relativeName: r.relative_name,
+              receiptNo: r.receipt_no,
+              billDate: r.bill_date,
+              opdIpdNo: r.opd_ipd_no,
+              totalBillAmount: Number(r.total_bill_amount) || 0,
+              requestedDiscountType: r.requested_discount_type || 'PERCENTAGE',
+              requestedDiscountVal: Number(r.requested_discount_val) || 0,
+              calculatedDiscountAmount: Number(r.calculated_discount_amount) || 0,
+              finalPayableAmount: Number(r.final_payable_amount) || 0,
+              reasonCategory: r.reason_category || 'Management Special Grant',
+              detailedReason: r.detailed_reason || '',
+              proofFileName: r.proof_file_name || '',
+              requestedBy: r.requested_by || '',
+              requiredAuthorityRole: r.required_authority_role || 'BILLING_MANAGER',
+              currentApproverRole: r.current_approver_role || 'BILLING_MANAGER',
+              status: r.status || 'PENDING_BMGR',
+              isDirectExecutiveGrant: Boolean(r.is_direct_executive_grant),
+              approverComments: r.approver_comments || '',
+              approvedBy: r.approved_by || '',
+              approvalTimestamp: r.approval_timestamp,
+              createdAt: r.created_at,
+              approvalChain: typeof r.approval_chain === 'string' ? JSON.parse(r.approval_chain) : (r.approval_chain || [])
+            }));
           isRemoteUpdateRef.current = true;
           setRequests(prev => {
             if (JSON.stringify(prev) !== JSON.stringify(mapped)) {
@@ -454,10 +459,14 @@ export const AppProvider = ({ children }) => {
 
         const { data: remoteUsers, error: userErr } = await client.from('hospital_users').select('*');
         if (!userErr && Array.isArray(remoteUsers) && remoteUsers.length > 0 && isMounted) {
+          const savedDelUsers = localStorage.getItem('carepulse_deleted_users');
+          const deletedUserSet = new Set(savedDelUsers ? JSON.parse(savedDelUsers) : []);
+          const filteredUsers = remoteUsers.filter(u => !deletedUserSet.has(u.id) && !deletedUserSet.has(u.username));
+
           isRemoteUpdateRef.current = true;
           setUsers(prev => {
-            if (JSON.stringify(prev) !== JSON.stringify(remoteUsers)) {
-              return remoteUsers;
+            if (JSON.stringify(prev) !== JSON.stringify(filteredUsers)) {
+              return filteredUsers;
             }
             return prev;
           });
@@ -1659,6 +1668,17 @@ export const AppProvider = ({ children }) => {
 
   const deleteUser = async (userId) => {
     if (!userId) return;
+    
+    // Save to deleted users blacklist so Supabase sync never restores it
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_users');
+      const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
+      if (!deletedList.includes(userId)) {
+        deletedList.push(userId);
+        localStorage.setItem('carepulse_deleted_users', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     setUsers(prev => {
       const next = prev.filter(u => u.id !== userId && u.username !== userId);
       localStorage.setItem('carepulse_users', JSON.stringify(next));
@@ -1763,6 +1783,17 @@ export const AppProvider = ({ children }) => {
   const deleteRequest = async (requestId) => {
     if (!requestId) return false;
     const req = requests.find(r => r.id === requestId);
+
+    // Save to deleted requests blacklist so Supabase sync never restores it
+    try {
+      const savedDeleted = localStorage.getItem('carepulse_deleted_requests');
+      const deletedList = savedDeleted ? JSON.parse(savedDeleted) : [];
+      if (!deletedList.includes(requestId)) {
+        deletedList.push(requestId);
+        localStorage.setItem('carepulse_deleted_requests', JSON.stringify(deletedList));
+      }
+    } catch (e) {}
+
     setRequests(prev => {
       const nextRequests = prev.filter(r => r.id !== requestId);
       localStorage.setItem('carepulse_requests', JSON.stringify(nextRequests));

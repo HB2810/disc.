@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { INITIAL_NOTIFICATIONS, sendNotification } from '../utils/notificationEngine';
 import confetti from 'canvas-confetti';
+import { getSupabaseClient } from '../lib/supabaseClient';
 
 const AppContext = createContext();
 
@@ -358,11 +359,29 @@ export const AppProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : INITIAL_NOTIFICATIONS;
   });
 
-  const [supabaseConfig, setSupabaseConfig] = useState({
-    url: '',
-    anonKey: '',
-    isConnected: false
+  const [supabaseConfig, setSupabaseConfigState] = useState(() => {
+    const saved = localStorage.getItem('carepulse_supabase_config');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (parsed && (parsed.url || parsed.anonKey)) return parsed;
+      } catch (e) {}
+    }
+    const defaultUrl = 'https://iqxeglbbvseirtjbwtdu.supabase.co';
+    const defaultKey = 'sb_publishable_5fFaz9BHk_oxp_LyBH9e4A_8JtEIErr';
+    const envUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.NEXT_PUBLIC_SUPABASE_URL || defaultUrl;
+    const envKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || defaultKey;
+    return {
+      url: envUrl,
+      anonKey: envKey,
+      isConnected: Boolean(envUrl && envKey)
+    };
   });
+
+  const setSupabaseConfig = (config) => {
+    setSupabaseConfigState(config);
+    localStorage.setItem('carepulse_supabase_config', JSON.stringify(config));
+  };
 
   const [toastAlert, setToastAlert] = useState(null);
 
@@ -379,6 +398,218 @@ export const AppProvider = ({ children }) => {
 
   // Zero-Cloud Local Wi-Fi Network Server Auto-Sync (/api/sync)
   const lastSyncServerTimestampRef = React.useRef(0);
+  const isRemoteUpdateRef = React.useRef(false);
+
+  // Supabase Realtime Database Subscriptions & Fetching
+  useEffect(() => {
+    const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
+    if (!client) return;
+
+    let isMounted = true;
+
+    const fetchInitialData = async () => {
+      try {
+        const { data: remoteReqs, error: reqErr } = await client.from('discount_requests').select('*');
+        if (!reqErr && Array.isArray(remoteReqs) && remoteReqs.length > 0 && isMounted) {
+          const mapped = remoteReqs.map(r => ({
+            id: r.id,
+            requestCode: r.request_code,
+            patientId: r.patient_id,
+            patientName: r.patient_name,
+            patientAge: r.patient_age,
+            patientGender: r.patient_gender,
+            department: r.department,
+            serviceName: r.service_name,
+            doctorName: r.doctor_name,
+            particulars: r.particulars,
+            referenceName: r.reference_name,
+            relativeName: r.relative_name,
+            receiptNo: r.receipt_no,
+            billDate: r.bill_date,
+            opdIpdNo: r.opd_ipd_no,
+            totalBillAmount: Number(r.total_bill_amount) || 0,
+            requestedDiscountType: r.requested_discount_type || 'PERCENTAGE',
+            requestedDiscountVal: Number(r.requested_discount_val) || 0,
+            calculatedDiscountAmount: Number(r.calculated_discount_amount) || 0,
+            finalPayableAmount: Number(r.final_payable_amount) || 0,
+            reasonCategory: r.reason_category || 'Management Special Grant',
+            detailedReason: r.detailed_reason || '',
+            proofFileName: r.proof_file_name || '',
+            requestedBy: r.requested_by || '',
+            requiredAuthorityRole: r.required_authority_role || 'BILLING_MANAGER',
+            currentApproverRole: r.current_approver_role || 'BILLING_MANAGER',
+            status: r.status || 'PENDING_BMGR',
+            isDirectExecutiveGrant: Boolean(r.is_direct_executive_grant),
+            approverComments: r.approver_comments || '',
+            approvedBy: r.approved_by || '',
+            approvalTimestamp: r.approval_timestamp,
+            createdAt: r.created_at,
+            approvalChain: typeof r.approval_chain === 'string' ? JSON.parse(r.approval_chain) : (r.approval_chain || [])
+          }));
+          isRemoteUpdateRef.current = true;
+          setRequests(mapped);
+        }
+
+        const { data: remoteUsers, error: userErr } = await client.from('hospital_users').select('*');
+        if (!userErr && Array.isArray(remoteUsers) && remoteUsers.length > 0 && isMounted) {
+          isRemoteUpdateRef.current = true;
+          setUsers(remoteUsers);
+        }
+      } catch (e) {
+        console.warn('Supabase initial fetch warning:', e);
+      }
+    };
+
+    fetchInitialData();
+
+    // Subscribe to real-time postgres changes
+    const channel = client
+      .channel('public:realtime-discount-channel')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'discount_requests' },
+        (payload) => {
+          if (!isMounted) return;
+          if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+            const r = payload.new;
+            const updatedReq = {
+              id: r.id,
+              requestCode: r.request_code,
+              patientId: r.patient_id,
+              patientName: r.patient_name,
+              patientAge: r.patient_age,
+              patientGender: r.patient_gender,
+              department: r.department,
+              serviceName: r.service_name,
+              doctorName: r.doctor_name,
+              particulars: r.particulars,
+              referenceName: r.reference_name,
+              relativeName: r.relative_name,
+              receiptNo: r.receipt_no,
+              billDate: r.bill_date,
+              opdIpdNo: r.opd_ipd_no,
+              totalBillAmount: Number(r.total_bill_amount) || 0,
+              requestedDiscountType: r.requested_discount_type || 'PERCENTAGE',
+              requestedDiscountVal: Number(r.requested_discount_val) || 0,
+              calculatedDiscountAmount: Number(r.calculated_discount_amount) || 0,
+              finalPayableAmount: Number(r.final_payable_amount) || 0,
+              reasonCategory: r.reason_category || 'Management Special Grant',
+              detailedReason: r.detailed_reason || '',
+              proofFileName: r.proof_file_name || '',
+              requestedBy: r.requested_by || '',
+              requiredAuthorityRole: r.required_authority_role || 'BILLING_MANAGER',
+              currentApproverRole: r.current_approver_role || 'BILLING_MANAGER',
+              status: r.status || 'PENDING_BMGR',
+              isDirectExecutiveGrant: Boolean(r.is_direct_executive_grant),
+              approverComments: r.approver_comments || '',
+              approvedBy: r.approved_by || '',
+              approvalTimestamp: r.approval_timestamp,
+              createdAt: r.created_at,
+              approvalChain: typeof r.approval_chain === 'string' ? JSON.parse(r.approval_chain) : (r.approval_chain || [])
+            };
+
+            isRemoteUpdateRef.current = true;
+            setRequests(prev => {
+              const idx = prev.findIndex(item => item.id === updatedReq.id);
+              if (idx >= 0) {
+                const next = [...prev];
+                next[idx] = updatedReq;
+                return next;
+              }
+              return [updatedReq, ...prev];
+            });
+          } else if (payload.eventType === 'DELETE') {
+            isRemoteUpdateRef.current = true;
+            setRequests(prev => prev.filter(item => item.id !== payload.old.id));
+          }
+        }
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'hospital_users' },
+        (payload) => {
+          if (!isMounted) return;
+          if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
+            isRemoteUpdateRef.current = true;
+            setUsers(prev => {
+              const idx = prev.findIndex(u => u.id === payload.new.id);
+              if (idx >= 0) {
+                const next = [...prev];
+                next[idx] = payload.new;
+                return next;
+              }
+              return [...prev, payload.new];
+            });
+          } else if (payload.eventType === 'DELETE') {
+            isRemoteUpdateRef.current = true;
+            setUsers(prev => prev.filter(u => u.id !== payload.old.id));
+          }
+        }
+      )
+      .subscribe();
+
+    return () => {
+      isMounted = false;
+      client.removeChannel(channel);
+    };
+  }, [supabaseConfig.url, supabaseConfig.anonKey]);
+
+  // Sync state to Supabase
+  const pushRequestsToSupabase = async (reqsList) => {
+    const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
+    if (!client || !Array.isArray(reqsList) || reqsList.length === 0) return;
+
+    try {
+      const records = reqsList.map(req => ({
+        id: req.id,
+        request_code: req.requestCode,
+        patient_id: req.patientId,
+        patient_name: req.patientName,
+        patient_age: req.patientAge,
+        patient_gender: req.patientGender,
+        department: req.department,
+        service_name: req.serviceName,
+        doctor_name: req.doctorName,
+        particulars: req.particulars,
+        reference_name: req.referenceName,
+        relative_name: req.relativeName,
+        receipt_no: req.receiptNo,
+        bill_date: req.billDate,
+        opd_ipd_no: req.opdIpdNo,
+        total_bill_amount: req.totalBillAmount,
+        requested_discount_type: req.requestedDiscountType,
+        requested_discount_val: req.requestedDiscountVal,
+        calculated_discount_amount: req.calculatedDiscountAmount,
+        final_payable_amount: req.finalPayableAmount,
+        reason_category: req.reasonCategory,
+        detailed_reason: req.detailedReason,
+        proof_file_name: req.proofFileName,
+        requested_by: req.requestedBy,
+        required_authority_role: req.requiredAuthorityRole,
+        current_approver_role: req.currentApproverRole,
+        status: req.status,
+        is_direct_executive_grant: req.isDirectExecutiveGrant,
+        approver_comments: req.approverComments,
+        approved_by: req.approvedBy,
+        approval_timestamp: req.approvalTimestamp,
+        approval_chain: req.approvalChain
+      }));
+      await client.from('discount_requests').upsert(records, { onConflict: 'id' });
+    } catch (e) {
+      console.warn('Supabase request sync failed:', e);
+    }
+  };
+
+  const pushUsersToSupabase = async (usersList) => {
+    const client = getSupabaseClient(supabaseConfig.url, supabaseConfig.anonKey);
+    if (!client || !Array.isArray(usersList) || usersList.length === 0) return;
+
+    try {
+      await client.from('hospital_users').upsert(usersList, { onConflict: 'id' });
+    } catch (e) {
+      console.warn('Supabase user sync failed:', e);
+    }
+  };
 
   const pushToLocalServerSync = (overrideState = {}) => {
     try {
@@ -571,6 +802,11 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('carepulse_users', JSON.stringify(users));
     pushToLocalServerSync({ users });
+    if (isRemoteUpdateRef.current) {
+      isRemoteUpdateRef.current = false;
+    } else {
+      pushUsersToSupabase(users);
+    }
   }, [users]);
 
   useEffect(() => {
@@ -591,6 +827,11 @@ export const AppProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('carepulse_requests', JSON.stringify(requests));
     pushToLocalServerSync({ requests });
+    if (isRemoteUpdateRef.current) {
+      isRemoteUpdateRef.current = false;
+    } else {
+      pushRequestsToSupabase(requests);
+    }
   }, [requests]);
 
   useEffect(() => {

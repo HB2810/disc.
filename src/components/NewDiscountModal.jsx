@@ -24,6 +24,7 @@ export const NewDiscountModal = ({ onClose }) => {
 
   const defaultService = (services && services[0]) || 'Consultation Fees';
   const defaultDept = getDepartmentForService ? getDepartmentForService(defaultService) : (departments[0] || 'OPD');
+  const defaultDoc = (doctors && doctors[0]) || 'Dr. Sarah Jenkins';
 
   const [formData, setFormData] = useState({
     patientId: 'PT-' + Math.floor(10000 + Math.random() * 90000),
@@ -32,11 +33,11 @@ export const NewDiscountModal = ({ onClose }) => {
     patientGender: 'Male',
     department: defaultDept,
     serviceName: defaultService,
-    doctorName: (doctors && doctors[0]) || 'Dr. Michael Chang',
+    doctorName: defaultDoc,
     receiptNo: 'RCP-' + Math.floor(10000 + Math.random() * 90000),
     billDate: new Date().toISOString().split('T')[0],
     opdIpdNo: 'OPD-' + Math.floor(1000 + Math.random() * 9000),
-    referenceName: 'Dr. Michael Chang',
+    referenceName: defaultDoc,
     relativeName: '',
     particulars: 'Consultation & Clinical Procedure Particulars',
     totalBillAmount: 25000,

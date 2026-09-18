@@ -18,7 +18,8 @@ import {
   Cpu,
   Calculator,
   Menu,
-  X
+  X,
+  Calendar
 } from 'lucide-react';
 
 export const Header = ({ 
@@ -161,6 +162,17 @@ export const Header = ({
           >
             <Smartphone className="w-4 h-4 text-blue-600" />
             <span>Mobile Sync</span>
+          </button>
+
+          {/* Automated Daily Data Backup & Snapshots Button */}
+          <button
+            onClick={onOpenPortingModal}
+            className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+            title="Daily Data Backup, Automated Snapshots & History"
+          >
+            <Calendar className="w-4 h-4 text-emerald-600" />
+            <span>Daily Data Backup</span>
+            <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
           </button>
 
           {/* Port & API Integration Modal Button */}
@@ -331,6 +343,14 @@ export const Header = ({
             >
               <Smartphone className="w-4 h-4" />
               <span>Mobile Sync</span>
+            </button>
+
+            <button
+              onClick={() => { onOpenPortingModal(); setMobileMenuOpen(false); }}
+              className="py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-300 font-extrabold text-xs flex items-center justify-center gap-1.5"
+            >
+              <Calendar className="w-4 h-4 text-emerald-600" />
+              <span>Daily Data Backup</span>
             </button>
 
             <button

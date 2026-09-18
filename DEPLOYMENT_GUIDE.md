@@ -152,9 +152,64 @@ You have **two options** to connect Supabase:
    VITE_SUPABASE_URL=https://your-project-ref.supabase.co
    VITE_SUPABASE_ANON_KEY=your-anon-public-key
    ```
-2. For GitHub Actions deployment, add secrets in GitHub:
-   - Go to your GitHub repository -> **Settings** -> **Secrets and variables** -> **Actions**.
-   - Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+2. For Vercel or GitHub Actions deployment, add environment variables in your deployment dashboard:
+   - For Vercel: Project Settings -> Environment Variables -> Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+   - For GitHub: Settings -> Secrets and variables -> Actions.
+
+---
+
+## Part 3: Vercel Deployment & Sync Setup Guide
+
+Vercel provides high-performance hosting for Vite React applications with automatic HTTPS, custom domain support, and continuous deployment from GitHub.
+
+### Step 1: Deploy to Vercel via GitHub Integration (Recommended)
+
+1. **Commit & Push changes**:
+   ```bash
+   git add .
+   git commit -m "Deploy to Vercel with Supabase sync"
+   git push origin main
+   ```
+
+2. **Import Project into Vercel**:
+   - Log in to your [Vercel Dashboard](https://vercel.com/dashboard).
+   - Click **Add New** -> **Project**.
+   - Select your GitHub repository (`hospital-billing-discount-system` or `Discount`).
+   - Framework Preset: **Vite** (Vercel will detect `vercel.json` and `vite.config.js` automatically).
+
+3. **Configure Environment Variables**:
+   In the Vercel deployment setup screen, expand **Environment Variables** and add:
+   - **Key**: `VITE_SUPABASE_URL` | **Value**: `https://iqxeglbbvseirtjbwtdu.supabase.co`
+   - **Key**: `VITE_SUPABASE_ANON_KEY` | **Value**: `sb_publishable_5fFaz9BHk_oxp_LyBH9e4A_8JtEIErr`
+
+4. Click **Deploy**. Vercel will build and assign a live production URL (e.g., `https://your-project.vercel.app`).
+
+---
+
+### Step 2: Deploy to Vercel via Vercel CLI (Alternative)
+
+If you prefer deploying directly from your terminal:
+
+1. Install Vercel CLI globally (if not already installed):
+   ```bash
+   npm install -g vercel
+   ```
+2. Run deployment command:
+   ```bash
+   vercel
+   ```
+3. For production release:
+   ```bash
+   vercel --prod
+   ```
+
+---
+
+### Step 3: Verify Multi-Device Realtime Sync
+
+1. Open your deployed Vercel URL on a desktop browser and a mobile device (or two separate browser windows).
+2. Check the top status pill: it should show **"Supabase Realtime"** with a green live indicator.
+3. Submit a new discount request on Device A -> Notice it instantly appears on Device B without refreshing the page!
 
 ---
 
@@ -163,3 +218,4 @@ You have **two options** to connect Supabase:
 - ⚡ **Zero-Lag Realtime DB Sync**: Actions taken by a receptionist, billing manager, CFO, or MD sync live across all browsers without page refresh.
 - 📱 **Mobile & Desktop Portability**: Supports desktop billing workstations, mobile browser approval tablets, local network Wi-Fi sync, and cloud Supabase sync.
 - 🔐 **Fallback Resilience**: Works offline with local storage and auto-connects when Supabase network credentials are available.
+

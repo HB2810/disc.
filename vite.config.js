@@ -555,7 +555,7 @@ const localNetworkSyncPlugin = () => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './',
+  base: '/',
   plugins: [react(), localNetworkSyncPlugin()],
   server: {
     port: 3000,

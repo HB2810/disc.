@@ -43,6 +43,8 @@ export const RequestDetailModal = ({ request, onClose }) => {
     detailedReason: request?.detailedReason || ''
   });
 
+  const [isCustomParticular, setIsCustomParticular] = useState(false);
+
   if (!request) return null;
 
   const isPending = request.status?.startsWith('PENDING');
@@ -298,36 +300,80 @@ export const RequestDetailModal = ({ request, onClose }) => {
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-[11px] font-bold text-slate-700 mb-1">Item Particulars</label>
+                <label className="block text-[11px] font-bold text-slate-700 mb-1 flex items-center justify-between">
+                  <span>Item Particulars</span>
+                  <span className="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200 font-bold">Dropdown Menu</span>
+                </label>
                 <div className="space-y-1">
-                  <select
-                    value={services?.some(s => editForm.particulars?.includes(s)) ? services.find(s => editForm.particulars?.includes(s)) : 'CUSTOM'}
-                    onChange={e => {
-                      const val = e.target.value;
-                      if (val === 'CUSTOM') {
-                        setEditForm(prev => ({ ...prev, particulars: '' }));
-                      } else {
-                        setEditForm(prev => ({ ...prev, particulars: `${val} Procedure & Charge Waiver` }));
-                      }
-                    }}
-                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-semibold text-blue-900 focus:outline-none focus:border-blue-600 truncate mb-1"
-                  >
-                    <option value="CUSTOM">Select Service Preset / Custom Particular...</option>
-                    <optgroup label="Hospital Services Directory">
-                      {(services || []).map(svc => (
-                        <option key={svc} value={svc}>{svc} ({svc} Waiver Particulars)</option>
-                      ))}
-                    </optgroup>
-                    <option value="CUSTOM">+ Type Custom Particular Text...</option>
-                  </select>
+                  {(() => {
+                    const STANDARD_PRESETS = [
+                      'Consultation & Clinical Procedure Particulars',
+                      'OPD Consultation Charge Waiver',
+                      'Spine Surgery Procedure & IPD Room Charge Concession',
+                      'Spine MRI Scan & Diagnostic Radiology Waiver',
+                      'CT Scan & Advanced Diagnostic Particulars',
+                      'X-Ray & Diagnostic Imaging Waiver',
+                      'Physiotherapy & Rehabilitation Package Waiver',
+                      'Pathology Laboratory & Blood Test Concession',
+                      'Emergency Care & ICU Bed Charge Concession',
+                      'Pharmacy & Medical Supplies Concession'
+                    ];
 
-                  <input
-                    type="text"
-                    placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
-                    value={editForm.particulars}
-                    onChange={e => setEditForm(prev => ({ ...prev, particulars: e.target.value }))}
-                    className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600"
-                  />
+                    const isKnownPreset = STANDARD_PRESETS.includes(editForm.particulars);
+                    const matchedService = (services || []).find(s => editForm.particulars === `${s} Procedure & Charge Waiver`);
+                    const isServicePreset = Boolean(matchedService);
+
+                    let currentValue = 'CUSTOM';
+                    if (!isCustomParticular) {
+                      if (isKnownPreset) currentValue = editForm.particulars;
+                      else if (isServicePreset) currentValue = `SVC:${matchedService}`;
+                    }
+
+                    return (
+                      <>
+                        <select
+                          value={currentValue}
+                          onChange={e => {
+                            const val = e.target.value;
+                            if (val === 'CUSTOM') {
+                              setIsCustomParticular(true);
+                              setEditForm(prev => ({ ...prev, particulars: '' }));
+                            } else if (val.startsWith('SVC:')) {
+                              setIsCustomParticular(false);
+                              const svcName = val.replace('SVC:', '');
+                              setEditForm(prev => ({ ...prev, particulars: `${svcName} Procedure & Charge Waiver` }));
+                            } else {
+                              setIsCustomParticular(false);
+                              setEditForm(prev => ({ ...prev, particulars: val }));
+                            }
+                          }}
+                          className="w-full bg-blue-50/70 border border-blue-300 rounded-xl px-3 py-2 text-xs font-bold text-blue-900 focus:outline-none focus:border-blue-600 truncate mb-1 shadow-sm cursor-pointer"
+                        >
+                          <optgroup label="Standard Hospital Billing Particulars">
+                            {STANDARD_PRESETS.map(p => (
+                              <option key={p} value={p}>{p}</option>
+                            ))}
+                          </optgroup>
+                          <optgroup label="Hospital Services Directory">
+                            {(services || []).map(svc => (
+                              <option key={svc} value={`SVC:${svc}`}>{svc} ({svc} Waiver Particulars)</option>
+                            ))}
+                          </optgroup>
+                          <option value="CUSTOM">+ Type Custom Particular Text...</option>
+                        </select>
+
+                        {isCustomParticular && (
+                          <input
+                            type="text"
+                            placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
+                            value={editForm.particulars}
+                            onChange={e => setEditForm(prev => ({ ...prev, particulars: e.target.value }))}
+                            className="w-full bg-white border border-blue-500 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600 animate-fadeIn"
+                          />
+                        )}
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
 

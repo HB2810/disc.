@@ -49,6 +49,8 @@ export const NewDiscountModal = ({ onClose }) => {
     proofFileName: ''
   });
 
+  const [isCustomParticular, setIsCustomParticular] = useState(false);
+
   // Sync default doctor when doctors array updates asynchronously
   React.useEffect(() => {
     if (doctors && doctors.length > 0) {
@@ -234,22 +236,67 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             <div className="min-w-0">
-              <label className="block text-xs font-semibold text-blue-700 mb-1">
-                Hospital Service
+              <label className="block text-xs font-semibold text-blue-700 mb-1 flex items-center justify-between">
+                <span>Hospital Service</span>
+                <span className="text-[10px] text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">Required</span>
               </label>
-              <select
-                value={formData.serviceName}
-                onChange={e => {
-                  const sName = e.target.value;
-                  const mappedDept = getDepartmentForService ? getDepartmentForService(sName) : formData.department;
-                  setFormData({ ...formData, serviceName: sName, department: mappedDept });
-                }}
-                className="w-full bg-slate-50 border border-blue-300 rounded-xl px-3 py-2 text-sm text-blue-900 font-semibold focus:outline-none focus:border-blue-600 min-w-0 box-border"
-              >
-                {services.map(s => (
-                  <option key={s} value={s}>{s}</option>
-                ))}
-              </select>
+              <div className="space-y-1.5">
+                {(() => {
+                  const matchSvc = (services || []).find(s => s.trim().toLowerCase() === (formData.serviceName || '').trim().toLowerCase());
+                  const isExistingSvc = Boolean(matchSvc);
+                  return (
+                    <>
+                      <select
+                        value={isExistingSvc ? matchSvc : 'CUSTOM'}
+                        onChange={e => {
+                          const selected = e.target.value;
+                          if (selected === 'CUSTOM') {
+                            setFormData({ ...formData, serviceName: '' });
+                          } else {
+                            const mappedDept = getDepartmentForService ? getDepartmentForService(selected) : formData.department;
+                            setFormData(prev => ({
+                              ...prev,
+                              serviceName: selected,
+                              department: mappedDept,
+                              particulars: prev.particulars?.includes('Particulars') || prev.particulars?.includes('Waiver') || !prev.particulars
+                                ? `${selected} Procedure & Charge Waiver`
+                                : prev.particulars
+                            }));
+                          }
+                        }}
+                        className="w-full bg-blue-50/60 border border-blue-300 rounded-xl px-3 py-2 text-sm text-blue-900 font-bold focus:outline-none focus:border-blue-600 min-w-0 box-border truncate"
+                      >
+                        <optgroup label="Standard Hospital Services">
+                          {(services || []).map(s => (
+                            <option key={s} value={s}>{s}</option>
+                          ))}
+                        </optgroup>
+                        <option value="CUSTOM">+ Custom Hospital Service...</option>
+                      </select>
+
+                      {(!isExistingSvc || formData.serviceName === '') && (
+                        <input
+                          type="text"
+                          required
+                          placeholder="Type Custom Hospital Service Name..."
+                          value={formData.serviceName}
+                          onChange={e => {
+                            const val = e.target.value;
+                            setFormData(prev => ({
+                              ...prev,
+                              serviceName: val,
+                              particulars: prev.particulars?.includes('Waiver') || !prev.particulars
+                                ? `${val || 'Custom Service'} Procedure Waiver`
+                                : prev.particulars
+                            }));
+                          }}
+                          className="w-full bg-white border border-blue-500 rounded-xl px-3 py-1.5 text-xs text-blue-900 font-semibold focus:outline-none shadow-sm min-w-0 box-border"
+                        />
+                      )}
+                    </>
+                  );
+                })()}
+              </div>
             </div>
 
             <div className="col-span-2 md:col-span-1 min-w-0">
@@ -367,38 +414,81 @@ export const NewDiscountModal = ({ onClose }) => {
             </div>
 
             <div className="min-w-0">
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Particulars (Billing Item Particulars)</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
+                <span>Particulars (Billing Item Particulars)</span>
+                <span className="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-bold">Dropdown Menu</span>
+              </label>
               <div className="space-y-1.5">
-                <select
-                  value={services.some(s => formData.particulars?.includes(s)) ? services.find(s => formData.particulars?.includes(s)) : (formData.particulars === 'Consultation & Clinical Procedure Particulars' ? 'PRESET_DEFAULT' : 'CUSTOM')}
-                  onChange={e => {
-                    const val = e.target.value;
-                    if (val === 'CUSTOM') {
-                      setFormData({ ...formData, particulars: '' });
-                    } else if (val === 'PRESET_DEFAULT') {
-                      setFormData({ ...formData, particulars: 'Consultation & Clinical Procedure Particulars' });
-                    } else {
-                      setFormData({ ...formData, particulars: `${val} Procedure & Charge Waiver` });
-                    }
-                  }}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs md:text-sm font-semibold text-blue-900 focus:outline-none focus:border-blue-600 min-w-0 box-border truncate"
-                >
-                  <option value="PRESET_DEFAULT">Select Hospital Service / Particular Preset...</option>
-                  <optgroup label="Hospital Services Directory">
-                    {(services || []).map(svc => (
-                      <option key={svc} value={svc}>{svc} ({svc} Waiver Particulars)</option>
-                    ))}
-                  </optgroup>
-                  <option value="CUSTOM">+ Custom Particular Text...</option>
-                </select>
+                {(() => {
+                  const STANDARD_PRESETS = [
+                    'Consultation & Clinical Procedure Particulars',
+                    'OPD Consultation Charge Waiver',
+                    'Spine Surgery Procedure & IPD Room Charge Concession',
+                    'Spine MRI Scan & Diagnostic Radiology Waiver',
+                    'CT Scan & Advanced Diagnostic Particulars',
+                    'X-Ray & Diagnostic Imaging Waiver',
+                    'Physiotherapy & Rehabilitation Package Waiver',
+                    'Pathology Laboratory & Blood Test Concession',
+                    'Emergency Care & ICU Bed Charge Concession',
+                    'Pharmacy & Medical Supplies Concession'
+                  ];
 
-                <input
-                  type="text"
-                  placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
-                  value={formData.particulars}
-                  onChange={e => setFormData({ ...formData, particulars: e.target.value })}
-                  className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2 text-sm text-slate-900 focus:outline-none focus:border-blue-600 min-w-0 box-border font-medium"
-                />
+                  const isKnownPreset = STANDARD_PRESETS.includes(formData.particulars);
+                  const matchedService = (services || []).find(s => formData.particulars === `${s} Procedure & Charge Waiver`);
+                  const isServicePreset = Boolean(matchedService);
+
+                  let currentValue = 'CUSTOM';
+                  if (!isCustomParticular) {
+                    if (isKnownPreset) currentValue = formData.particulars;
+                    else if (isServicePreset) currentValue = `SVC:${matchedService}`;
+                  }
+
+                  return (
+                    <>
+                      <select
+                        value={currentValue}
+                        onChange={e => {
+                          const val = e.target.value;
+                          if (val === 'CUSTOM') {
+                            setIsCustomParticular(true);
+                            setFormData(prev => ({ ...prev, particulars: '' }));
+                          } else if (val.startsWith('SVC:')) {
+                            setIsCustomParticular(false);
+                            const svcName = val.replace('SVC:', '');
+                            setFormData(prev => ({ ...prev, particulars: `${svcName} Procedure & Charge Waiver` }));
+                          } else {
+                            setIsCustomParticular(false);
+                            setFormData(prev => ({ ...prev, particulars: val }));
+                          }
+                        }}
+                        className="w-full bg-blue-50/70 border border-blue-300 rounded-xl px-3.5 py-2.5 text-sm text-blue-900 font-bold focus:outline-none focus:border-blue-600 min-w-0 box-border truncate shadow-sm cursor-pointer"
+                      >
+                        <optgroup label="Standard Hospital Billing Particulars">
+                          {STANDARD_PRESETS.map(p => (
+                            <option key={p} value={p}>{p}</option>
+                          ))}
+                        </optgroup>
+                        <optgroup label="Hospital Services Particulars Directory">
+                          {(services || []).map(svc => (
+                            <option key={svc} value={`SVC:${svc}`}>{svc} ({svc} Waiver Particulars)</option>
+                          ))}
+                        </optgroup>
+                        <option value="CUSTOM">+ Type Custom Particular Text...</option>
+                      </select>
+
+                      {isCustomParticular && (
+                        <input
+                          type="text"
+                          required
+                          placeholder="Type Custom Billing Particular Details..."
+                          value={formData.particulars}
+                          onChange={e => setFormData(prev => ({ ...prev, particulars: e.target.value }))}
+                          className="w-full bg-white border border-blue-500 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-semibold focus:outline-none shadow-sm min-w-0 box-border animate-fadeIn"
+                        />
+                      )}
+                    </>
+                  );
+                })()}
               </div>
             </div>
           </div>

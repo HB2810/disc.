@@ -13,7 +13,8 @@ import {
   FileSpreadsheet,
   PieChart as PieIcon,
   BarChart3,
-  Sparkles
+  Sparkles,
+  Calendar
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -28,7 +29,7 @@ import {
   Legend 
 } from 'recharts';
 
-export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal }) => {
+export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal, onOpenPortingModal }) => {
   const { requests, activeUser, services } = useApp();
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -140,10 +141,19 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal })
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            onClick={onOpenPortingModal}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition-all shadow-md shadow-emerald-600/20 active:scale-95 cursor-pointer"
+            title="Daily Data Backup, Automated Snapshots & Backup History"
+          >
+            <Calendar className="w-4 h-4 text-white" />
+            <span>📅 Daily Data Backup & Snapshots</span>
+            <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+          </button>
           <button
             onClick={onOpenExcelModal}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold transition-all shadow-sm"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold transition-all shadow-sm cursor-pointer"
           >
             <FileSpreadsheet className="w-4 h-4 text-emerald-600" />
             Export Excel Report

@@ -94,6 +94,7 @@ export function AppContent() {
               onSelectRequest={(req) => setSelectedRequest(req)}
               onOpenNewModal={() => setShowNewModal(true)}
               onOpenExcelModal={() => setShowExcelModal(true)}
+              onOpenPortingModal={() => setShowPortingModal(true)}
             />
           ) : (
             <AdminUserManagement />

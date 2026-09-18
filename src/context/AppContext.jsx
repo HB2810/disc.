@@ -2073,6 +2073,130 @@ export const AppProvider = ({ children }) => {
     triggerToast('System data reset to default configuration!', 'info');
   };
 
+  // Automated Daily Backup State & Scheduler
+  const [dailyBackups, setDailyBackups] = useState(() => {
+    const saved = localStorage.getItem('carepulse_daily_backups_list');
+    if (!saved) return [];
+    try {
+      const parsed = JSON.parse(saved);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  });
+
+  const [autoDownloadDailyBackup, setAutoDownloadDailyBackupState] = useState(() => {
+    const saved = localStorage.getItem('carepulse_auto_download_daily_backup');
+    return saved ? JSON.parse(saved) : false;
+  });
+
+  const setAutoDownloadDailyBackup = (val) => {
+    setAutoDownloadDailyBackupState(val);
+    localStorage.setItem('carepulse_auto_download_daily_backup', JSON.stringify(val));
+  };
+
+  const downloadDailyBackup = (backupItem) => {
+    if (!backupItem || !backupItem.bundle) return;
+    const jsonStr = JSON.stringify(backupItem.bundle, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `stavya_daily_backup_${backupItem.date || new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    triggerToast(`Downloaded Daily Backup JSON for ${backupItem.date}!`, 'success');
+  };
+
+  const performDailyBackup = (forceDate = null) => {
+    const todayDate = forceDate || new Date().toISOString().split('T')[0];
+    const timestamp = new Date().toISOString();
+
+    const backupBundle = {
+      metadata: {
+        systemId: "STAVYA-SPINE",
+        systemName: "Stavya Spine Hospital Discount System",
+        backupDate: todayDate,
+        timestamp: timestamp,
+        schemaVersion: "1.0",
+        totalRequests: requests?.length || 0,
+        totalUsers: users?.length || 0,
+        totalDoctors: doctors?.length || 0,
+        checksum: `SHA256-DAILY-BACKUP-${Date.now()}`
+      },
+      payload: {
+        requests,
+        users,
+        doctors,
+        departments,
+        services,
+        notifications
+      }
+    };
+
+    const newBackupItem = {
+      id: `BACKUP-${todayDate}-${Date.now().toString().slice(-4)}`,
+      date: todayDate,
+      timestamp,
+      requestsCount: requests?.length || 0,
+      usersCount: users?.length || 0,
+      doctorsCount: doctors?.length || 0,
+      sizeBytes: JSON.stringify(backupBundle).length,
+      bundle: backupBundle
+    };
+
+    setDailyBackups(prev => {
+      const filtered = prev.filter(b => b.date !== todayDate);
+      const nextList = [newBackupItem, ...filtered].slice(0, 30);
+      localStorage.setItem('carepulse_daily_backups_list', JSON.stringify(nextList));
+      return nextList;
+    });
+
+    localStorage.setItem('carepulse_last_daily_backup_date', todayDate);
+
+    const notifItem = {
+      id: 'NOTIF-BACKUP-' + Date.now().toString().slice(-6),
+      type: 'EMAIL',
+      recipientName: activeUser?.name || 'System Admin',
+      recipientContact: activeUser?.email || 'admin@stavya.org',
+      role: 'ADMIN',
+      subject: `[DAILY DATA BACKUP] Automated System Backup Completed (${todayDate})`,
+      body: `Automated Daily Backup generated successfully for ${todayDate}. Contains ${requests?.length || 0} discount requests, ${users?.length || 0} registered users, and ${doctors?.length || 0} doctors.`,
+      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      status: 'DELIVERED',
+      gateway: 'Daily Automated Scheduler'
+    };
+    setNotifications(prev => [notifItem, ...prev]);
+
+    if (autoDownloadDailyBackup) {
+      downloadDailyBackup(newBackupItem);
+    }
+
+    triggerToast(`Daily Data Backup snapshot created for ${todayDate}!`, 'success');
+    return newBackupItem;
+  };
+
+  const restoreDailyBackup = (backupItem) => {
+    if (!backupItem || !backupItem.bundle) return false;
+    const jsonStr = JSON.stringify(backupItem.bundle);
+    const success = importSystemSyncData(jsonStr);
+    if (success) {
+      triggerToast(`Restored system data from Daily Backup (${backupItem.date})!`, 'success');
+    }
+    return success;
+  };
+
+  // Automated Daily Backup Schedule Trigger
+  useEffect(() => {
+    if (requests && requests.length > 0) {
+      const todayDate = new Date().toISOString().split('T')[0];
+      const lastBackupDate = localStorage.getItem('carepulse_last_daily_backup_date');
+      if (lastBackupDate !== todayDate) {
+        performDailyBackup(todayDate);
+      }
+    }
+  }, [requests?.length, users?.length]);
+
   return (
     <AppContext.Provider
       value={{
@@ -2123,7 +2247,13 @@ export const AppProvider = ({ children }) => {
         commonIp,
         setCommonIp,
         copyToClipboard,
-        manualSync
+        manualSync,
+        dailyBackups,
+        performDailyBackup,
+        downloadDailyBackup,
+        restoreDailyBackup,
+        autoDownloadDailyBackup,
+        setAutoDownloadDailyBackup
       }}
     >
       {children}

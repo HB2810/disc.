@@ -26,13 +26,31 @@ import {
   Layers, 
   Settings,
   Database,
-  ArrowRight
+  ArrowRight,
+  Calendar,
+  Clock,
+  Save,
+  CheckCircle2
 } from 'lucide-react';
 
 export const PortingModal = ({ onClose }) => {
-  const { requests, users, doctors, departments, services, importSystemSyncData, triggerToast } = useApp();
+  const { 
+    requests, 
+    users, 
+    doctors, 
+    departments, 
+    services, 
+    importSystemSyncData, 
+    triggerToast,
+    dailyBackups,
+    performDailyBackup,
+    downloadDailyBackup,
+    restoreDailyBackup,
+    autoDownloadDailyBackup,
+    setAutoDownloadDailyBackup
+  } = useApp();
 
-  const [activeTab, setActiveTab] = useState('EXPORT_IMPORT'); // 'EXPORT_IMPORT', 'REST_API', 'OPENAPI', 'WEBHOOKS', 'HIS_ADAPTER'
+  const [activeTab, setActiveTab] = useState('DAILY_BACKUP'); // 'DAILY_BACKUP', 'EXPORT_IMPORT', 'REST_API', 'OPENAPI', 'WEBHOOKS', 'HIS_ADAPTER'
   const [copiedCurl, setCopiedCurl] = useState('');
   const [copiedSpec, setCopiedSpec] = useState(false);
   const [importJsonText, setImportJsonText] = useState('');
@@ -240,6 +258,18 @@ export const PortingModal = ({ onClose }) => {
         {/* Tab Navigation */}
         <div className="bg-slate-50 px-4 pt-3 border-b border-slate-200 flex gap-2 overflow-x-auto scrollbar-none">
           <button
+            onClick={() => setActiveTab('DAILY_BACKUP')}
+            className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
+              activeTab === 'DAILY_BACKUP'
+                ? 'bg-white text-emerald-700 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Calendar className="w-4 h-4 text-emerald-600" />
+            📅 Daily Auto-Backup & Snapshots
+          </button>
+
+          <button
             onClick={() => setActiveTab('EXPORT_IMPORT')}
             className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
               activeTab === 'EXPORT_IMPORT'
@@ -303,6 +333,141 @@ export const PortingModal = ({ onClose }) => {
         {/* Tab Body */}
         <div className="flex-1 overflow-y-auto p-5 md:p-6 space-y-6 custom-scrollbar bg-slate-50/50">
           
+          {/* 0. DAILY AUTOMATED BACKUP TAB */}
+          {activeTab === 'DAILY_BACKUP' && (
+            <div className="space-y-6">
+              
+              {/* Daily Backup Status Banner */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-blue-950 to-indigo-950 text-white shadow-xl space-y-4 relative overflow-hidden border border-blue-800/40">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
+                  <div>
+                    <span className="text-[10px] font-extrabold text-emerald-300 uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-emerald-950/80 border border-emerald-500/40 inline-flex items-center gap-1 mb-1">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                      Automated Daily Backup Scheduler Active
+                    </span>
+                    <h4 className="text-xl font-extrabold text-white flex items-center gap-2">
+                      <Calendar className="w-5 h-5 text-emerald-400" />
+                      Every Day Automatic Data Backup & Snapshots
+                    </h4>
+                    <p className="text-xs text-slate-300 max-w-xl mt-1 leading-relaxed">
+                      System automatically creates full database backup snapshots of all discount requests, staff accounts, doctors, and configuration data every day.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => performDailyBackup()}
+                    className="px-5 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-black text-xs flex items-center gap-2 shadow-lg shadow-emerald-500/20 transition-all active:scale-95 whitespace-nowrap"
+                  >
+                    <Save className="w-4 h-4 stroke-[3]" />
+                    <span>Create Daily Backup Now</span>
+                  </button>
+                </div>
+
+                <div className="pt-3 border-t border-blue-900/60 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-blue-200 relative z-10">
+                  <div className="flex items-center gap-4">
+                    <span>📅 Today: <strong className="text-white">{new Date().toISOString().split('T')[0]}</strong></span>
+                    <span>⚡ Daily Snapshots Saved: <strong className="text-emerald-300">{dailyBackups.length} Days</strong></span>
+                  </div>
+
+                  <label className="flex items-center gap-2 cursor-pointer bg-blue-900/40 hover:bg-blue-900/60 px-3 py-1.5 rounded-xl border border-blue-700/60 transition-all">
+                    <input
+                      type="checkbox"
+                      checked={autoDownloadDailyBackup}
+                      onChange={e => setAutoDownloadDailyBackup(e.target.checked)}
+                      className="w-4 h-4 accent-emerald-500 rounded cursor-pointer"
+                    />
+                    <span className="text-xs font-bold text-white">Auto-Download Daily JSON File to Browser</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Daily Backup History List */}
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-blue-600" />
+                      Daily Backup Snapshots History ({dailyBackups.length})
+                    </h4>
+                    <p className="text-xs text-slate-500">
+                      Rolling 30-day automated data backups. Download JSON or restore system state anytime.
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => performDailyBackup()}
+                    className="text-xs font-extrabold text-blue-600 hover:text-blue-800 flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-lg border border-blue-200"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5" />
+                    <span>Take Today's Snapshot</span>
+                  </button>
+                </div>
+
+                {dailyBackups.length === 0 ? (
+                  <div className="p-8 text-center bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                    <Database className="w-8 h-8 text-slate-400 mx-auto" />
+                    <p className="text-xs text-slate-600 font-semibold">No daily backup snapshots saved yet for today.</p>
+                    <button
+                      type="button"
+                      onClick={() => performDailyBackup()}
+                      className="px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-black rounded-xl shadow-md"
+                    >
+                      Generate Today's Daily Backup Now
+                    </button>
+                  </div>
+                ) : (
+                  <div className="space-y-2.5 max-h-[380px] overflow-y-auto custom-scrollbar pr-1">
+                    {dailyBackups.map(item => (
+                      <div
+                        key={item.id || item.date}
+                        className="p-4 rounded-xl bg-slate-50 hover:bg-blue-50/40 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-xl bg-emerald-100 text-emerald-800 border border-emerald-200 flex items-center justify-center font-black text-sm flex-shrink-0">
+                            📅
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-extrabold text-slate-900">{item.date}</span>
+                              <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 font-extrabold border border-emerald-200">
+                                {item.requestsCount} Requests | {item.usersCount} Staff | {item.doctorsCount} Doctors
+                              </span>
+                            </div>
+                            <span className="text-[11px] text-slate-500 font-mono block mt-0.5">
+                              Snapshot Time: {new Date(item.timestamp).toLocaleTimeString()} | Size: {(item.sizeBytes / 1024).toFixed(1)} KB
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                          <button
+                            type="button"
+                            onClick={() => downloadDailyBackup(item)}
+                            className="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Download JSON</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => restoreDailyBackup(item)}
+                            className="flex-1 sm:flex-initial px-3.5 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-extrabold text-xs flex items-center justify-center gap-1.5 active:scale-95"
+                          >
+                            <RefreshCw className="w-3.5 h-3.5 text-slate-700" />
+                            <span>Restore Data</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* 1. DATA PACKAGE MIGRATION TAB */}
           {activeTab === 'EXPORT_IMPORT' && (
             <div className="space-y-6">

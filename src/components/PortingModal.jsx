@@ -30,10 +30,11 @@ import {
   Calendar,
   Clock,
   Save,
-  CheckCircle2
+  CheckCircle2,
+  RotateCcw
 } from 'lucide-react';
 
-export const PortingModal = ({ onClose }) => {
+export const PortingModal = ({ onClose, initialTab = 'DAILY_BACKUP' }) => {
   const { 
     requests, 
     users, 
@@ -50,7 +51,7 @@ export const PortingModal = ({ onClose }) => {
     setAutoDownloadDailyBackup
   } = useApp();
 
-  const [activeTab, setActiveTab] = useState('DAILY_BACKUP'); // 'DAILY_BACKUP', 'EXPORT_IMPORT', 'REST_API', 'OPENAPI', 'WEBHOOKS', 'HIS_ADAPTER'
+  const [activeTab, setActiveTab] = useState(initialTab === 'RECOVERY' ? 'RECOVERY' : (initialTab || 'DAILY_BACKUP')); // 'DAILY_BACKUP', 'EXPORT_IMPORT', 'REST_API', 'OPENAPI', 'WEBHOOKS', 'HIS_ADAPTER'
   const [copiedCurl, setCopiedCurl] = useState('');
   const [copiedSpec, setCopiedSpec] = useState(false);
   const [importJsonText, setImportJsonText] = useState('');
@@ -266,7 +267,19 @@ export const PortingModal = ({ onClose }) => {
             }`}
           >
             <Calendar className="w-4 h-4 text-emerald-600" />
-            📅 Daily Auto-Backup & Snapshots
+            📅 Daily Auto-Backup
+          </button>
+
+          <button
+            onClick={() => setActiveTab('RECOVERY')}
+            className={`px-4 py-2.5 rounded-t-xl text-xs font-extrabold flex items-center gap-2 transition-all whitespace-nowrap ${
+              activeTab === 'RECOVERY'
+                ? 'bg-white text-amber-800 border-t border-x border-slate-200'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <RotateCcw className="w-4 h-4 text-amber-600" />
+            🔄 Data Recovery & Restore
           </button>
 
           <button
@@ -464,7 +477,128 @@ export const PortingModal = ({ onClose }) => {
                     ))}
                   </div>
                 )}
+            </div>
+          )}
+
+          {/* 0.5 SYSTEM DATA RECOVERY & RESTORE TAB */}
+          {activeTab === 'RECOVERY' && (
+            <div className="space-y-6">
+              
+              {/* Recovery Action Banner */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-amber-950 via-slate-900 to-blue-950 text-white shadow-xl space-y-4 relative overflow-hidden border border-amber-800/40">
+                <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 relative z-10">
+                  <div>
+                    <span className="text-[10px] font-extrabold text-amber-300 uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-950/80 border border-amber-500/40 inline-flex items-center gap-1 mb-1">
+                      <RotateCcw className="w-3 h-3 text-amber-400" />
+                      Full System Data Recovery Center
+                    </span>
+                    <h4 className="text-xl font-extrabold text-white flex items-center gap-2">
+                      🔄 Instant System Restore & Data Recovery
+                    </h4>
+                    <p className="text-xs text-slate-300 max-w-xl mt-1 leading-relaxed">
+                      Restore system state from any daily automated snapshot, or upload a JSON backup file to immediately recover all patient requests, user accounts, and hospital settings.
+                    </p>
+                  </div>
+                </div>
               </div>
+
+              {/* Recovery via File Upload Box */}
+              <div className="p-6 rounded-2xl bg-white border border-amber-200 shadow-sm space-y-4">
+                <div className="space-y-1">
+                  <span className="text-[10px] font-extrabold text-amber-700 uppercase tracking-widest block">
+                    Option 1: Recover from Backup JSON File
+                  </span>
+                  <h4 className="text-base font-bold text-slate-900">
+                    Upload & Restore Backup JSON File
+                  </h4>
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium">
+                    Select a previously downloaded `.json` daily backup or system export file to instantly recover all records.
+                  </p>
+                </div>
+
+                <div className="border-2 border-dashed border-amber-300 hover:border-amber-500 rounded-2xl p-6 text-center transition-colors bg-amber-50/40">
+                  <Upload className="w-8 h-8 text-amber-600 mx-auto mb-2 opacity-80" />
+                  <label className="cursor-pointer inline-block">
+                    <span className="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-all shadow-md">
+                      📁 Select Backup JSON File to Recover
+                    </span>
+                    <input
+                      type="file"
+                      accept=".json"
+                      onChange={handleFileUpload}
+                      className="hidden"
+                    />
+                  </label>
+                  <p className="text-[11px] text-slate-500 mt-2 font-medium">Supports all official Stavya backup & export JSON files</p>
+                </div>
+              </div>
+
+              {/* Recovery via Daily Snapshots List */}
+              <div className="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+                <div>
+                  <h4 className="text-sm font-extrabold text-slate-900 flex items-center gap-2">
+                    <Clock className="w-4 h-4 text-amber-600" />
+                    Option 2: 1-Click Restore from Daily Snapshots ({dailyBackups.length})
+                  </h4>
+                  <p className="text-xs text-slate-500">
+                    Click "Restore & Recover System" on any saved daily snapshot below to roll back or restore database state.
+                  </p>
+                </div>
+
+                {dailyBackups.length === 0 ? (
+                  <div className="p-8 text-center bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+                    <Database className="w-8 h-8 text-slate-400 mx-auto" />
+                    <p className="text-xs text-slate-600 font-semibold">No daily snapshots saved yet. You can create one or upload a backup JSON file above.</p>
+                  </div>
+                ) : (
+                  <div className="space-y-3 max-h-[380px] overflow-y-auto custom-scrollbar pr-1">
+                    {dailyBackups.map(item => (
+                      <div
+                        key={item.id || item.date}
+                        className="p-4 rounded-xl bg-amber-50/30 hover:bg-amber-50/70 border border-amber-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 transition-all"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="h-10 w-10 rounded-xl bg-amber-100 text-amber-800 border border-amber-300 flex items-center justify-center font-black text-sm flex-shrink-0">
+                            🔄
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-extrabold text-slate-900">{item.date}</span>
+                              <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-100 text-amber-900 font-extrabold border border-amber-300">
+                                {item.requestsCount} Requests | {item.usersCount} Staff | {item.doctorsCount} Doctors
+                              </span>
+                            </div>
+                            <span className="text-[11px] text-slate-500 font-mono block mt-0.5">
+                              Snapshot Time: {new Date(item.timestamp).toLocaleTimeString()}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-2 w-full sm:w-auto">
+                          <button
+                            type="button"
+                            onClick={() => restoreDailyBackup(item)}
+                            className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs flex items-center justify-center gap-1.5 shadow-md active:scale-95 cursor-pointer"
+                          >
+                            <RotateCcw className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+                            <span>🔄 Restore & Recover System</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => downloadDailyBackup(item)}
+                            className="flex-1 sm:flex-initial px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center gap-1 active:scale-95"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>Download JSON</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
             </div>
           )}
 

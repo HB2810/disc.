@@ -14,7 +14,8 @@ import {
   PieChart as PieIcon,
   BarChart3,
   Sparkles,
-  Calendar
+  Calendar,
+  RotateCcw
 } from 'lucide-react';
 import { 
   ResponsiveContainer, 
@@ -143,7 +144,7 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal, o
 
         <div className="flex items-center gap-3 flex-wrap">
           <button
-            onClick={onOpenPortingModal}
+            onClick={() => onOpenPortingModal('DAILY_BACKUP')}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black transition-all shadow-md shadow-emerald-600/20 active:scale-95 cursor-pointer"
             title="Daily Data Backup, Automated Snapshots & Backup History"
           >
@@ -151,6 +152,16 @@ export const Dashboard = ({ onSelectRequest, onOpenNewModal, onOpenExcelModal, o
             <span>📅 Daily Data Backup & Snapshots</span>
             <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
           </button>
+
+          <button
+            onClick={() => onOpenPortingModal('RECOVERY')}
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-black transition-all shadow-md shadow-amber-500/20 active:scale-95 cursor-pointer"
+            title="System Data Recovery, Snapshot Restore & Backup JSON Import"
+          >
+            <RotateCcw className="w-4 h-4 text-slate-950 stroke-[2.5]" />
+            <span>🔄 System Data Recovery</span>
+          </button>
+
           <button
             onClick={onOpenExcelModal}
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 text-xs font-bold transition-all shadow-sm cursor-pointer"

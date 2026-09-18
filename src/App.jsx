@@ -80,7 +80,7 @@ export function AppContent() {
         onOpenNotifDrawer={() => setShowNotifDrawer(true)}
         onOpenSupabaseModal={() => setShowSupabaseModal(true)}
         onOpenMobileSyncModal={() => setShowMobileSyncModal(true)}
-        onOpenPortingModal={() => setShowPortingModal(true)}
+        onOpenPortingModal={(tab = true) => setShowPortingModal(tab)}
         onOpenTallyModal={() => setShowTallyModal(true)}
         onOpenTallyCloneModal={() => setShowTallyCloneModal(true)}
         onOpenLoginModal={() => setShowLoginModal(true)}
@@ -94,7 +94,7 @@ export function AppContent() {
               onSelectRequest={(req) => setSelectedRequest(req)}
               onOpenNewModal={() => setShowNewModal(true)}
               onOpenExcelModal={() => setShowExcelModal(true)}
-              onOpenPortingModal={() => setShowPortingModal(true)}
+              onOpenPortingModal={(tab = true) => setShowPortingModal(tab)}
             />
           ) : (
             <AdminUserManagement />
@@ -152,7 +152,10 @@ export function AppContent() {
       )}
 
       {showPortingModal && (
-        <PortingModal onClose={() => setShowPortingModal(false)} />
+        <PortingModal 
+          initialTab={typeof showPortingModal === 'string' ? showPortingModal : undefined}
+          onClose={() => setShowPortingModal(false)} 
+        />
       )}
 
       {showTallyModal && (

@@ -166,7 +166,7 @@ export const Header = ({
 
           {/* Automated Daily Data Backup & Snapshots Button */}
           <button
-            onClick={onOpenPortingModal}
+            onClick={() => onOpenPortingModal('DAILY_BACKUP')}
             className="px-3.5 py-2 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-300 font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
             title="Daily Data Backup, Automated Snapshots & History"
           >
@@ -175,9 +175,19 @@ export const Header = ({
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
           </button>
 
+          {/* System Data Recovery & Restore Button */}
+          <button
+            onClick={() => onOpenPortingModal('RECOVERY')}
+            className="px-3.5 py-2 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
+            title="System Data Recovery, Snapshot Restore & Backup Upload"
+          >
+            <RotateCcw className="w-4 h-4 text-amber-600" />
+            <span>Data Recovery</span>
+          </button>
+
           {/* Port & API Integration Modal Button */}
           <button
-            onClick={onOpenPortingModal}
+            onClick={() => onOpenPortingModal('EXPORT_IMPORT')}
             className="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 font-extrabold text-xs flex items-center gap-1.5 transition-all shadow-sm active:scale-95"
             title="Software Migration, OpenAPI & REST Integration API"
           >
@@ -346,11 +356,19 @@ export const Header = ({
             </button>
 
             <button
-              onClick={() => { onOpenPortingModal(); setMobileMenuOpen(false); }}
+              onClick={() => { onOpenPortingModal('DAILY_BACKUP'); setMobileMenuOpen(false); }}
               className="py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-300 font-extrabold text-xs flex items-center justify-center gap-1.5"
             >
               <Calendar className="w-4 h-4 text-emerald-600" />
               <span>Daily Data Backup</span>
+            </button>
+
+            <button
+              onClick={() => { onOpenPortingModal('RECOVERY'); setMobileMenuOpen(false); }}
+              className="py-2.5 px-3 rounded-xl bg-amber-50 text-amber-900 border border-amber-300 font-extrabold text-xs flex items-center justify-center gap-1.5"
+            >
+              <RotateCcw className="w-4 h-4 text-amber-600" />
+              <span>Data Recovery</span>
             </button>
 
             <button

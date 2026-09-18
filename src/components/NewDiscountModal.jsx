@@ -422,12 +422,12 @@ export const NewDiscountModal = ({ onClose }) => {
             <div className="min-w-0">
               <label className="block text-xs font-semibold text-slate-700 mb-1 flex items-center justify-between">
                 <span>Particulars (Billing Item Particulars)</span>
-                <span className="text-[10px] text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-bold flex items-center gap-1">
+                <span className="text-[10px] text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-extrabold flex items-center gap-1">
                   <span>Dropdown Menu</span>
                   <ChevronDown className="w-3 h-3 text-blue-600 stroke-[3]" />
                 </span>
               </label>
-              <div className="space-y-1.5">
+              <div className="space-y-2">
                 {(() => {
                   const STANDARD_PRESETS = [
                     'Consultation & Clinical Procedure Particulars',
@@ -442,37 +442,31 @@ export const NewDiscountModal = ({ onClose }) => {
                     'Pharmacy & Medical Supplies Concession'
                   ];
 
-                  const isKnownPreset = STANDARD_PRESETS.includes(formData.particulars);
-                  const matchedService = (services || []).find(s => formData.particulars === `${s} Procedure & Charge Waiver`);
-                  const isServicePreset = Boolean(matchedService);
-
-                  let currentValue = 'CUSTOM';
-                  if (!isCustomParticular) {
-                    if (isKnownPreset) currentValue = formData.particulars;
-                    else if (isServicePreset) currentValue = `SVC:${matchedService}`;
-                  }
-
                   return (
                     <>
                       <div className="relative">
                         <select
-                          value={currentValue}
+                          value={
+                            STANDARD_PRESETS.includes(formData.particulars)
+                              ? formData.particulars
+                              : (services?.some(s => formData.particulars?.includes(s))
+                                  ? `SVC:${services.find(s => formData.particulars?.includes(s))}`
+                                  : 'CUSTOM')
+                          }
                           onChange={e => {
                             const val = e.target.value;
                             if (val === 'CUSTOM') {
-                              setIsCustomParticular(true);
-                              setFormData(prev => ({ ...prev, particulars: '' }));
+                              // Custom text mode
                             } else if (val.startsWith('SVC:')) {
-                              setIsCustomParticular(false);
                               const svcName = val.replace('SVC:', '');
                               setFormData(prev => ({ ...prev, particulars: `${svcName} Procedure & Charge Waiver` }));
                             } else {
-                              setIsCustomParticular(false);
                               setFormData(prev => ({ ...prev, particulars: val }));
                             }
                           }}
-                          className="w-full bg-blue-50/80 hover:bg-blue-100/60 border-2 border-blue-400 rounded-xl pl-3.5 pr-10 py-2.5 text-sm text-blue-950 font-black focus:outline-none focus:border-blue-600 appearance-none min-w-0 box-border truncate shadow-sm cursor-pointer transition-all"
+                          className="w-full bg-blue-50/90 hover:bg-blue-100/80 border-2 border-blue-400 rounded-xl pl-3.5 pr-10 py-2.5 text-xs sm:text-sm text-blue-950 font-black focus:outline-none focus:border-blue-600 appearance-none min-w-0 box-border truncate shadow-sm cursor-pointer transition-all"
                         >
+                          <option value="CUSTOM">▼ Select Billing Item Particular Dropdown Preset...</option>
                           <optgroup label="Standard Hospital Billing Particulars">
                             {STANDARD_PRESETS.map(p => (
                               <option key={p} value={p}>{p}</option>
@@ -483,24 +477,20 @@ export const NewDiscountModal = ({ onClose }) => {
                               <option key={svc} value={`SVC:${svc}`}>{svc} ({svc} Waiver Particulars)</option>
                             ))}
                           </optgroup>
-                          <option value="CUSTOM">+ Type Custom Particular Text...</option>
                         </select>
-
                         <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-blue-700 bg-white p-1 rounded-md border border-blue-300 flex items-center justify-center shadow-sm">
                           <ChevronDown className="w-4 h-4 stroke-[3]" />
                         </div>
                       </div>
 
-                      {isCustomParticular && (
-                        <input
-                          type="text"
-                          required
-                          placeholder="Type Custom Billing Particular Details..."
-                          value={formData.particulars}
-                          onChange={e => setFormData(prev => ({ ...prev, particulars: e.target.value }))}
-                          className="w-full bg-white border-2 border-blue-500 rounded-xl px-3.5 py-2 text-sm text-slate-900 font-bold focus:outline-none shadow-sm min-w-0 box-border animate-fadeIn"
-                        />
-                      )}
+                      <input
+                        type="text"
+                        required
+                        placeholder="Type or edit particular details (e.g. MRI Brain Scan Waiver)..."
+                        value={formData.particulars}
+                        onChange={e => setFormData(prev => ({ ...prev, particulars: e.target.value }))}
+                        className="w-full bg-white border border-slate-300 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 font-bold focus:outline-none focus:border-blue-600 min-w-0 box-border shadow-sm"
+                      />
                     </>
                   );
                 })()}

@@ -332,51 +332,52 @@ export const RequestDetailModal = ({ request, onClose }) => {
 
                     return (
                       <>
-                      <div className="relative">
-                        <select
-                          value={currentValue}
-                          onChange={e => {
-                            const val = e.target.value;
-                            if (val === 'CUSTOM') {
-                              setIsCustomParticular(true);
-                              setEditForm(prev => ({ ...prev, particulars: '' }));
-                            } else if (val.startsWith('SVC:')) {
-                              setIsCustomParticular(false);
-                              const svcName = val.replace('SVC:', '');
-                              setEditForm(prev => ({ ...prev, particulars: `${svcName} Procedure & Charge Waiver` }));
-                            } else {
-                              setIsCustomParticular(false);
-                              setEditForm(prev => ({ ...prev, particulars: val }));
+                        <div className="relative">
+                          <select
+                            value={
+                              STANDARD_PRESETS.includes(editForm.particulars)
+                                ? editForm.particulars
+                                : (services?.some(s => editForm.particulars?.includes(s))
+                                    ? `SVC:${services.find(s => editForm.particulars?.includes(s))}`
+                                    : 'CUSTOM')
                             }
-                          }}
-                          className="w-full bg-blue-50/80 hover:bg-blue-100/60 border-2 border-blue-400 rounded-xl pl-3 pr-8 py-2 text-xs font-black text-blue-950 focus:outline-none focus:border-blue-600 appearance-none truncate shadow-sm cursor-pointer transition-all"
-                        >
-                          <optgroup label="Standard Hospital Billing Particulars">
-                            {STANDARD_PRESETS.map(p => (
-                              <option key={p} value={p}>{p}</option>
-                            ))}
-                          </optgroup>
-                          <optgroup label="Hospital Services Directory">
-                            {(services || []).map(svc => (
-                              <option key={svc} value={`SVC:${svc}`}>{svc} ({svc} Waiver Particulars)</option>
-                            ))}
-                          </optgroup>
-                          <option value="CUSTOM">+ Type Custom Particular Text...</option>
-                        </select>
-                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-blue-700 bg-white p-0.5 rounded border border-blue-300 flex items-center justify-center shadow-sm">
-                          <ChevronDown className="w-3.5 h-3.5 stroke-[3]" />
+                            onChange={e => {
+                              const val = e.target.value;
+                              if (val === 'CUSTOM') {
+                                // Custom text mode
+                              } else if (val.startsWith('SVC:')) {
+                                const svcName = val.replace('SVC:', '');
+                                setEditForm(prev => ({ ...prev, particulars: `${svcName} Procedure & Charge Waiver` }));
+                              } else {
+                                setEditForm(prev => ({ ...prev, particulars: val }));
+                              }
+                            }}
+                            className="w-full bg-blue-50/90 hover:bg-blue-100/80 border-2 border-blue-400 rounded-xl pl-3 pr-8 py-2 text-xs font-black text-blue-950 focus:outline-none focus:border-blue-600 appearance-none truncate shadow-sm cursor-pointer transition-all"
+                          >
+                            <option value="CUSTOM">▼ Select Billing Item Particular Dropdown Preset...</option>
+                            <optgroup label="Standard Hospital Billing Particulars">
+                              {STANDARD_PRESETS.map(p => (
+                                <option key={p} value={p}>{p}</option>
+                              ))}
+                            </optgroup>
+                            <optgroup label="Hospital Services Directory">
+                              {(services || []).map(svc => (
+                                <option key={svc} value={`SVC:${svc}`}>{svc} ({svc} Waiver Particulars)</option>
+                              ))}
+                            </optgroup>
+                          </select>
+                          <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-blue-700 bg-white p-0.5 rounded border border-blue-300 flex items-center justify-center shadow-sm">
+                            <ChevronDown className="w-3.5 h-3.5 stroke-[3]" />
+                          </div>
                         </div>
-                      </div>
 
-                        {isCustomParticular && (
-                          <input
-                            type="text"
-                            placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
-                            value={editForm.particulars}
-                            onChange={e => setEditForm(prev => ({ ...prev, particulars: e.target.value }))}
-                            className="w-full bg-white border border-blue-500 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:border-blue-600 animate-fadeIn"
-                          />
-                        )}
+                        <input
+                          type="text"
+                          placeholder="e.g. MRI Brain Scan + OPD Consultation Charge Waiver"
+                          value={editForm.particulars}
+                          onChange={e => setEditForm(prev => ({ ...prev, particulars: e.target.value }))}
+                          className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:border-blue-600 shadow-sm"
+                        />
                       </>
                     );
                   })()}

@@ -19,7 +19,8 @@ import {
   ShieldAlert,
   Trash2,
   Fingerprint,
-  Edit3
+  Edit3,
+  ChevronDown
 } from 'lucide-react';
 
 export const RequestDetailModal = ({ request, onClose }) => {
@@ -331,6 +332,7 @@ export const RequestDetailModal = ({ request, onClose }) => {
 
                     return (
                       <>
+                      <div className="relative">
                         <select
                           value={currentValue}
                           onChange={e => {
@@ -347,7 +349,7 @@ export const RequestDetailModal = ({ request, onClose }) => {
                               setEditForm(prev => ({ ...prev, particulars: val }));
                             }
                           }}
-                          className="w-full bg-blue-50/70 border border-blue-300 rounded-xl px-3 py-2 text-xs font-bold text-blue-900 focus:outline-none focus:border-blue-600 truncate mb-1 shadow-sm cursor-pointer"
+                          className="w-full bg-blue-50/80 hover:bg-blue-100/60 border-2 border-blue-400 rounded-xl pl-3 pr-8 py-2 text-xs font-black text-blue-950 focus:outline-none focus:border-blue-600 appearance-none truncate shadow-sm cursor-pointer transition-all"
                         >
                           <optgroup label="Standard Hospital Billing Particulars">
                             {STANDARD_PRESETS.map(p => (
@@ -361,6 +363,10 @@ export const RequestDetailModal = ({ request, onClose }) => {
                           </optgroup>
                           <option value="CUSTOM">+ Type Custom Particular Text...</option>
                         </select>
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-blue-700 bg-white p-0.5 rounded border border-blue-300 flex items-center justify-center shadow-sm">
+                          <ChevronDown className="w-3.5 h-3.5 stroke-[3]" />
+                        </div>
+                      </div>
 
                         {isCustomParticular && (
                           <input

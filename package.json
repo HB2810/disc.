@@ -8,10 +8,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "npx prisma generate"
   },
   "dependencies": {
-    "@prisma/client": "^7.10.0",
+    "@prisma/client": "^5.22.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.45.0",
     "@types/react": "^18.2.66",
@@ -30,6 +30,6 @@
   },
   "devDependencies": {
     "gh-pages": "^6.1.1",
-    "prisma": "^8.0.0-rc.15"
+    "prisma": "^5.22.0"
   }
 }

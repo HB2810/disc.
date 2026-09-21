@@ -1,7 +1,12 @@
+"use client";
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { INITIAL_NOTIFICATIONS, sendNotification } from '../utils/notificationEngine';
 import confetti from 'canvas-confetti';
 import { getSupabaseClient } from '../lib/supabaseClient';
+
+if (typeof window === 'undefined') {
+  global.localStorage = { getItem: () => null, setItem: () => {}, removeItem: () => {} };
+}
 
 const AppContext = createContext();
 

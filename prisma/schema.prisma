@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model HospitalUser {
+  id          String   @id
+  username    String   @unique
+  password    String
+  name        String
+  role        String
+  designation String?
+  department  String?
+  email       String?
+  phone       String?
+  active      Boolean  @default(true)
+  avatar      String?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("hospital_users")
+}
+
+model DiscountRequest {
+  id                       String    @id
+  requestCode              String    @unique @map("request_code")
+  patientId                String    @map("patient_id")
+  patientName              String    @map("patient_name")
+  patientAge               Int?      @map("patient_age")
+  patientGender            String?   @map("patient_gender")
+  department               String
+  serviceName              String?   @map("service_name")
+  doctorName               String    @map("doctor_name")
+  particulars              String?
+  referenceName            String?   @map("reference_name")
+  relativeName             String?   @map("relative_name")
+  receiptNo                String?   @map("receipt_no")
+  billDate                 String?   @map("bill_date")
+  opdIpdNo                 String?   @map("opd_ipd_no")
+  totalBillAmount          Decimal   @map("total_bill_amount")
+  requestedDiscountType    String    @default("PERCENTAGE") @map("requested_discount_type")
+  requestedDiscountVal     Decimal   @map("requested_discount_val")
+  calculatedDiscountAmount Decimal   @map("calculated_discount_amount")
+  finalPayableAmount       Decimal   @map("final_payable_amount")
+  reasonCategory           String    @map("reason_category")
+  detailedReason           String    @map("detailed_reason")
+  proofFileName            String?   @map("proof_file_name")
+  requestedBy              String    @map("requested_by")
+  requiredAuthorityRole    String    @map("required_authority_role")
+  currentApproverRole      String?   @map("current_approver_role")
+  status                   String    @default("PENDING_BMGR")
+  isDirectExecutiveGrant   Boolean?  @default(false) @map("is_direct_executive_grant")
+  approverComments         String?   @map("approver_comments")
+  approvedBy               String?   @map("approved_by")
+  approvalTimestamp        DateTime? @map("approval_timestamp")
+  approvalChain            Json?     @default("[]") @map("approval_chain")
+  createdAt                DateTime  @default(now()) @map("created_at")
+
+  @@map("discount_requests")
+}

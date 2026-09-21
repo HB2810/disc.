@@ -151,12 +151,12 @@ export function AppContent() {
         <MobileSyncModal onClose={() => setShowMobileSyncModal(false)} />
       )}
 
-      {showPortingModal && (
+      {/* showPortingModal && (
         <PortingModal 
           initialTab={typeof showPortingModal === 'string' ? showPortingModal : undefined}
           onClose={() => setShowPortingModal(false)} 
         />
-      )}
+      ) */}
 
       {showTallyModal && (
         <TallyIntegrationModal 
